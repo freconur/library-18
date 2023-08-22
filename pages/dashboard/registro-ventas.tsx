@@ -30,7 +30,15 @@ const RegistroVentas = () => {
       setCodeBar(initialValue);
     }
   }, [codeBar.code, productToCart, loaderToSell, productNotFound])
-
+  const testEnter = (e:React.KeyboardEvent<HTMLInputElement>) => {
+    // console.log('key', e.key)
+    if(e.key === 'Enter') {
+      e.preventDefault()
+    }
+      new KeyboardEvent('keydown', {
+        'key': 'Tab'
+      })
+  }
   return (
       <>
         <div className='m-3 w-full'>
@@ -40,7 +48,7 @@ const RegistroVentas = () => {
           <form>
             <div>
               <label className='text-slate-400 capitalize font-semibold'>codigo de barra</label>
-              <input ref={focusRef} autoFocus value={codeBar.code} 
+              <input onKeyDown={testEnter} ref={focusRef} autoFocus value={codeBar.code} 
               onChange={onChangeCodeProduct} name="code" type="text" 
               // className={styles.inputCode} 
               className='pl-2 border-blue-500 w-full border-[1px] rounded-lg h-[40px] outline-none focus-visible:border-[1px] focus-visible:border-blue-500' 
