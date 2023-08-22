@@ -24,7 +24,7 @@ const Productos = () => {
               resetIcon: 'hidden'
             }}
           />
-              <Hits className="w-full" hitComponent={Hit}/>
+              <Hits className="w-[full]" hitComponent={Hit}/>
         </InstantSearch>
       </div>
   )

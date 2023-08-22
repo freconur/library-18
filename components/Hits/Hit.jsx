@@ -4,12 +4,12 @@ import React from 'react'
 // }
 const Hit = ({ hit }) => {
   return (
-      <div className='flex justify-center items-center w-full'>
+      <div className='flex justify-center items-center w-full p-1'>
         <p className='w-[150px] pr-3'>{hit.code}</p>
-        <p className='w-[400px]  pr-3items-center'>{hit.description}</p>
+        <p className='w-[50%]  pr-3 items-center'>{hit.description}</p>
         <p className='w-[10%] pr-3 items-center'>{hit.brand}</p>
-        <p className='w-[50px] items-center'>S/{hit.price}</p>
-        <p className='w-[50px] pl-5 flex items-center justify-center'>{hit.stock}</p>
+        <p className='w-[10%] flex items-center justify-center text-green-600'>S/{hit.price}</p>
+        <p className='w-[10%] flex items-center justify-center text-blue-600'>{hit.stock}</p>
       </div>
   )
 }
