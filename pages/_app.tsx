@@ -11,7 +11,7 @@ function MyApp({ Component, pageProps }: AppProps) {
   return (
     <LayoutDashboard>
       <GlobalcontextProdiver>
-      <Component {...pageProps} />
+        <Component {...pageProps} />
       </GlobalcontextProdiver>
     </LayoutDashboard>
   )

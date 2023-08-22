@@ -70,7 +70,7 @@ const Auth = () => {
             firebaseAuth={getAuth(app)}
           />
         ) : null} */}
-        <button onClick={loginWithGoogle}>Google</button>
+        <button onClick={loginWithGoogle} className='h-[50px] bg-red-600 p-2 capitalize text-white'>Google</button>
       </div>
     </div>
   )

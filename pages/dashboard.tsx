@@ -4,11 +4,9 @@ import LayoutDashboard from '../layout/LayoutDashboard'
 
 const Dashboard = () => {
   return (
-    <LayoutDashboard>
     <div>
       dashboard
     </div>
-  </LayoutDashboard>
   )
 }
 export default withUser({
