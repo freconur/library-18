@@ -62,8 +62,8 @@ const TableToSell = ({ productToCart, totalAmountToCart }: Props) => {
               :
               <tr>
                 <td></td>
-                <td className='text-gray-500'>Aun no hay produtos</td>
                 <td></td>
+                <td className='text-gray-500'>Aun no hay produtos</td>
                 <td></td>
                 <td></td>
                 <td></td>
