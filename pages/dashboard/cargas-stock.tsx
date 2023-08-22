@@ -24,7 +24,8 @@ const CargasStock = () => {
       focusRef.current.focus();
     }
 
-    if (codeProduct.code.length === 12 || codeProduct.code.length === 13) {
+    // if (codeProduct.code.length === 12 || codeProduct.code.length === 13) {
+      if (codeProduct.code.length === 13) {
       setCodeProduct(codeProduct)
       stateLoaderFromChargerStock(true)
       addStockToProductContext(codeProduct.code)
@@ -61,7 +62,6 @@ const CargasStock = () => {
     setStockProductToCharger(initialValueStockCharger)
   }
   return (
-    <LayoutDashboard>
       <div className='w-full m-3'>
         <form className='-wfull'>
           <div className='w-full'>
@@ -124,7 +124,6 @@ const CargasStock = () => {
           }
         </div>
       </div>
-    </LayoutDashboard>
   )
 }
 

@@ -11,7 +11,6 @@ const searchClient = algoliasearch(APPLICATION_ID, SEARCH_API_KEY);
 const Productos = () => {
 
   return (
-    <LayoutDashboard>
       <div className="w-full h-full">
         <InstantSearch searchClient={searchClient} indexName={ALGOLIA_INDEX}>
 
@@ -28,7 +27,6 @@ const Productos = () => {
               <Hits className="w-full" hitComponent={Hit}/>
         </InstantSearch>
       </div>
-    </LayoutDashboard>
   )
 }
 

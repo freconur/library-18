@@ -32,11 +32,10 @@ const RegistroVentas = () => {
   }, [codeBar.code, productToCart, loaderToSell, productNotFound])
 
   return (
-    <LayoutDashboard>
       <>
         <div className='m-3 w-full'>
           <div className='flex items-center justify-end'>
-            <h3>{todayDate()}</h3>
+            <h3 className='text-lg font-semibold text-gray-400'>{todayDate()}</h3>
           </div>
           <form>
             <div>
@@ -46,10 +45,6 @@ const RegistroVentas = () => {
               // className={styles.inputCode} 
               className='pl-2 border-blue-500 w-full border-[1px] rounded-lg h-[40px] outline-none focus-visible:border-[1px] focus-visible:border-blue-500' 
               />
-            </div>
-            <div className='mt-2'>
-              {/* <label>codigo de barra</label> */}
-              <input type="text" className='h-[40px] border-blue-500 w-full border-[1px] rounded-lg' />
             </div>
           </form>
           {productNotFound
@@ -85,7 +80,6 @@ const RegistroVentas = () => {
           }
         </div>
       </>
-    </LayoutDashboard>
   )
 }
 export default withUser({

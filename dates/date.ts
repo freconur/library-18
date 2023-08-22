@@ -13,7 +13,7 @@ export const todayDateArray = () => {
 
 export const todayDate = () => {
   const date = new Date()
-  return `${days[date.getDay()]},${date.getDate()} de ${months[date.getMonth()]} del ${date.getFullYear()}`
+  return `${days[date.getDay()]}, ${date.getDate()} de ${months[date.getMonth()]} del ${date.getFullYear()}`
 }
 
 export const currentMonth = () => {

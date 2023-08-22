@@ -22,7 +22,7 @@ module.exports = {
     },
     extend: {
       height: {
-        'altura':'calc(100vh - 60px)'
+        'altura':'calc(100vh - 72px)'
       },
       margin: {
         'centrar-contenido': 'auto'

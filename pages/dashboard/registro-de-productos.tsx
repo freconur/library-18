@@ -15,12 +15,13 @@ const initialStateValues: FormProductValues = {
   price: "",
   category: "",
   brand: "",
-  stock:0
+  stock:0,
+  marcaSocio:""
 }
 const RegistroDeProductos = () => {
   const focusRef = useRef<HTMLInputElement>(null)
 
-  const { LibraryData, showCategory, showUpdateCategory, category, brands, showDeleteCategory, showBrands, showUpdateBrands, showDeleteBrands } = useGlobalContext()
+  const { LibraryData, showCategory, showUpdateCategory, marcaSocio, category, brands, showDeleteCategory, showBrands, showUpdateBrands, showDeleteBrands } = useGlobalContext()
   const { loaderRegisterProduct } = LibraryData
   const { form, handleProductValues, handleSubmit, loading, error } = useFormRegisterProduct(initialStateValues,onValidate);
 
@@ -30,22 +31,21 @@ const RegistroDeProductos = () => {
     }
     brands()
     category()
+    marcaSocio()
   }, [error, loaderRegisterProduct])
   console.log('loaderRegisterProduct', loaderRegisterProduct)
 
   const testEnter = (e:React.KeyboardEvent<HTMLInputElement>) => {
-    console.log('key', e.key)
+    // console.log('key', e.key)
     if(e.key === 'Enter') {
       e.preventDefault()
     }
-    
       new KeyboardEvent('keydown', {
         'key': 'Tab'
       })
   }
   console.log('form', form)
   return (
-    <LayoutDashboard>
       <>
         <Modal />
         <div className='p-3 w-full'>
@@ -80,15 +80,34 @@ const RegistroDeProductos = () => {
               </div>
               }
             </div>
-            {/* <div>
-              <label className={styles.labelForm}>Stock</label>
-              <input onChange={handleProductValues} value={form.stock} name="stock" className={styles.inputCode} type="text" />
-              {error?.stock && 
+            <div className=''>
+              <div>
+                <label className={styles.labelForm}>Marca de socio</label>
+                <div className='flex'>
+                  <select onChange={handleProductValues} value={form.marcaSocio} name='marcaSocio' className='w-full rounded-lg p-2'>
+                    <option value="">marca de socio</option>
+                    {
+                      LibraryData.marcaSocio?.map((marcasocio) => {
+                        return (
+                          <option key={marcasocio.id} value={marcasocio.name}>{marcasocio.name}</option>
+                        )
+                      })}
+                  </select>
+                  <div onClick={showBrands} className='p-1 cursor-pointer'><RiAddCircleFill className='h-[30px] w-[30px]' /></div>
+                  <div onClick={showUpdateBrands} className='p-1 cursor-pointer'><RiEditBoxFill className='h-[30px] w-[30px]' /></div>
+                  <div onClick={showDeleteBrands} className='p-1 cursor-pointer'><RiDeleteBin5Fill className='h-[30px] w-[30px]' /></div>
+
+                </div>
+                <div>
+
+              {error?.marcaSocio && 
               <div className='text-red-500'>
-                 *{error?.stock}
+                 *{error?.marcaSocio}
               </div>
               }
-            </div> */}
+                </div>
+              </div>
+            </div>
             <div className=''>
               <div>
                 <label className={styles.labelForm}>Marca de producto</label>
@@ -153,7 +172,6 @@ const RegistroDeProductos = () => {
           </form>
         </div>
       </>
-    </LayoutDashboard>
   )
 }
 export default withUser({

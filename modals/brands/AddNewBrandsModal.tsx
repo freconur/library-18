@@ -34,7 +34,7 @@ const [newCategoryValue, setNewCategoryValue] = useState<Category>({})
         <div className={styles.containerDelete}>
           <div>
             <label className={styles.title}>nombre de marca</label>
-            <input name="name" onChange={handleChangeValue} className={styles.newCategory} type="text" />
+            <input autoFocus name="name" onChange={handleChangeValue} className={styles.newCategory} type="text" />
           </div>
           <div className={styles.buttonContainer}>
             <button onClick={showBrands} className={styles.buttonCancel}>cancelar</button>

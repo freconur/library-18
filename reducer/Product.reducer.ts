@@ -18,6 +18,7 @@ type LibraryData =
   | { type: "addStockProduct"; payload: ProductToCart | string }
   | { type: "loaderChargerStock"; payload: boolean }
   | { type: "loaderChargerStockAdd"; payload: boolean }
+  | { type: "marcaSocio"; payload: MarcaSocio[] }
 
 export const Library = {
   newProduct: {} as FormProductValues,
@@ -35,11 +36,18 @@ currentlyDate: "" as string,
   averageTicket: 0 as number,
   addStockProduct: "" || {} as ProductToCart | string,
   loaderChargerStock: false as boolean,
-  loaderChargerStockAdd:false as boolean
+  loaderChargerStockAdd:false as boolean,
+  marcaSocio: [] as MarcaSocio[]
 }
 
 export const ProductsReducer = (state: LibraryAllData, action: LibraryData) => {
   switch (action.type) {
+    case "marcaSocio":{
+      return {
+        ...state,
+        marcaSocio:action.payload
+      }
+    }
     case "loaderChargerStockAdd":{
       return {
         ...state,

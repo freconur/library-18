@@ -5,7 +5,9 @@ interface FormProductValues {
   price?:string,
   category?:string,
   brand?:string,
-  stock?:number
+  stock?:number,
+  marcaSocio?:string
+
 }
 
 interface LibraryAllData {
@@ -24,7 +26,8 @@ interface LibraryAllData {
   averageTicket?:number,
   addStockProduct?:ProductToCart | string,
   loaderChargerStock:boolean,
-  loaderChargerStockAdd:boolean
+  loaderChargerStockAdd:boolean,
+  marcaSocio:MarcaSocio[]
 }
 interface Brands {
   id?:string
@@ -67,4 +70,8 @@ interface NumberTicket {
 
 interface StockProductCharger {
   stock:number
+}
+interface MarcaSocio {
+  id?:string
+  name?: string
 }

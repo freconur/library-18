@@ -67,7 +67,18 @@ export const getCategory = (dispatch: (action: any) => void) => {
     dispatch({ type: "category", payload: rta })
   })
 }
+export const getMarcaSocio = (dispatch:(action:any)=>void) => {
+  const res = collection(db, 'marca-socio')
 
+  onSnapshot(res, (snapshot) => {
+    const marcaSocio:MarcaSocio[]= []
+    snapshot.docs.forEach((doc) => {
+      marcaSocio.push({...doc.data(), id:doc.id})
+    })
+    dispatch({ type: "marcaSocio", payload: marcaSocio })
+
+  })
+}
 export const addNewCategory = async (categoryData: Category) => {
   await addDoc(collection(db, "categorias"), categoryData);
 }
@@ -284,6 +295,7 @@ export const addStockToProduct = async (dispatch: (action: any) => void, codePro
 
     } else {
       dispatch({ type: "addStockProduct", payload: "no se encontro producto" })
+      dispatch({ type: "loaderChargerStock", payload: false })
     }
   }
 }
