@@ -23,12 +23,10 @@ const Navbar = ({showSidebar, setShowSidebar}:Props) => {
   }
   useEffect(() => {
     authUser.onAuthStateChanged(user => {
-      console.log('user',user)
       setUserInfo({ id: `${user?.uid}`, photo: `${user?.photoURL}`, name: `${user?.displayName}` })
     }
       )
   },[])
-  console.log('userInfo',userInfo)
   return (
     <>
       <nav className='w-full h-[60px] px-2 bg-white shadow-md flex justify-between items-center p-1 rounded-b-lg'>

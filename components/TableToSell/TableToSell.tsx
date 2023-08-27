@@ -43,9 +43,9 @@ const TableToSell = ({ productToCart, totalAmountToCart }: Props) => {
                     <td className='text-gray-500 px-1 text-left'>{product.description}</td>
                     <td className='text-gray-500 px-3 text-center'>{product.stock}</td>
                     <td className='text-gray-500 px-3 text-center'>{product.brand}</td>
-                    <td className='text-gray-500 px-3 text-center'>{product.price}</td>
-                    <td className='text-gray-500 px-3 text-center'>{product.amount}</td>
-                    <td className='text-gray-500 px-3 text-center'>{Number(product.amount) * Number(product.price)}</td>
+                    <td className='px-3 text-center text-green-500'>S/{product.price}</td>
+                    <td className=' px-3 text-center text-blue-500 font-semibold'>{product.amount}</td>
+                    <td className='text-gray-500 px-3 text-center'>{(Number(product.amount) * Number(product.price)).toFixed(2)}</td>
                     <td className='text-gray-500'>
                       <div onClick={() => deleteProductCart(productToCart, product.code)} className='flex items-center justify-center cursor-pointer'>
                         <RiDeleteBin7Fill />

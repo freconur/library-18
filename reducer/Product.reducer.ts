@@ -19,6 +19,9 @@ type LibraryData =
   | { type: "loaderChargerStock"; payload: boolean }
   | { type: "loaderChargerStockAdd"; payload: boolean }
   | { type: "marcaSocio"; payload: MarcaSocio[] }
+  | { type: "dataSales"; payload: number[] }
+  | { type: "dataSalesLabel"; payload: string[] }
+  | { type: "dataTotalSalesPerMonth"; payload: number }
 
 export const Library = {
   newProduct: {} as FormProductValues,
@@ -26,7 +29,7 @@ export const Library = {
   category: [] as Category[],
   productToCart: [] as ProductToCart[],
   totalAmountToCart: 0 as number,
-currentlyDate: "" as string,
+  currentlyDate: "" as string,
   loaderToSell: false as boolean,
   generateSold: false as boolean,
   productNotFound: "" as string,
@@ -36,22 +39,43 @@ currentlyDate: "" as string,
   averageTicket: 0 as number,
   addStockProduct: "" || {} as ProductToCart | string,
   loaderChargerStock: false as boolean,
-  loaderChargerStockAdd:false as boolean,
-  marcaSocio: [] as MarcaSocio[]
+  loaderChargerStockAdd: false as boolean,
+  marcaSocio: [] as MarcaSocio[],
+  dataSales: [] as number[],
+  dataSalesLabel: [] as string[],
+  dataTotalSalesPerMonth: 0 as number
 }
 
 export const ProductsReducer = (state: LibraryAllData, action: LibraryData) => {
   switch (action.type) {
-    case "marcaSocio":{
+    case "dataTotalSalesPerMonth":{
       return {
         ...state,
-        marcaSocio:action.payload
+        dataTotalSalesPerMonth:action.payload
       }
     }
-    case "loaderChargerStockAdd":{
+    case "dataSales": {
       return {
         ...state,
-        loaderChargerStockAdd:action.payload
+        dataSales: action.payload,
+      }
+    }
+    case "dataSalesLabel": {
+      return {
+        ...state,
+        dataSalesLabel: action.payload
+      }
+    }
+    case "marcaSocio": {
+      return {
+        ...state,
+        marcaSocio: action.payload
+      }
+    }
+    case "loaderChargerStockAdd": {
+      return {
+        ...state,
+        loaderChargerStockAdd: action.payload
       }
     }
     case "loaderChargerStock": {
@@ -111,8 +135,12 @@ export const ProductsReducer = (state: LibraryAllData, action: LibraryData) => {
     case "productToCart": {
       let amountCart: number = 0
       action.payload.map(prod => {
-        let amountPerProduct: number = Number(prod.amount) * Number(prod.price)
-        amountCart = amountCart + amountPerProduct
+        const getPrice = Number(prod.price)
+        console.log('getPrice', getPrice)
+
+        let amountPerProduct: number = Number(prod.amount?.toFixed(2)) * Number(getPrice.toFixed(2))
+        console.log('amountPerProduct', amountPerProduct)
+        amountCart = amountCart + Number(amountPerProduct.toFixed(2))
       })
       return {
         ...state,

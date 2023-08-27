@@ -67,13 +67,13 @@ export const getCategory = (dispatch: (action: any) => void) => {
     dispatch({ type: "category", payload: rta })
   })
 }
-export const getMarcaSocio = (dispatch:(action:any)=>void) => {
+export const getMarcaSocio = (dispatch: (action: any) => void) => {
   const res = collection(db, 'marca-socio')
 
   onSnapshot(res, (snapshot) => {
-    const marcaSocio:MarcaSocio[]= []
+    const marcaSocio: MarcaSocio[] = []
     snapshot.docs.forEach((doc) => {
-      marcaSocio.push({...doc.data(), id:doc.id})
+      marcaSocio.push({ ...doc.data(), id: doc.id })
     })
     dispatch({ type: "marcaSocio", payload: marcaSocio })
 
@@ -322,5 +322,26 @@ export const addStockToProductUpdate = async (dispatch: (action: any) => void, c
       .then(r => {
         dispatch({ type: "loaderChargerStockAdd", payload: false })
       })
+  }
+}
+export const getIncomePerDay = async (dispatch: (actioin: any) => void) => {
+
+  const ref = collection(db, `/dailysale/vAWFt15qlNVykhHvNno0/${yearMonth}`)
+  // const res = query(collection(db, `/products`));
+  const dailySales: DailySales[] = []
+  const dataSales: number[] = []
+  const dataSalesLabel: string[] = []
+  const docSnap = await getDocs(ref)
+  let totalSalesPerMonth: number = 0
+  if(docSnap){
+    docSnap.docs.forEach(perDay => {
+      totalSalesPerMonth=totalSalesPerMonth + Number(perDay.data().amount.toFixed(2))
+      dailySales.push({ ...perDay.data() })
+      dataSales.push(Number(perDay.data().amount.toFixed(2)))
+      dataSalesLabel.push(perDay.id)
+    })
+    dispatch({type: "dataSales", payload:dataSales})
+    dispatch({type: "dataSalesLabel", payload:dataSalesLabel})
+    dispatch({type: "dataTotalSalesPerMonth", payload:totalSalesPerMonth})
   }
 }

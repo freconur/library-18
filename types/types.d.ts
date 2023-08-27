@@ -27,7 +27,10 @@ interface LibraryAllData {
   addStockProduct?:ProductToCart | string,
   loaderChargerStock:boolean,
   loaderChargerStockAdd:boolean,
-  marcaSocio:MarcaSocio[]
+  marcaSocio:MarcaSocio[],
+  dataSales: number[],
+  dataSalesLabel: string[],
+  dataTotalSalesPerMonth: number
 }
 interface Brands {
   id?:string
@@ -74,4 +77,7 @@ interface StockProductCharger {
 interface MarcaSocio {
   id?:string
   name?: string
+}
+interface DailySales {
+  amount?:number
 }
