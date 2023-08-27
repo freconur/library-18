@@ -28,7 +28,7 @@ ChartJS.register(
 
 const Estadisticas = () => {
   const { dailySaleContext, LibraryData, dailyTicketContext, incomePerDay } = useGlobalContext()
-  const { dailySale, dailyTicket, averageTicket, dataSales, dataSalesLabel,dataTotalSalesPerMonth } = LibraryData
+  const { dailySale, dailyTicket, averageTicket, dataSales, dataSalesLabel, dataTotalSalesPerMonth } = LibraryData
 
   useEffect(() => {
     dailySaleContext()
@@ -73,8 +73,11 @@ const Estadisticas = () => {
           <div>ingresos 2023: s/ 380</div>
         </div>
       </div>
-      <div className="w-[99%]">
-        <Line data={sales} />
+      <div className="mt-5">
+        <h2 className="text-gray-400 text-xl font-semibold capitalize mb-5">grafico lineal de ventas</h2>
+        <div className="w-[99%]">
+          <Line data={sales} />
+        </div>
       </div>
     </div>
 
