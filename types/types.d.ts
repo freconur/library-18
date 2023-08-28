@@ -53,13 +53,15 @@ interface ProductToCart {
   stock?:string,
   amount?:number,
   warning?:string,
-  active?:boolean
+  active?:boolean,
+  marcaSocio?:string
 }
 interface Ticket {
   id?:string,
   date?:Date | string,
   timestamp: Date | string | toDate,
   product: ProductsFromTicket[] | undefined,
+  library18:true
 }
 interface ProductsFromTicket { 
   code?:string,

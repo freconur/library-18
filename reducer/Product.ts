@@ -177,7 +177,7 @@ export const addProductFromCartToTicket = async (ticket: Ticket) => {
   const docSnap = await getDoc(docRef);
   if (docSnap.exists()) {
     const numeroTicket = docSnap.data().ticket + 1
-    console.log('numeroTicket', numeroTicket)
+    // console.log('numeroTicket', numeroTicket)
     // await setDoc(doc(db, `/db-ventas/xB98zEEqUPU3LXiIf7rQ/${currentMonth()}-${currentYear()}`, `${numeroTicket}`), ticket)
     await setDoc(doc(db, `/db-ventas/xB98zEEqUPU3LXiIf7rQ/${currentMonth()}-${currentYear()}/${currentMonth()}-${currentYear()}`), { ticket: "ticket" })
     await setDoc(doc(db, `/db-ventas/xB98zEEqUPU3LXiIf7rQ/${currentMonth()}-${currentYear()}/${currentMonth()}-${currentYear()}/${currentDate()}`, `${numeroTicket}`), ticket)
@@ -216,18 +216,21 @@ export const dailyTicket = async (dispatch: (action: any) => void) => {
   const res = query(collection(db, `/db-ventas/xB98zEEqUPU3LXiIf7rQ/${YEAR_MONTH}/${currentDate()}`));
   const docSnap = await getDocs(res)
   let totalAmountDailySale: number = 0
+  let dailyTicket:number = 0
   docSnap.docs.forEach(ticket => {
     console.log('ticket', ticket.data())
-    const productsOfTicket = ticket.data().product
-    productsOfTicket.map((item: ProductToCart) => {
-
-      totalAmountDailySale = totalAmountDailySale + (Number(item.amount) * Number(item.price))
-    })
+    if(ticket.data().library18 === true){
+      dailyTicket = dailyTicket + 1
+      const productsOfTicket = ticket.data().product
+      productsOfTicket.map((item: ProductToCart) => {
+        totalAmountDailySale = totalAmountDailySale + (Number(item.amount) * Number(item.price))
+      })
+    }
   })
   console.log('totalAmountDailySale', totalAmountDailySale)
   console.log('dailyTicket', docSnap)
-  const averageTicket = totalAmountDailySale / docSnap.size
-  dispatch({ type: "dailyTicket", payload: docSnap.size })
+  const averageTicket = totalAmountDailySale / dailyTicket
+  dispatch({ type: "dailyTicket", payload: dailyTicket })
   dispatch({ type: "averageTicket", payload: averageTicket })
   // const dailySaleRef = doc(db, `/db-ventas/xB98zEEqUPU3LXiIf7rQ/${YEAR_MONTH}/${currentDate()}`)
   // const docSnap = await getDoc(dailySaleRef)
@@ -236,11 +239,25 @@ export const dailyTicket = async (dispatch: (action: any) => void) => {
 }
 export const generateSold = async (dispatch: (action: any) => void, cart: ProductToCart[] | undefined) => {
   dispatch({ type: "generateSold", payload: true })
-  let totalAmountOfCart: number = 0
+  // let totalAmountOfCart: number = 0
+  let library18 = true
+  let totalAmountOfCartLibrary: number = 0
+  let totalAmountOfCartWaliky: number = 0
+  let totalAmountOfCartWalikySublimados: number = 0
 
+  //aqui tengo que crear la funcionalidad de que sume el daily sale correspondiente para cada marca
   cart?.map(async (item) => {
     const ref = doc(db, "products", item?.code as string);
-    totalAmountOfCart = totalAmountOfCart + (Number(item.amount) * Number(item.price))
+    //el codigo de abajo se hardcodeara ya que las marcas son estaticas.
+    if (item.marcaSocio === "waliky") {
+      totalAmountOfCartWaliky = totalAmountOfCartWaliky + (Number(item.amount) * Number(item.price))
+      library18 = false
+    } else if (item.marcaSocio === "waliky-sublimados") {
+      totalAmountOfCartWalikySublimados = totalAmountOfCartWalikySublimados + (Number(item.amount) * Number(item.price))
+      library18 = false
+    } else {
+      totalAmountOfCartLibrary = totalAmountOfCartLibrary + (Number(item.amount) * Number(item.price))
+    }
     const stockSobrante = Number(item.stock) - Number(item.amount)
     if (stockSobrante === 0) {
       await updateDoc(ref, {
@@ -252,13 +269,16 @@ export const generateSold = async (dispatch: (action: any) => void, cart: Produc
   await addProductFromCartToTicket(
     {
       timestamp: Timestamp.fromDate(new Date()),
-      product: cart
+      product: cart,
+      library18: library18
     }
   ).then(r => {
     dispatch({ type: "cleanCart" })
     dispatch({ type: "resetAmountCart" })
     dispatch({ type: "generateSold", payload: false })
-    updatedailySale(totalAmountOfCart)
+    updatedailySale(totalAmountOfCartLibrary)
+    updateDailySaleWaliky(totalAmountOfCartWaliky)
+    updateDailySaleWalikySublimados(totalAmountOfCartWalikySublimados)
   })
 }
 
@@ -278,7 +298,38 @@ export const updatedailySale = async (totalAmountOfCart: number) => {
     }
   }
 }
-
+export const updateDailySaleWaliky = async (totalAmountOfCartWaliky: number) => {
+  const updatedailySaleRef = doc(db, `/dailysale-waliky/NpSnaQZBbsFl7itbyKsy/${yearMonth}/${currentDate()}`);
+  const docSnap = await getDoc(updatedailySaleRef)
+  if (docSnap.exists()) {
+    const currentlyDailySale = Number(docSnap.data().amount) + totalAmountOfCartWaliky
+    await updateDoc(updatedailySaleRef, { amount: currentlyDailySale })
+  } else {
+    await setDoc(doc(db, `/dailysale-waliky/NpSnaQZBbsFl7itbyKsy/${yearMonth}`, currentDate()), { amount: 0 });
+    const updatedailySaleRef = doc(db, `/dailysale-waliky/NpSnaQZBbsFl7itbyKsy/${yearMonth}/${currentDate()}`);
+    const docSnap = await getDoc(updatedailySaleRef)
+    if (docSnap.exists()) {
+      const currentlyDailySale = Number(docSnap.data().amount) + totalAmountOfCartWaliky
+      await updateDoc(updatedailySaleRef, { amount: currentlyDailySale })
+    }
+  }
+}
+export const updateDailySaleWalikySublimados = async (totalAmountOfCartWalikySublimados: number) => {
+  const updatedailySaleRef = doc(db, `/dailysale-waliky-sublimados/01Tg0pJCQlY6yBRmLwuH/${yearMonth}/${currentDate()}`);
+  const docSnap = await getDoc(updatedailySaleRef)
+  if (docSnap.exists()) {
+    const currentlyDailySale = Number(docSnap.data().amount) + totalAmountOfCartWalikySublimados
+    await updateDoc(updatedailySaleRef, { amount: currentlyDailySale })
+  } else {
+    await setDoc(doc(db, `/dailysale-waliky-sublimados/01Tg0pJCQlY6yBRmLwuH/${yearMonth}`, currentDate()), { amount: 0 });
+    const updatedailySaleRef = doc(db, `/dailysale-waliky-sublimados/01Tg0pJCQlY6yBRmLwuH/${yearMonth}/${currentDate()}`);
+    const docSnap = await getDoc(updatedailySaleRef)
+    if (docSnap.exists()) {
+      const currentlyDailySale = Number(docSnap.data().amount) + totalAmountOfCartWalikySublimados
+      await updateDoc(updatedailySaleRef, { amount: currentlyDailySale })
+    }
+  }
+}
 export const findProduct = async (codeProduct: string) => {
   const docRef = doc(db, "products", codeProduct);
   const docSnap = await getDoc(docRef);
@@ -333,15 +384,15 @@ export const getIncomePerDay = async (dispatch: (actioin: any) => void) => {
   const dataSalesLabel: string[] = []
   const docSnap = await getDocs(ref)
   let totalSalesPerMonth: number = 0
-  if(docSnap){
+  if (docSnap) {
     docSnap.docs.forEach(perDay => {
-      totalSalesPerMonth=totalSalesPerMonth + Number(perDay.data().amount.toFixed(2))
+      totalSalesPerMonth = totalSalesPerMonth + Number(perDay.data().amount.toFixed(2))
       dailySales.push({ ...perDay.data() })
       dataSales.push(Number(perDay.data().amount.toFixed(2)))
       dataSalesLabel.push(perDay.id)
     })
-    dispatch({type: "dataSales", payload:dataSales})
-    dispatch({type: "dataSalesLabel", payload:dataSalesLabel})
-    dispatch({type: "dataTotalSalesPerMonth", payload:totalSalesPerMonth})
+    dispatch({ type: "dataSales", payload: dataSales })
+    dispatch({ type: "dataSalesLabel", payload: dataSalesLabel })
+    dispatch({ type: "dataTotalSalesPerMonth", payload: totalSalesPerMonth })
   }
 }
