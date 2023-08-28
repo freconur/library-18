@@ -15,6 +15,7 @@ import {
   Legend,
   ChartData,
 } from 'chart.js';
+import { currentMonth } from "../../dates/date";
 
 ChartJS.register(
   CategoryScale,
@@ -72,8 +73,8 @@ const Estadisticas = () => {
         <div className="w-full bg-gradient-to-l from-blue-400 to-blue-500 rounded-lg p-2 shadow-md">
           <h2 className="text-white text-xl font-semibold capitalize ">Ingresos por ventas</h2>
           <div className="font-semibold">
-            <div className="text-slate-700">ingresos del mes: s/ {dataTotalSalesPerMonth}</div>
-            <div className="text-white">ingresos 2023: s/ 380</div>
+            <div className="text-slate-700 capitalize">{currentMonth()}: s/ {dataTotalSalesPerMonth}</div>
+            <div className="text-white">Ingresos 2023: s/ 580</div>
           </div>
         </div>
         {/* <div className="w-full">
