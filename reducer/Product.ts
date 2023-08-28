@@ -216,10 +216,9 @@ export const dailyTicket = async (dispatch: (action: any) => void) => {
   const res = query(collection(db, `/db-ventas/xB98zEEqUPU3LXiIf7rQ/${YEAR_MONTH}/${currentDate()}`));
   const docSnap = await getDocs(res)
   let totalAmountDailySale: number = 0
-  let dailyTicket:number = 0
+  let dailyTicket: number = 0
   docSnap.docs.forEach(ticket => {
-    console.log('ticket', ticket.data())
-    if(ticket.data().library18 === true){
+    if (ticket.data().library18 === true) {
       dailyTicket = dailyTicket + 1
       const productsOfTicket = ticket.data().product
       productsOfTicket.map((item: ProductToCart) => {
@@ -257,6 +256,11 @@ export const generateSold = async (dispatch: (action: any) => void, cart: Produc
       library18 = false
     } else {
       totalAmountOfCartLibrary = totalAmountOfCartLibrary + (Number(item.amount) * Number(item.price))
+      //aqui debo crear la logica para crear un nuevo mes cada que se inicia uno nuevo antes de seguir con el codigo de abajo,
+      //de lo contrario podria no registrar los nuevos datos con el siguiente mes.
+      const ref = doc(db, `/salesPerMonth/EwszanTDNKpiCy4gMvSu/library18/${currentYear()}/month-${currentYear()}/${currentMonth()}`);
+      const totalSaleMonth = await getDoc(ref)
+      await updateDoc(ref, { totalSales: totalAmountOfCartLibrary + totalSaleMonth.data()?.totalSales })
     }
     const stockSobrante = Number(item.stock) - Number(item.amount)
     if (stockSobrante === 0) {
@@ -375,7 +379,7 @@ export const addStockToProductUpdate = async (dispatch: (action: any) => void, c
       })
   }
 }
-export const getIncomePerDay = async (dispatch: (actioin: any) => void) => {
+export const getIncomePerDay = async (dispatch: (action: any) => void) => {
 
   const ref = collection(db, `/dailysale/vAWFt15qlNVykhHvNno0/${yearMonth}`)
   // const res = query(collection(db, `/products`));
@@ -394,5 +398,18 @@ export const getIncomePerDay = async (dispatch: (actioin: any) => void) => {
     dispatch({ type: "dataSales", payload: dataSales })
     dispatch({ type: "dataSalesLabel", payload: dataSalesLabel })
     dispatch({ type: "dataTotalSalesPerMonth", payload: totalSalesPerMonth })
+  }
+}
+
+export const getTotalSalesPerYear = async (dispatch:(action:any) => void) => {
+  const ref = collection(db, `/salesPerMonth/EwszanTDNKpiCy4gMvSu/library18/${currentYear()}/month-${currentYear()}`)
+  const docSnap = await getDocs(ref)
+  let totalSalesYear:number = 0
+  if(docSnap){
+    docSnap.docs.forEach(month => {
+      totalSalesYear = totalSalesYear + month.data().totalSales
+    })
+    console.log('totalSalesYear',totalSalesYear)
+    dispatch({type:"totalSalesYear", payload: totalSalesYear})
   }
 }

@@ -22,6 +22,7 @@ type LibraryData =
   | { type: "dataSales"; payload: number[] }
   | { type: "dataSalesLabel"; payload: string[] }
   | { type: "dataTotalSalesPerMonth"; payload: number }
+  | { type: "totalSalesYear"; payload: number }
 
 export const Library = {
   newProduct: {} as FormProductValues,
@@ -43,11 +44,18 @@ export const Library = {
   marcaSocio: [] as MarcaSocio[],
   dataSales: [] as number[],
   dataSalesLabel: [] as string[],
-  dataTotalSalesPerMonth: 0 as number
+  dataTotalSalesPerMonth: 0 as number,
+  totalSalesYear: 0 as number
 }
 
 export const ProductsReducer = (state: LibraryAllData, action: LibraryData) => {
   switch (action.type) {
+    case "totalSalesYear":{
+      return {
+        ...state,
+        totalSalesYear:action.payload
+      }
+    }
     case "dataTotalSalesPerMonth":{
       return {
         ...state,

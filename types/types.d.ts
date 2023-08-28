@@ -30,7 +30,8 @@ interface LibraryAllData {
   marcaSocio:MarcaSocio[],
   dataSales: number[],
   dataSalesLabel: string[],
-  dataTotalSalesPerMonth: number
+  dataTotalSalesPerMonth: number,
+  totalSalesYear:number
 }
 interface Brands {
   id?:string

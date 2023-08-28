@@ -1,5 +1,5 @@
 import { createContext, useContext, useReducer, useState } from "react";
-import { addNewProduct, addStockToProduct, addStockToProductUpdate, dailySale, dailyTicket, deleteProductToCart, findToAddProductCart, generateSold, getBrands, getCategory, getIncomePerDay, getMarcaSocio } from "../reducer/Product";
+import { addNewProduct, addStockToProduct, addStockToProductUpdate, dailySale, dailyTicket, deleteProductToCart, findToAddProductCart, generateSold, getBrands, getCategory, getIncomePerDay, getMarcaSocio, getTotalSalesPerYear } from "../reducer/Product";
 import { Library, ProductsReducer } from "../reducer/Product.reducer";
 
 interface Props {
@@ -35,7 +35,8 @@ type GlobalContextProps = {
   stateLoaderFromChargerStockAdd: (state: boolean) => void,
   addStockToProductUpdateContext: (codeProduct: ProductToCart, stock: StockProductCharger) => void,
   marcaSocio: () => void,
-  incomePerDay: () => void
+  incomePerDay: () => void,
+  totalSalesPerYearContext: () => void
 }
 
 
@@ -120,6 +121,9 @@ export function GlobalcontextProdiver({ children }: Props) {
   const incomePerDay = () => {
     getIncomePerDay(dispatch)
   }
+  const totalSalesPerYearContext = () => {
+    getTotalSalesPerYear(dispatch)
+  }
   return (
     <GlobalContext.Provider value={{
       LibraryData,
@@ -151,7 +155,8 @@ export function GlobalcontextProdiver({ children }: Props) {
       addStockToProductUpdateContext,
       stateLoaderFromChargerStockAdd,
       marcaSocio,
-      incomePerDay
+      incomePerDay,
+      totalSalesPerYearContext
     }}>
       {children}
     </GlobalContext.Provider>

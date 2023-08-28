@@ -28,12 +28,13 @@ ChartJS.register(
 );
 
 const Estadisticas = () => {
-  const { dailySaleContext, LibraryData, dailyTicketContext, incomePerDay } = useGlobalContext()
-  const { dailySale, dailyTicket, averageTicket, dataSales, dataSalesLabel, dataTotalSalesPerMonth } = LibraryData
+  const { dailySaleContext, LibraryData, dailyTicketContext, incomePerDay, totalSalesPerYearContext} = useGlobalContext()
+  const { dailySale, dailyTicket, averageTicket, dataSales, dataSalesLabel, dataTotalSalesPerMonth,totalSalesYear } = LibraryData
 
   useEffect(() => {
     dailySaleContext()
     dailyTicketContext()
+    totalSalesPerYearContext()
     incomePerDay()
   }, [dailySale, dailyTicket])
   console.log('dataSales', dataSales)
@@ -74,7 +75,7 @@ const Estadisticas = () => {
           <h2 className="text-white text-xl font-semibold capitalize ">Ingresos</h2>
           <div className="font-semibold">
             <div className="text-slate-700 capitalize">{currentMonth()} : S/ {dataTotalSalesPerMonth}</div>
-            <div className="text-slate-700">2023 : S/ 580</div>
+            <div className="text-slate-700">2023 : S/ {totalSalesYear}</div>
           </div>
         </div>
         {/* <div className="w-full">
