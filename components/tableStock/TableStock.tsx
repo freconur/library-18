@@ -2,10 +2,9 @@ import React from 'react'
 
 
 interface Props {
-  productsFromFilterByStock: ProductToCart[],
   paginationProducts: () =>ProductToCart[]
 }
-const TableStock = ({ productsFromFilterByStock,paginationProducts }: Props) => {
+const TableStock = ({ paginationProducts }: Props) => {
   return (
     <div className='w-full rounded-lg shadow mt-5 overflow-auto'>
       <table className='w-full rounded-lg overflow-hidden  border-[1px] '>

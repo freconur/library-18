@@ -1,5 +1,5 @@
 import { createContext, useContext, useReducer, useState } from "react";
-import { addNewProduct, addStockToProduct, addStockToProductUpdate, dailySale, dailyTicket, deleteProductToCart, findToAddProductCart, generateSold, getBrands, getCategory, getFilterProductByStock, getIncomePerDay, getMarcaSocio, getNextButtonFilterByStock, getPreviewButtonFilterByStock, getTotalSalesPerYear } from "../reducer/Product";
+import { addNewProduct, addStockToProduct, addStockToProductUpdate, dailySale, dailyTicket, deleteProductToCart, findToAddProductCart, generateSold, getBrands, getCategory, getFilterProductByStock, getIncomePerDay, getMarcaSocio, getTotalSalesPerYear } from "../reducer/Product";
 import { Library, ProductsReducer } from "../reducer/Product.reducer";
 
 interface Props {
@@ -38,8 +38,6 @@ type GlobalContextProps = {
   incomePerDay: () => void,
   totalSalesPerYearContext: () => void,
   filterProductByStock: (paramsFilter: FilterProdyctBySTock) => void,
-  nextButtonFilterByStock: (firstVisible:any,lastVisible: any, paramsFilter: FilterProdyctBySTock) => void,
-  previewButtonFilterByStock: (firstVisible:any, lastVisible: any, paramsFilter: FilterProdyctBySTock) => void
 }
 
 
@@ -130,12 +128,7 @@ export function GlobalcontextProdiver({ children }: Props) {
   const filterProductByStock = (paramsFilter: FilterProdyctBySTock) => {
     getFilterProductByStock(dispatch, paramsFilter)
   }
-  const nextButtonFilterByStock = (firstVisible:any, lastVisible: any, paramsFilter: FilterProdyctBySTock) => {
-    getNextButtonFilterByStock(dispatch, firstVisible, lastVisible, paramsFilter)
-  }
-  const previewButtonFilterByStock = (firstVisible:any, lastVisible: any, paramsFilter: FilterProdyctBySTock) => {
-    getPreviewButtonFilterByStock(dispatch,firstVisible,lastVisible,paramsFilter)
-  }
+ 
   return (
     <GlobalContext.Provider value={{
       LibraryData,
@@ -170,8 +163,6 @@ export function GlobalcontextProdiver({ children }: Props) {
       incomePerDay,
       totalSalesPerYearContext,
       filterProductByStock,
-      nextButtonFilterByStock,
-      previewButtonFilterByStock
     }}>
       {children}
     </GlobalContext.Provider>

@@ -33,8 +33,6 @@ interface LibraryAllData {
   dataTotalSalesPerMonth: number,
   totalSalesYear:number,
   productsFromFilterByStock: ProductToCart[],
-  lastVisible:any,
-  firstVisible: any,
 }
 interface Brands {
   id?:string
