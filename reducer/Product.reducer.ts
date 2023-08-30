@@ -23,6 +23,9 @@ type LibraryData =
   | { type: "dataSalesLabel"; payload: string[] }
   | { type: "dataTotalSalesPerMonth"; payload: number }
   | { type: "totalSalesYear"; payload: number }
+  | { type: "productsFromFilterByStock"; payload: ProductToCart[] }
+  | { type: "saveDataByStock"; payload: any }
+  | { type: "saveDataByStockPreview"; payload: any }
 
 export const Library = {
   newProduct: {} as FormProductValues,
@@ -45,11 +48,32 @@ export const Library = {
   dataSales: [] as number[],
   dataSalesLabel: [] as string[],
   dataTotalSalesPerMonth: 0 as number,
-  totalSalesYear: 0 as number
+  totalSalesYear: 0 as number,
+  productsFromFilterByStock: [] as ProductToCart[],
+  lastVisible: null as any,
+  firstVisible: null as any,
 }
 
 export const ProductsReducer = (state: LibraryAllData, action: LibraryData) => {
   switch (action.type) {
+    case "saveDataByStockPreview": {
+      return {
+        ...state,
+        firstVisible:action.payload
+      }
+    }
+    case "saveDataByStock": {
+      return {
+        ...state,
+        lastVisible:action.payload
+      }
+    }
+    case "productsFromFilterByStock":{
+      return {
+        ...state,
+        productsFromFilterByStock:action.payload
+      }
+    }
     case "totalSalesYear":{
       return {
         ...state,

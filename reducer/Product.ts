@@ -1,5 +1,5 @@
 
-import { Timestamp, addDoc, collection, deleteDoc, doc, getDoc, getDocs, getFirestore, onSnapshot, orderBy, query, setDoc, updateDoc } from "firebase/firestore";
+import { OrderByDirection, Timestamp, addDoc, collection, deleteDoc, doc, endAt, endBefore, getDoc, getDocs, getFirestore, limit, onSnapshot, orderBy, query, setDoc, startAfter, updateDoc, where } from "firebase/firestore";
 import { app } from "../firebase/firebase.config";
 import { currentDate, currentMonth, currentYear } from "../dates/date";
 
@@ -401,15 +401,110 @@ export const getIncomePerDay = async (dispatch: (action: any) => void) => {
   }
 }
 
-export const getTotalSalesPerYear = async (dispatch:(action:any) => void) => {
+export const getTotalSalesPerYear = async (dispatch: (action: any) => void) => {
   const ref = collection(db, `/salesPerMonth/EwszanTDNKpiCy4gMvSu/library18/${currentYear()}/month-${currentYear()}`)
   const docSnap = await getDocs(ref)
-  let totalSalesYear:number = 0
-  if(docSnap){
+  let totalSalesYear: number = 0
+  if (docSnap) {
     docSnap.docs.forEach(month => {
       totalSalesYear = totalSalesYear + month.data().totalSales
     })
-    console.log('totalSalesYear',totalSalesYear)
-    dispatch({type:"totalSalesYear", payload: totalSalesYear})
+    console.log('totalSalesYear', totalSalesYear)
+    dispatch({ type: "totalSalesYear", payload: totalSalesYear })
   }
+}
+
+export const getFilterProductByStock = async (dispatch: (action: any) => void, paramsFilter: FilterProdyctBySTock) => {
+  console.log('paramsFilter', paramsFilter)
+  // const order = paramsFilter.orderBy as OrderByDirection
+  const productRef = collection(db, '/products')
+  const productsFilterByStock: ProductToCart[] = []
+  if (paramsFilter.brand.length === 0) {
+    console.log('busqueda sin brand')
+    if (paramsFilter.stock === 0) {
+      console.log('sin brand y en 0')
+      const q = query(productRef, where("stock", "==", Number(paramsFilter.stock)), where("marcaSocio", "==", `${paramsFilter.marcaSocio}`), orderBy("stock"));
+      const data = await getDocs(q)
+      console.log('datasize', data.size)
+
+      data.docs.forEach(item => {
+        productsFilterByStock.push(item.data())
+      })
+      dispatch({ type: "productsFromFilterByStock", payload: productsFilterByStock })
+    } else {
+      const q = query(productRef, where("stock", "<=", Number(paramsFilter.stock)), where("stock", ">=", 1), where("marcaSocio", "==", `${paramsFilter.marcaSocio}`), orderBy("stock"));
+      const data = await getDocs(q)
+      console.log('datasize', data.size)
+
+      data.docs.forEach(item => {
+        productsFilterByStock.push(item.data())
+      })
+      dispatch({ type: "productsFromFilterByStock", payload: productsFilterByStock })
+    }
+  } else {
+    console.log('entramos con marca')
+    if(paramsFilter.stock === 0) {
+      const q = query(productRef, where("stock", "==", Number(paramsFilter.stock)), where("brand", "==", `${paramsFilter.brand}`), where("marcaSocio", "==", `${paramsFilter.marcaSocio}`), orderBy("stock"));
+      const data = await getDocs(q)
+      console.log('datasize', data.size)
+      data.docs.forEach(item => {
+        productsFilterByStock.push(item.data())
+      })
+      dispatch({ type: "productsFromFilterByStock", payload: productsFilterByStock })
+    } else {
+      const q = query(productRef, where("stock", "<=", Number(paramsFilter.stock)),where("brand", "==", `${paramsFilter.brand}`), where("stock", ">=", 1), where("marcaSocio", "==", `${paramsFilter.marcaSocio}`), orderBy("stock"));
+      const data = await getDocs(q)
+      console.log('datasize', data.size)
+      data.docs.forEach(item => {
+        productsFilterByStock.push(item.data())
+      })
+      dispatch({ type: "productsFromFilterByStock", payload: productsFilterByStock })
+    }
+  }
+
+}
+
+export const getNextButtonFilterByStock = async (dispatch: (action: any) => void, firstVisible: any, lastVisible: any, paramsFilter: FilterProdyctBySTock) => {
+  // const order = paramsFilter.orderBy as OrderByDirection
+  // const productRef = collection(db, '/products')
+
+  // const next = query(productRef, where("stock", "<=", Number(paramsFilter.stock)), orderBy("stock", order), startAfter(lastVisible), limit(2))
+
+  // const data = await getDocs(next)
+  // console.log('data.docs[]', data.docs[0].data())
+  // const previewFirstVisible = data.docs[0] || null
+  // const nextLastVisible = data.docs[data.docs.length - 1] || null
+
+  // const productsFilterByStock: ProductToCart[] = []
+
+  // data.docs.forEach(item => {
+  //   productsFilterByStock.push(item.data())
+  // })
+  // dispatch({ type: "productsFromFilterByStock", payload: productsFilterByStock })
+  // dispatch({ type: "saveDataByStock", payload: nextLastVisible })
+  // dispatch({ type: "saveDataByStockPreview", payload: previewFirstVisible })
+
+}
+export const getPreviewButtonFilterByStock = async (dispatch: (action: any) => void, firstVisible: any, lastVisible: any, paramsFilter: FilterProdyctBySTock) => {
+  // console.log('firstVisible', firstVisible)
+  // const order = paramsFilter.orderBy as OrderByDirection
+  // const productRef = collection(db, '/products')
+
+  // const preview = query(productRef, where("stock", "<=", Number(paramsFilter.stock)), orderBy("stock", order), endBefore(firstVisible), limit(2))
+
+  // const data = await getDocs(preview)
+  // if (data) {
+  //   const previewFirstVisible = data.docs[2] || null
+  //   const nextLastVisible = data.docs[data.docs.length - 1] || null
+
+  //   const productsFilterByStock: ProductToCart[] = []
+
+  //   data.docs.forEach(item => {
+  //     productsFilterByStock.push(item.data())
+  //     console.log(item.data())
+  //   })
+  //   dispatch({ type: "productsFromFilterByStock", payload: productsFilterByStock })
+  //   dispatch({ type: "saveDataByStock", payload: nextLastVisible })
+  //   dispatch({ type: "saveDataByStockPreview", payload: previewFirstVisible })
+  // }
 }

@@ -1,5 +1,5 @@
 import { createContext, useContext, useReducer, useState } from "react";
-import { addNewProduct, addStockToProduct, addStockToProductUpdate, dailySale, dailyTicket, deleteProductToCart, findToAddProductCart, generateSold, getBrands, getCategory, getIncomePerDay, getMarcaSocio, getTotalSalesPerYear } from "../reducer/Product";
+import { addNewProduct, addStockToProduct, addStockToProductUpdate, dailySale, dailyTicket, deleteProductToCart, findToAddProductCart, generateSold, getBrands, getCategory, getFilterProductByStock, getIncomePerDay, getMarcaSocio, getNextButtonFilterByStock, getPreviewButtonFilterByStock, getTotalSalesPerYear } from "../reducer/Product";
 import { Library, ProductsReducer } from "../reducer/Product.reducer";
 
 interface Props {
@@ -36,7 +36,10 @@ type GlobalContextProps = {
   addStockToProductUpdateContext: (codeProduct: ProductToCart, stock: StockProductCharger) => void,
   marcaSocio: () => void,
   incomePerDay: () => void,
-  totalSalesPerYearContext: () => void
+  totalSalesPerYearContext: () => void,
+  filterProductByStock: (paramsFilter: FilterProdyctBySTock) => void,
+  nextButtonFilterByStock: (firstVisible:any,lastVisible: any, paramsFilter: FilterProdyctBySTock) => void,
+  previewButtonFilterByStock: (firstVisible:any, lastVisible: any, paramsFilter: FilterProdyctBySTock) => void
 }
 
 
@@ -124,6 +127,15 @@ export function GlobalcontextProdiver({ children }: Props) {
   const totalSalesPerYearContext = () => {
     getTotalSalesPerYear(dispatch)
   }
+  const filterProductByStock = (paramsFilter: FilterProdyctBySTock) => {
+    getFilterProductByStock(dispatch, paramsFilter)
+  }
+  const nextButtonFilterByStock = (firstVisible:any, lastVisible: any, paramsFilter: FilterProdyctBySTock) => {
+    getNextButtonFilterByStock(dispatch, firstVisible, lastVisible, paramsFilter)
+  }
+  const previewButtonFilterByStock = (firstVisible:any, lastVisible: any, paramsFilter: FilterProdyctBySTock) => {
+    getPreviewButtonFilterByStock(dispatch,firstVisible,lastVisible,paramsFilter)
+  }
   return (
     <GlobalContext.Provider value={{
       LibraryData,
@@ -156,7 +168,10 @@ export function GlobalcontextProdiver({ children }: Props) {
       stateLoaderFromChargerStockAdd,
       marcaSocio,
       incomePerDay,
-      totalSalesPerYearContext
+      totalSalesPerYearContext,
+      filterProductByStock,
+      nextButtonFilterByStock,
+      previewButtonFilterByStock
     }}>
       {children}
     </GlobalContext.Provider>

@@ -31,7 +31,10 @@ interface LibraryAllData {
   dataSales: number[],
   dataSalesLabel: string[],
   dataTotalSalesPerMonth: number,
-  totalSalesYear:number
+  totalSalesYear:number,
+  productsFromFilterByStock: ProductToCart[],
+  lastVisible:any,
+  firstVisible: any,
 }
 interface Brands {
   id?:string
@@ -83,4 +86,9 @@ interface MarcaSocio {
 }
 interface DailySales {
   amount?:number
+}
+interface FilterProdyctBySTock {
+  stock: number,
+  marcaSocio: string,
+  brand:string
 }

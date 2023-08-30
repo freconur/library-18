@@ -14,11 +14,9 @@ const LayoutDashboard = ({ children }: Props) => {
 
   const handleClickOutside = () => {
     setShowSidebar(false)
-    console.log('estamos bien')
   }
   useOnClickOutside(closeSidebar, handleClickOutside)
   const { pathname } = useRouter()
-  console.log('pathname', pathname)
   return (
     <>
       {
