@@ -20,19 +20,19 @@ const Stock = () => {
   }
   useEffect(() => {
     brands()
-    marcaSocio() 
+    marcaSocio()
   }, [])
 
   const paginationProducts = () => {
-    
-    return productsFromFilterByStock.slice(currentPage,currentPage + 5)
+
+    return productsFromFilterByStock.slice(currentPage, currentPage + 5)
   }
 
   const filterProductHandle = () => {
     filterProductByStock(paramsFilter)
   }
   const nextPage = () => {
-      setCurrentPage(currentPage + 5)
+    setCurrentPage(currentPage + 5)
   }
   const previewPage = () => {
     if (currentPage > 0) {
@@ -89,19 +89,26 @@ const Stock = () => {
             }
           </select>
         </div>
-        <button disabled={paramsFilter.marcaSocio.length <= 0  && true} className={`h-[40px] w-[200px] p-2 rounded-lg text-slate-800 font-semibold text-l shadow-md capitalize  ${paramsFilter.marcaSocio.length <= 0 ? "bg-gradient-to-l from-gray-400 to-gray-300" : "bg-gradient-to-l from-blue-500 to-blue-400 duration-300 hover:opacity-95"}`} onClick={filterProductHandle}>filtrar</button>
+        <button disabled={paramsFilter.marcaSocio.length <= 0 && true} className={`h-[40px] w-[200px] p-2 rounded-lg text-slate-800 font-semibold text-l shadow-md capitalize  ${paramsFilter.marcaSocio.length <= 0 ? "bg-gradient-to-l from-gray-400 to-gray-300" : "bg-gradient-to-l from-blue-500 to-blue-400 duration-300 hover:opacity-95"}`} onClick={filterProductHandle}>filtrar</button>
       </div>
       <div className='w-full p-2'>
         <h3 className='font-semibold text-slate-800 '>* se encontro {productsFromFilterByStock.length} productos para la busqueda.</h3>
         <TableStock paginationProducts={paginationProducts} />
       </div>
       <div className='flex gap-5 mt-1 p-2'>
-        <button onClick={previewPage} className='h-[40px] w-[160px] bg-red-300 text-slate-700 font-semibold rounded-lg shadow-md'>Anterior</button>
         {
-          paginationProducts().length < 5 
-          ?
-          null:
-          <button onClick={nextPage} className='h-[40px] w-[160px] bg-red-300 text-slate-700 font-semibold rounded-lg shadow-md'>Siguiente</button>
+          paginationProducts().length === 0
+            ?
+            null
+            :
+            <button onClick={previewPage} className='h-[40px] w-[160px] bg-red-300 text-slate-700 font-semibold rounded-lg shadow-md'>Anterior</button>
+        }
+        {
+          paginationProducts().length < 5
+            ?
+            null 
+            :
+            <button onClick={nextPage} className='h-[40px] w-[160px] bg-red-300 text-slate-700 font-semibold rounded-lg shadow-md'>Siguiente</button>
         }
       </div>
     </div>
