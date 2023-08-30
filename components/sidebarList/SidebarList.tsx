@@ -44,6 +44,13 @@ const SidebarList = ({showSidebar, setShowSidebar}:Props) => {
           {/* <span className={`text-base flex-1 ml-2 font-semibold  ${!openSidebar && "hidden"}`}>estadisticas</span> */}
         </Link>
       </li>
+      <li className="text-gray-300 text-sm flex items-center gap-x-4 cursor-pointer  rounded-md mt-2 capitalize   hover:bg-cyan-400 hover:text-gray-800 whitespace-nowrap">
+        <Link onClick={() => setShowSidebar(!showSidebar)} href="/dashboard/stock" className="w-56 p-2">
+          <RiArchiveDrawerFill className="text-2xl block float-left" />
+          <span className={`text-base flex-1 ml-2 font-semibold`}>productos por stock</span>
+          {/* <span className={`text-base flex-1 ml-2 font-semibold  ${!openSidebar && "hidden"}`}>estadisticas</span> */}
+        </Link>
+      </li>
     </ul>
   )
 }
