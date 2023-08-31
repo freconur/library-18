@@ -1,6 +1,7 @@
 import { createContext, useContext, useReducer, useState } from "react";
 import { addNewProduct, addStockToProduct, addStockToProductUpdate, dailySale, dailyTicket, deleteProductToCart, findToAddProductCart, generateSold, getBrands, getCategory, getFilterProductByStock, getIncomePerDay, getMarcaSocio, getTotalSalesPerYear } from "../reducer/Product";
 import { Library, ProductsReducer } from "../reducer/Product.reducer";
+import { getProductByCodeToUpdateContext } from "../reducer/UpdateProducts";
 
 interface Props {
   children: React.ReactNode
@@ -38,6 +39,7 @@ type GlobalContextProps = {
   incomePerDay: () => void,
   totalSalesPerYearContext: () => void,
   filterProductByStock: (paramsFilter: FilterProdyctBySTock) => void,
+  productByCodeToUpdateContext: (code:string) => void
 }
 
 
@@ -128,6 +130,9 @@ export function GlobalcontextProdiver({ children }: Props) {
   const filterProductByStock = (paramsFilter: FilterProdyctBySTock) => {
     getFilterProductByStock(dispatch, paramsFilter)
   }
+  const productByCodeToUpdateContext = (code:string) => {
+    getProductByCodeToUpdateContext(dispatch, code)
+  }
  
   return (
     <GlobalContext.Provider value={{
@@ -163,6 +168,7 @@ export function GlobalcontextProdiver({ children }: Props) {
       incomePerDay,
       totalSalesPerYearContext,
       filterProductByStock,
+      productByCodeToUpdateContext
     }}>
       {children}
     </GlobalContext.Provider>

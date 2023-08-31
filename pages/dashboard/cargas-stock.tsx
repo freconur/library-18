@@ -23,8 +23,6 @@ const CargasStock = () => {
     if (focusRef.current) {
       focusRef.current.focus();
     }
-
-    // if (codeProduct.code.length === 12 || codeProduct.code.length === 13) {
       if (codeProduct.code.length === 13) {
       setCodeProduct(codeProduct)
       stateLoaderFromChargerStock(true)

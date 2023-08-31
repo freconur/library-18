@@ -24,6 +24,7 @@ type LibraryData =
   | { type: "dataTotalSalesPerMonth"; payload: number }
   | { type: "totalSalesYear"; payload: number }
   | { type: "productsFromFilterByStock"; payload: ProductToCart[] }
+  | { type: "productToUpdate"; payload: ProductToCart }
 
 export const Library = {
   newProduct: {} as FormProductValues,
@@ -48,11 +49,17 @@ export const Library = {
   dataTotalSalesPerMonth: 0 as number,
   totalSalesYear: 0 as number,
   productsFromFilterByStock: [] as ProductToCart[],
+  productToUpdate: {} as ProductToCart
 }
 
 export const ProductsReducer = (state: LibraryAllData, action: LibraryData) => {
   switch (action.type) {
-    
+    case "productToUpdate" : {
+      return {
+        ...state,
+        productToUpdate:action.payload
+      }
+    }
     case "productsFromFilterByStock":{
       return {
         ...state,

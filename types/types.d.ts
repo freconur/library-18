@@ -33,6 +33,7 @@ interface LibraryAllData {
   dataTotalSalesPerMonth: number,
   totalSalesYear:number,
   productsFromFilterByStock: ProductToCart[],
+  productToUpdate: ProductToCart
 }
 interface Brands {
   id?:string
