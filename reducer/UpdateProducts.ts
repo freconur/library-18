@@ -20,3 +20,14 @@ export const getProductByCodeToUpdateContext = async (dispatch:(action:any) => v
     dispatch({ type: "loaderChargerStock", payload: false })
   }
 }
+
+export const updateProduct = async (product:ProductToCart) => {
+  const productRef = doc(db, "products", product?.code as string);
+  await updateDoc(productRef, {
+    price:product.price,
+    description:product.description,
+    marcaSocio: product.marcaSocio,
+    brand:product.brand,
+    category:product.category
+  })
+}

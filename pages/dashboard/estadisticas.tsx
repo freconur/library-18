@@ -74,8 +74,8 @@ const Estadisticas = () => {
         <div className="w-full bg-gradient-to-l from-blue-400 to-blue-500 rounded-lg p-2 shadow-md">
           <h2 className="text-white text-xl font-semibold capitalize ">Ingresos</h2>
           <div className="font-semibold">
-            <div className="text-slate-700 capitalize">{currentMonth()} : S/ {dataTotalSalesPerMonth}</div>
-            <div className="text-slate-700">2023 : S/ {totalSalesYear}</div>
+            <div className="text-slate-700 capitalize">{currentMonth()} : S/ {dataTotalSalesPerMonth.toFixed(2)}</div>
+            <div className="text-slate-700">2023 : S/ {totalSalesYear.toFixed(2)}</div>
           </div>
         </div>
         {/* <div className="w-full">

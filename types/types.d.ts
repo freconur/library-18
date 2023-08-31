@@ -91,3 +91,6 @@ interface FilterProdyctBySTock {
   marcaSocio: string,
   brand:string
 }
+interface CodeProduct {
+  code: string
+}
