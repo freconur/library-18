@@ -9,11 +9,18 @@ module.exports = {
     "./src/**/*.{js,ts,jsx,tsx}",
   ],
   theme: {
+    fontFamily: {
+      comfortaa: ['Comfortaa'],
+      signikaNegative: ['Signika Negative'],
+      dmMono: ['DM Mono'],
+      martianMono: ['Martian Mono'],
+    },
     screens: {
+      xss:'320px',
       xsm: '420px',
       xm: '480px',
-      xs: '500px',
-      sm: '640px',
+      xs: '550px',
+      sm: '600px',
       cz: '664px',
       md: '768px',
       cs: '953px',
@@ -22,20 +29,41 @@ module.exports = {
     },
     extend: {
       height: {
-        'altura':'calc(100vh - 72px)'
+        'altura': 'calc(100vh - 72px)'
       },
       margin: {
         'centrar-contenido': 'auto'
       },
       colors: {
         'principal': '#121f3d',
-        'secundary':'rgb(12 24 50)',
-        'modal':'rgba(0,0,0,.24)',
-        'background':'#1b1f44',
-        'background-flashcards':'#0f253b',
-        'blue-slate':'bg-slate-800',
-        
-        // 'fisrt-color': ''
+        'secundary': 'rgb(12 24 50)',
+        'modal': 'rgba(0,0,0,.24)',
+        'background': '#1b1f44',
+        'background-flashcards': '#0f253b',
+        'blue-slate': 'bg-slate-800',
+        'graduado-blue-1': 'rgb(5,100,245)',
+        'graduado-blue-2': 'rgba(40,62,143,1)',
+        'graduado-blue-3': 'rgba(12,49,131,1)',
+        'cardTransparent': '#ffffff40',
+        'gg-1': '#1bb920',
+        'gg-2': '#3e9438',
+        'gg-3': '#0f7e1b',
+        'gy-1': '#ffb418',
+        'gy-2': '#ffed52',
+        'gy-3': '#fbff72',
+        'gb-1':'#2c31f9',
+        'gb-2':'#4953f6',
+        'gb-3':'#5e68ff',
+        'go-1':'#f9b72c',
+        'go-2':'#ffc76f',
+        'go-3':'#ffd38e',
+        'ggw-1':'#47d07d',
+        'ggw-2':'#46e996',
+        'ggw-3':'#68fea1',
+        'gr-1':'#f64141',
+        'gr-2':'#ff5858',
+        'gr-3':'#ff7373',
+
       },
       gridTemplateRows: {
         // Complex site-specific row configuration
@@ -54,6 +82,7 @@ module.exports = {
         'gridSidebar': '18% 82%',
         'gridSidebarMd': '20% auto',
         'gridPageSlider': '400px 400px',
+        'gridCardStat': '70% 30%',
       }
     },
     variants: {

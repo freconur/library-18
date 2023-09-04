@@ -1,6 +1,7 @@
 import { useEffect } from "react"
 import { useGlobalContext } from "../../context/GlobalContext"
 import { Line } from "react-chartjs-2"
+import { BsCashCoin } from "react-icons/bs";
 // import { Line } from 'react-chartjs-2'
 
 import {
@@ -16,6 +17,7 @@ import {
   ChartData,
 } from 'chart.js';
 import { currentMonth } from "../../dates/date";
+import CardEstadisticas from "../../components/card-estadisticas/CardEstadisticas";
 
 ChartJS.register(
   CategoryScale,
@@ -28,8 +30,8 @@ ChartJS.register(
 );
 
 const Estadisticas = () => {
-  const { dailySaleContext, LibraryData, dailyTicketContext, incomePerDay, totalSalesPerYearContext} = useGlobalContext()
-  const { dailySale, dailyTicket, averageTicket, dataSales, dataSalesLabel, dataTotalSalesPerMonth,totalSalesYear } = LibraryData
+  const { dailySaleContext, LibraryData, dailyTicketContext, incomePerDay, totalSalesPerYearContext } = useGlobalContext()
+  const { dailySale, dailyTicket, averageTicket, dataSales, dataSalesLabel, dataTotalSalesPerMonth, totalSalesYear } = LibraryData
 
   useEffect(() => {
     dailySaleContext()
@@ -54,45 +56,34 @@ const Estadisticas = () => {
       ],
       borderWidth: 3,
       tension: 0.5,
-      pointRadius: 6
+      pointRadius: 6,
+
     }]
   }
+  const options = {
+    responsive: true,
+    plugins: {
+      legend: {
+        position: 'center' as const,
+      },
+      title: {
+        display: true,
+        text: 'ventas diarias',
+      },
+    },
+  };
   return (
     <div className="w-full">
-      {/* <div className="h-altura rounded-t-lg"> */}
-      <h1 className="text-2xl font-semibold my-5">Estadisticas</h1>
-      {/* <div>venta del dia : {dailySale ? dailySale : 0}</div> */}
-      <div className="grid grid-cols-2 gap-5 w-full">
-        <div className="w-full bg-gradient-to-l from-amber-200 to-amber-300 rounded-lg p-2 shadow-md">
-          <h2 className="text-white text-xl font-semibold capitalize">Daily sales</h2>
-          <div className="font-semibold">
-            <div className="text-slate-700">Venta : <span className="text-slate-700 font-semibold">S/ {dailySale && dailySale.toFixed(2)}</span></div>
-            <div className="text-slate-700">Tickets : <span className="font-semibold">{dailyTicket && dailyTicket}</span></div>
-            <div className="text-slate-700">T. promedio : S/ {averageTicket ? averageTicket.toFixed(2) : 0}</div>
-          </div>
-        </div>
-        <div className="w-full bg-gradient-to-l from-blue-400 to-blue-500 rounded-lg p-2 shadow-md">
-          <h2 className="text-white text-xl font-semibold capitalize ">Ingresos</h2>
-          <div className="font-semibold">
-            <div className="text-slate-700 capitalize">{currentMonth()} : S/ {dataTotalSalesPerMonth.toFixed(2)}</div>
-            <div className="text-slate-700">2023 : S/ {totalSalesYear.toFixed(2)}</div>
-          </div>
-        </div>
-        {/* <div className="w-full">
-          <h2 className="text-gray-400 font-semibold">Ingresos por ventas</h2>
-          <div>ingresos del mes: s/ {dataTotalSalesPerMonth}</div>
-          <div>ingresos 2023: s/ 380</div>
-        </div>
-        <div className="w-full">
-          <h2 className="text-gray-400 font-semibold">Ingresos por ventas</h2>
-          <div>ingresos del mes: s/ {dataTotalSalesPerMonth}</div>
-          <div>ingresos 2023: s/ 380</div>
-        </div> */}
-      </div>
+      <h1 className="text-2xl text-slate-700 font-dmMono  my-5">{`Dashboard > Estadisticas`}</h1>
+      <CardEstadisticas dailySale={dailySale} dailyTicket={dailyTicket} averageTicket={averageTicket} dataTotalSalesPerMonth={dataTotalSalesPerMonth} totalSalesYear={totalSalesYear} />
+
       <div className="mt-5">
-        <h2 className="text-gray-400 text-xl font-semibold capitalize mb-5">grafico lineal de ventas diario</h2>
-        <div className="w-[99%]">
-          <Line data={sales} />
+        <h2 className="text-slate-600 font-dmMono text-xl font-medium capitalize mb-5">graficos</h2>
+        {/* <div className="w-[99%]"> */}
+        <div className="grid p-2 grid-cols-1 lg:grid-cols-2 w-full rounded-sm">
+          <div className="w-full bg-white p-2">
+            <Line options={options} data={sales} />
+          </div>
         </div>
       </div>
     </div>
