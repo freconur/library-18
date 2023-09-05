@@ -16,7 +16,7 @@
   height: 250px;
   background-color: #1d3e5f;
   padding: 20px;
-  text-transform: capitalize;
+  /* text-transform: capitalize; */
   border-radius:15px
 }
 .title{

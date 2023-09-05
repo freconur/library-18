@@ -76,7 +76,6 @@ const Estadisticas = () => {
     <div className="w-full">
       <h1 className="text-2xl text-slate-700 font-dmMono  my-5">{`Dashboard > Estadisticas`}</h1>
       <CardEstadisticas dailySale={dailySale} dailyTicket={dailyTicket} averageTicket={averageTicket} dataTotalSalesPerMonth={dataTotalSalesPerMonth} totalSalesYear={totalSalesYear} />
-
       <div className="mt-5">
         <h2 className="text-slate-600 font-dmMono text-xl font-medium capitalize mb-5">graficos</h2>
         {/* <div className="w-[99%]"> */}

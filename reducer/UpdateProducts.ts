@@ -31,3 +31,7 @@ export const updateProduct = async (product:ProductToCart) => {
     category:product.category
   })
 }
+export const deleteProduct = async(code:string) => {
+  console.log('code', code)
+  // await deleteDoc(doc(db, "products", code as string))
+}
