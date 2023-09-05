@@ -6,7 +6,7 @@ const useFormRegisterProduct = (formValues: FormProductValues, onValidate: (form
   const [form, setForm] = useState<FormProductValues>(formValues)
   const [loading, setLoading] = useState<boolean | Promise<boolean>>(false)
   const [error, setError] = useState<FormProductValues | null>(null)
-
+  const [equalsOne, setEqualsOne] = useState(1)
 
   const handleProductValues = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
     setForm({
@@ -26,8 +26,9 @@ const useFormRegisterProduct = (formValues: FormProductValues, onValidate: (form
     } else {
       setError(err)
     }
+    setEqualsOne(1)
   }
-  return { form, error, loading,setLoading, handleProductValues, handleSubmit }
+  return {setEqualsOne,equalsOne, form, error, loading,setLoading, handleProductValues, handleSubmit }
 }
 
 export default useFormRegisterProduct

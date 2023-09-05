@@ -14,6 +14,7 @@ module.exports = {
       signikaNegative: ['Signika Negative'],
       dmMono: ['DM Mono'],
       martianMono: ['Martian Mono'],
+      nunito: ['Nunito'],
     },
     screens: {
       xss:'320px',
