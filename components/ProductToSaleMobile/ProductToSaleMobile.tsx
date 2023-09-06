@@ -16,7 +16,7 @@ const ProductToSaleMobile = ({ productToCart, totalAmountToCart }: Props) => {
           productToCart &&
           productToCart.map((item, index) => {
             return (
-              <li className="w-full bg-white p-2 rounded-md shadow-md">
+              <li key={item.code} className="w-full bg-white p-2 rounded-md shadow-md">
                 <div className="flex justify-between font-nunito  items-center">
                   <div className="flex gap-3">
                     <div className="rounded-full flex items-center justify-center bg-pink-600 text-white w-[20px] h-[20px]">
