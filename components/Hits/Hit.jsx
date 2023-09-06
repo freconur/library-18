@@ -1,17 +1,17 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { CopyToClipboard } from 'react-copy-to-clipboard';
 
-// interface Props {
-//   hit: any
-// }
+import 'react-toastify/dist/ReactToastify.css';
 
-const Hit = ({ hit, }) => {
+const Hit = ({ hit}) => {
   return (
     <>
       {
         hit.code?.length === 13
-          ?
-          <CopyToClipboard text={hit.code}>
+        ?
+        <>
+        
+          <CopyToClipboard  text={hit.code}>
             < div key={hit.code} className="cursor-pointer w-full bg-white p-1 my-2 rounded-md shadow-sm" >
               <div className="flex justify-between font-nunito  items-center">
                 <div className="flex gap-3 justify-between items-center w-full">
@@ -37,6 +37,7 @@ const Hit = ({ hit, }) => {
 
             </div>
           </CopyToClipboard>
+        </>
 
           : null
       }

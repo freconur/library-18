@@ -9,6 +9,7 @@ const yearMonth = `${currentMonth()}-${currentYear()}`
 
 export const addNewProduct = async (dispatch: (action: any) => void, productData: FormProductValues) => {
 
+  console.log('productData',productData)
   const docRef = doc(db, "products", productData.code as string); // busco en la base de datos
   // const docSnap = await getDoc(docRef);
   // const prod = docSnap?.data()
@@ -172,20 +173,7 @@ export const deleteProductToCart = (dispatch: (action: any) => void, cart: Produ
 
 }
 
-export const addProductFromCartToTicket = async (ticket: Ticket) => {
-  const docRef = doc(db, "/ticket", "1gZJTbl4yu6S8oD9a1En");
-  const docSnap = await getDoc(docRef);
-  if (docSnap.exists()) {
-    const numeroTicket = docSnap.data().ticket + 1
-    // console.log('numeroTicket', numeroTicket)
-    // await setDoc(doc(db, `/db-ventas/xB98zEEqUPU3LXiIf7rQ/${currentMonth()}-${currentYear()}`, `${numeroTicket}`), ticket)
-    await setDoc(doc(db, `/db-ventas/xB98zEEqUPU3LXiIf7rQ/${currentMonth()}-${currentYear()}/${currentMonth()}-${currentYear()}`), { ticket: "ticket" })
-    await setDoc(doc(db, `/db-ventas/xB98zEEqUPU3LXiIf7rQ/${currentMonth()}-${currentYear()}/${currentMonth()}-${currentYear()}/${currentDate()}`, `${numeroTicket}`), ticket)
-    await updateDoc(docRef, {
-      ticket: numeroTicket
-    });
-  }
-}
+
 
 export const dailySale = async (dispatch: (action: any) => void) => {
   // const dailySaleRef = doc(db, "/dailysale", "vAWFt15qlNVykhHvNno0")
@@ -246,29 +234,37 @@ export const generateSold = async (dispatch: (action: any) => void, cart: Produc
 
   //aqui tengo que crear la funcionalidad de que sume el daily sale correspondiente para cada marca
   cart?.map(async (item) => {
-    const ref = doc(db, "products", item?.code as string);
+    const refProduct = doc(db, "products", `${item?.code}`);
     //el codigo de abajo se hardcodeara ya que las marcas son estaticas.
     if (item.marcaSocio === "waliky") {
+      console.log('marcasocio', item.marcaSocio)
+
       totalAmountOfCartWaliky = totalAmountOfCartWaliky + (Number(item.amount) * Number(item.price))
       library18 = false
     } else if (item.marcaSocio === "waliky-sublimados") {
+      console.log('marcasocio', item.marcaSocio)
+
       totalAmountOfCartWalikySublimados = totalAmountOfCartWalikySublimados + (Number(item.amount) * Number(item.price))
       library18 = false
-    } else {
+    } else if (item.marcaSocio === "libreria18"){
+      console.log('marcasocio', item.marcaSocio)
       totalAmountOfCartLibrary = totalAmountOfCartLibrary + (Number(item.amount) * Number(item.price))
-      //aqui debo crear la logica para crear un nuevo mes cada que se inicia uno nuevo antes de seguir con el codigo de abajo,
-      //de lo contrario podria no registrar los nuevos datos con el siguiente mes.
+      // aqui debo crear la logica para crear un nuevo mes cada que se inicia uno nuevo antes de seguir con el codigo de abajo,
+      // de lo contrario podria no registrar los nuevos datos con el siguiente mes.
+      await setDoc(doc(db, `/salesPerMonth/EwszanTDNKpiCy4gMvSu/library18/${currentYear()}/month-${currentYear()}/${currentMonth()}`), {month:`${currentMonth()}`, totalSales:0})
       const ref = doc(db, `/salesPerMonth/EwszanTDNKpiCy4gMvSu/library18/${currentYear()}/month-${currentYear()}/${currentMonth()}`);
       const totalSaleMonth = await getDoc(ref)
       await updateDoc(ref, { totalSales: totalAmountOfCartLibrary + totalSaleMonth.data()?.totalSales })
+      await updateDoc(refProduct, {stock: Number(item.stock) - Number(item.amount) })
     }
-    const stockSobrante = Number(item.stock) - Number(item.amount)
-    if (stockSobrante === 0) {
-      await updateDoc(ref, {
-        active: false
-      })
-    }
-    await updateDoc(ref, { stock: Number(item.stock) - Number(item.amount) })
+    // const stockSobrante = Number(item.stock) - Number(item.amount)
+    // console.log('stockSobrante',stockSobrante)
+    // if (stockSobrante === 0) {
+    //   await updateDoc(ref, {
+    //     active: false
+    //   })
+    // }
+    // await updateDoc(ref, { stock: Number(item.stock) - Number(item.amount) })
   })
   await addProductFromCartToTicket(
     {
@@ -276,16 +272,29 @@ export const generateSold = async (dispatch: (action: any) => void, cart: Produc
       product: cart,
       library18: library18
     }
-  ).then(r => {
+  ).then(async(r) => {
     dispatch({ type: "cleanCart" })
     dispatch({ type: "resetAmountCart" })
     dispatch({ type: "generateSold", payload: false })
-    updatedailySale(totalAmountOfCartLibrary)
-    updateDailySaleWaliky(totalAmountOfCartWaliky)
-    updateDailySaleWalikySublimados(totalAmountOfCartWalikySublimados)
+    await updatedailySale(totalAmountOfCartLibrary)
+    await updateDailySaleWaliky(totalAmountOfCartWaliky)
+    await updateDailySaleWalikySublimados(totalAmountOfCartWalikySublimados)
   })
 }
-
+export const addProductFromCartToTicket = async (ticket: Ticket) => {
+  const docRef = doc(db, "/ticket","1gZJTbl4yu6S8oD9a1En");
+  const docSnap = await getDoc(docRef);
+  if (docSnap.exists()) {
+    const numeroTicket = docSnap.data().ticket + 1
+    // console.log('numeroTicket', numeroTicket)
+    // await setDoc(doc(db, `/db-ventas/xB98zEEqUPU3LXiIf7rQ/${currentMonth()}-${currentYear()}`, `${numeroTicket}`), ticket)
+    await setDoc(doc(db, `/db-ventas/xB98zEEqUPU3LXiIf7rQ/${currentMonth()}-${currentYear()}/${currentMonth()}-${currentYear()}`), { ticket: "ticket" })
+    await setDoc(doc(db, `/db-ventas/xB98zEEqUPU3LXiIf7rQ/${currentMonth()}-${currentYear()}/${currentMonth()}-${currentYear()}/${currentDate()}`, `${numeroTicket}`), ticket)
+    await updateDoc(docRef, {
+      ticket: numeroTicket
+    });
+  }
+}
 export const updatedailySale = async (totalAmountOfCart: number) => {
   const updatedailySaleRef = doc(db, `/dailysale/vAWFt15qlNVykhHvNno0/${yearMonth}/${currentDate()}`);
   const docSnap = await getDoc(updatedailySaleRef)

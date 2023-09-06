@@ -23,6 +23,6 @@
       "@/*": ["./src/*"]
     }
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", "pages/api/login.js", "pages/register-login.tsx", "pages/auth.js", "pages/api/logout.js", "components/Hits/Hit.jsx"],
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", "pages/api/login.js", "pages/register-login.tsx", "pages/auth.js", "pages/api/logout.js", "components/Hits/Hit.jsx", "modals/products/ModalProducts.jsx"],
   "exclude": ["node_modules"]
 }
