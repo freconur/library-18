@@ -1,17 +1,43 @@
 import React from 'react'
 // interface Props {
-//   hit: ProductToCart
+//   hit: any
 // }
-const Hit = ({ hit }) => {
+
+const Hit = ({ hit, }) => {
   return (
-      <div className='flex justify-center items-center w-full p-1'>
-        <p className='w-[150px] pr-3'>{hit.code}</p>
-        <p className='w-[50%]  pr-3 items-center'>{hit.description}</p>
-        <p className='w-[10%] pr-3 items-center'>{hit.brand}</p>
-        <p className='w-[10%] flex items-center justify-center text-green-600'>S/{hit.price}</p>
-        <p className='w-[10%] flex items-center justify-center text-blue-600'>{hit.stock}</p>
+    <>
+    {
+      hit.code?.length === 13 
+      ?
+    < div key={hit.code} className="w-full bg-white p-1 my-2 rounded-md shadow-sm" >
+      <div className="flex justify-between font-nunito  items-center">
+        <div className="flex gap-3 justify-between items-center w-full">
+          
+          <div className="text-slate-600 font-dmMono">
+            Cod: {hit.code}
+          </div>
+          <div className="text-green-600">
+          <span className='text-slate-600'>Precio: </span>$ {hit.price}
+        </div>
+        </div>
+        
       </div>
+
+      <div className="grid grid-cols-gridMyProducts justify-between">
+        <span className="capitalize text-slate-600">
+          {hit.description}
+        </span>
+        <div className="text-blue-600 text-right">
+          stock: {hit.stock}
+        </div>
+      </div>
+      
+    </div>
+    : null
+    }
+    </>
   )
 }
 
 export default Hit
+

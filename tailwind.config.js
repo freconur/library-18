@@ -85,6 +85,7 @@ module.exports = {
         'gridSidebarMd': '20% auto',
         'gridPageSlider': '400px 400px',
         'gridCardStat': '70% 30%',
+        'gridMyProducts': '80% 20%',
       }
     },
     variants: {
