@@ -32,7 +32,7 @@ const LayoutDashboard = ({ children }: Props) => {
             <div className='w-full'>
               <Navbar showSidebar={showSidebar} setShowSidebar={setShowSidebar} />
               {/* <div className='flex'> */}
-              <div className=" overflow-hidden rounded-t-lg mt-2 p-3 flex w-full">
+              <div className=" overflow-hidden rounded-t-lg mt-2 p-1 md:p-3 flex w-full">
                 {children}
               </div>
               {/* </div> */}

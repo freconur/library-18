@@ -12,11 +12,11 @@ const TableToSell = ({ productToCart, totalAmountToCart }: Props) => {
   const { deleteProductCart } = useGlobalContext()
 
   return (
-    <div className='rounded-lg shadow max-cs:mr-0 mt-5 overflow-auto'>
+    <div className='rounded-lg shadow max-cs:mr-0 mt-5 overflow-auto hidden md:block'>
       <table className='w-full rounded-lg overflow-hidden  border-[1px] '>
         <thead className='bg-pink-600 border-b-2 border-gray-200'>
           <tr className="p-5">
-            <th className="p-2 text-white text-left">n*</th>
+            <th className="p-2 text-white w-[20px] text-left">#</th>
             <th className="p-2 text-white text-left">codigo</th>
             <th className="p-2 text-white text-left w-[768px]">descripcion</th>
             <th className="p-2 text-white text-center">stock</th>

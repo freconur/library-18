@@ -5,6 +5,7 @@ import TableToSell from '../../components/TableToSell/TableToSell';
 import { AuthAction, withUser } from 'next-firebase-auth';
 import { todayDate } from '../../dates/date';
 import { RiLoader4Line } from "react-icons/ri";
+import ProductToSaleMobile from '../../components/ProductToSaleMobile/ProductToSaleMobile';
 
 const RegistroVentas = () => {
   const focusRef = useRef<HTMLInputElement>(null)
@@ -41,20 +42,24 @@ const RegistroVentas = () => {
   }
   return (
       <>
-        <div className='m-3 w-full'>
-          <div className='flex items-center justify-end'>
-            <h3 className='text-lg font-semibold text-gray-400'>{todayDate()}</h3>
+        <div className='xss:m-0 xss:p-1 md:m-3 w-full'>
+          <div className='flex items-center justify-end mb-3 font-nunito text-xs'>
+            <h3 className='text-lg  text-gray-400'>{todayDate()}</h3>
           </div>
-          <form>
+          <div>
+            <h2 className='text-slate-600 font-dmMono text-2xl capitalize'>punto de venta</h2>
+          </div>
+          <form className='my-3'>
             <div>
-              <label className='text-slate-400 capitalize font-semibold'>codigo de barra</label>
-              <input onKeyDown={testEnter} ref={focusRef} autoFocus value={codeBar.code} 
+              <label className='text-slate-400 capitalize font-nunito'>codigo de barra</label>
+              <input placeholder="ingresa codigo de barra" onKeyDown={testEnter} ref={focusRef} autoFocus value={codeBar.code} 
               onChange={onChangeCodeProduct} name="code" type="text" 
               // className={styles.inputCode} 
               className='pl-2 border-blue-500 w-full border-[1px] rounded-lg h-[40px] outline-none focus-visible:border-[1px] focus-visible:border-blue-500' 
               />
             </div>
           </form>
+          <h3 className='text-slate-600 font-dmMono text-lg'>Carrito de compra de cliente</h3>
           {productNotFound
             ?
             <div className='my-3 text-red-500'>*{productNotFound}</div>
@@ -72,6 +77,7 @@ const RegistroVentas = () => {
                 </div>
               }
               <TableToSell productToCart={productToCart} totalAmountToCart={totalAmountToCart} />
+              <ProductToSaleMobile productToCart={productToCart} totalAmountToCart={totalAmountToCart}/>
             </>
           }
           {
