@@ -46,9 +46,11 @@ const RegistroVentas = () => {
           <div className='flex items-center justify-end mb-3 font-nunito text-xs'>
             <h3 className='text-lg  text-gray-400'>{todayDate()}</h3>
           </div>
-          <div>
+          <div className='flex justify-between items-center'>
             <h2 className='text-slate-600 font-dmMono text-2xl capitalize'>punto de venta</h2>
+            
           </div>
+          
           <form className='my-3'>
             <div>
               <label className='text-slate-400 capitalize font-nunito'>codigo de barra</label>
@@ -60,6 +62,7 @@ const RegistroVentas = () => {
             </div>
           </form>
           <h3 className='text-slate-600 font-dmMono text-lg'>Carrito de compra de cliente</h3>
+          <div className='md:hidden  font-dmMono flex justify-between text-sm shadow-md rounded-sm bg-gradient-to-r from-gr-1 from-0% via-gr-2 via-80% to-gr-3 to-100% text-white p-1'>Total: <span className='font-semibold'>$ {totalAmountToCart}</span></div>
           {productNotFound
             ?
             <div className='my-3 text-red-500'>*{productNotFound}</div>

@@ -11,7 +11,10 @@ const ProductToSaleMobile = ({ productToCart, totalAmountToCart }: Props) => {
   const { deleteProductCart } = useGlobalContext()
   return (
     <div className=" md:hidden w-full my-3">
-      <ul className="grid grid-cols-1 gap-4 p-1">
+      {
+        productToCart.length > 0
+        ?
+<ul className="grid grid-cols-1 gap-4 p-1">
         {
           productToCart &&
           productToCart.map((item, index) => {
@@ -60,6 +63,12 @@ const ProductToSaleMobile = ({ productToCart, totalAmountToCart }: Props) => {
         }
 
       </ul>
+      :
+      <div className="w-full bg-white shadow-md rounded-sm grid place-content-center text-slate-600 h-[150px] font-nunito">
+        Aun no hay productos
+      </div>
+      }
+      
     </div>
   )
 }
