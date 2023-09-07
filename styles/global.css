@@ -8,9 +8,9 @@
 @tailwind components;
 @tailwind utilities;
 :root {
-  --primary: rgb(12 24 50);
-  --secondary: rgba(31, 209, 253, 0.4);
-  --tertiary: rgba(31, 209, 253, 0.6);
+  --primary: rgb(234, 239, 248);
+  --secondary: rgba(187, 241, 255, 0.4);
+  --tertiary: rgba(233, 251, 255, 0.6);
 }
 #__next {
     min-height: 100vh;
@@ -28,6 +28,7 @@
 
   *::-webkit-scrollbar {
     width: 10px;
+    /* margin-left: 5px; */
   }
   
   *::-webkit-scrollbar-track {
