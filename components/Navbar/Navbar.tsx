@@ -28,7 +28,9 @@ const index = searchClient.initIndex(ALGOLIA_INDEX)
 const Navbar = ({ showSidebar, setShowSidebar }: Props) => {
   const { pathname } = useRouter()
   const closeBoxSearch = useRef<HTMLDivElement>(null)
+  const closeBoxSearchInput = useRef<HTMLInputElement>(null)
 
+  const [onInput, setOnInput] = useState(false)
   const [userInfo, setUserInfo] = useState<UserInfo>()
   const authUser = getAuth()
   const auth = getAuth(app)
@@ -38,6 +40,10 @@ const Navbar = ({ showSidebar, setShowSidebar }: Props) => {
   const [results, setResults] = useState<any>(null)
 
   const handleClickOutside = () => {
+    setConditionalValue(initialValueInput)
+    setOnInput(!onInput)
+  }
+  const closeBoxSearchWithButton = () => {
     setConditionalValue(initialValueInput)
   }
   useOnClickOutside(closeBoxSearch, handleClickOutside)
@@ -116,13 +122,14 @@ const Navbar = ({ showSidebar, setShowSidebar }: Props) => {
         {
           pathname === "/dashboard/registro-ventas"
           &&
-          <div className='px-1 rounded-lg border-spacing-0 border-[1px] border-slate-200 flex justify-center xss:w-[50px] items-center w-[10%] xsm:mx-2 cs:w-[70%] xsm:w-[55%] relative z-600'>
-            <BsSearchHeart className='text-5xl h-[30px] text-slate-300 xsm:text-2xl'/>
+          <div className={`${conditionalValue.description.length > 0 ? "absolute md:relative md:top-1 top-[10px] left-[5px]  right-[5px] w-[310px] mb:w-[338px]" : "relative w-[50px] mb:w-[35%]"} bg-white px-1 rounded-lg border-spacing-0 border-[1px] border-slate-200 flex justify-center items-center w-[10%]  xsm:mx-2 cs:w-[70%] xsm:w-[55%]`}>
+            <BsSearchHeart className='text-5xl mb:text-2xl h-[30px] text-slate-300 xsm:text-2xl' />
             <input
-              onKeyDown={testEnter}
+              // onKeyDown={testEnter}
+              // ref={closeBoxSearchInput}
               name="description"
               onChange={handleChangeValue}
-              className=' w-full outline-none rounded-lg h-[40px] pl-3 text-slate-500 p-1'
+              className={`w-full outline-none rounded-lg h-[40px] pl-3 text-slate-500 p-1`}
               type="text"
               placeholder="busqueda"
             />
@@ -152,8 +159,11 @@ const Navbar = ({ showSidebar, setShowSidebar }: Props) => {
         {
           conditionalValue.description.length > 0
             ?
-            <div ref={closeBoxSearch} className=' shadow-lg absolute top-[40px] right-0 md:right-[152px] left-0 md:top-[40px] md:left-[88px] mx-1 my-1 p-2 bg-white rounded-sm'>
-              <h3 className='text-slate-700 capitalize font-dmMono text-lg my-5'>productos relacionados</h3>
+            <div className=' shadow-lg absolute top-[60px] right-0 md:right-[152px] left-0 md:top-[40px] md:left-[88px] mx-1 my-1 p-2 bg-white rounded-sm'>
+              <div className='flex justify-between items-center'>
+                <h3 className='text-slate-700 capitalize font-dmMono text-lg my-5'>productos relacionados</h3>
+                <div onClick={handleClickOutside} className='text-white cursor-pointer text-lg flex justify-center items-center w-[20px] h-[20px] rounded-full bg-red-400 p-3 font-dmMono shadow-lg'>x</div>
+              </div>
               {/* <ProductsFromSerach results={results}/> */}
               <div className='overflow-y-scroll h-[500px] pr-2'>
                 {
