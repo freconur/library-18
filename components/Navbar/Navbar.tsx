@@ -113,7 +113,7 @@ const Navbar = ({ showSidebar, setShowSidebar }: Props) => {
   }
   return (
     <>
-      <nav className={`relative w-full h-[60px] px-2 bg-white shadow-md flex justify-between items-center p-1 rounded-b-lg `}>
+      <nav className={`relative w-full h-[60px] px-2 bg-white shadow-md flex justify-between items-center p-1 `}>
         <div className='flex gap-3'>
           <div className='text-xl font-semibold capitalize text-red-600'>18</div>
           <RiMenuFill onClick={() => setShowSidebar(!showSidebar)} className="text-3xl text-gray-600 font-bold cursor-pointer" />

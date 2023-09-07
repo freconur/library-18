@@ -40,6 +40,7 @@ module.exports = {
       colors: {
         'principal': '#121f3d',
         'secundary': 'rgb(12 24 50)',
+        'secundary': 'rgb(12 24 50)',
         'modal': 'rgba(0,0,0,.24)',
         'background': '#1b1f44',
         'background-flashcards': '#0f253b',
@@ -66,7 +67,10 @@ module.exports = {
         'gr-1':'#f64141',
         'gr-2':'#ff5858',
         'gr-3':'#ff7373',
-
+        'gos-1':'#f4b5d3',
+        'gos-2':'#c79bc3',
+        'gos-3':'#746171',
+        'sbb':'#ffd7b2'
       },
       gridTemplateRows: {
         // Complex site-specific row configuration
