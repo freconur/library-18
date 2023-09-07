@@ -6,7 +6,8 @@ import { RiMenuFill } from "react-icons/ri";
 import algoliasearch from 'algoliasearch/lite';
 import { CopyToClipboard } from 'react-copy-to-clipboard';
 import useOnClickOutside from '../../hooks/useOnClickOutside';
-
+import { useRouter } from 'next/router';
+import { BsSearchHeart } from 'react-icons/bs';
 interface Props {
   showSidebar: boolean,
   setShowSidebar: React.Dispatch<React.SetStateAction<boolean>>
@@ -25,6 +26,7 @@ const index = searchClient.initIndex(ALGOLIA_INDEX)
 
 
 const Navbar = ({ showSidebar, setShowSidebar }: Props) => {
+  const { pathname } = useRouter()
   const closeBoxSearch = useRef<HTMLDivElement>(null)
 
   const [userInfo, setUserInfo] = useState<UserInfo>()
@@ -55,9 +57,8 @@ const Navbar = ({ showSidebar, setShowSidebar }: Props) => {
           }
         }
         setUserInfo({ id: `${user?.uid}`, photo: `${user?.photoURL}`, name: `${names}` })
-        // setUserInfo({ id: `${user?.uid}`, photo: `${user?.photoURL}`, name: `${user?.displayName}` })
       }
-      console.log('names',names)
+      console.log('names', names)
     }
     )
   }, [results])
@@ -106,25 +107,47 @@ const Navbar = ({ showSidebar, setShowSidebar }: Props) => {
   }
   return (
     <>
-      <nav className='relative w-full h-[60px] px-2 bg-white shadow-md flex justify-between items-center p-1 rounded-b-lg'>
+      <nav className={`relative w-full h-[60px] px-2 bg-white shadow-md flex justify-between items-center p-1 rounded-b-lg `}>
         <div className='flex gap-3'>
           <div className='text-xl font-semibold capitalize text-red-600'>18</div>
           <RiMenuFill onClick={() => setShowSidebar(!showSidebar)} className="text-3xl text-gray-600 font-bold cursor-pointer" />
         </div>
 
-        <div className='w-full mx-5 relative z-600'>
-          <input
-            onKeyDown={testEnter}
-            name="description"
-            onChange={handleChangeValue}
-            className='border-[1px] w-full border-slate-200 rounded-sm h-[40px] pl-3 text-slate-500 p-1'
-            type="text"
-            value={conditionalValue.description}
-          />
-        </div>
-        <div className='flex justify-center items-center'>
-          <img className='w-[35px] h-[35px] rounded-full mr-2' src={`${userInfo?.photo}`} alt={userInfo?.name} />
-          <p className='capitalize font-semibold text-gray-400'>{userInfo?.name}</p>
+        {
+          pathname === "/dashboard/registro-ventas"
+          &&
+          <div className='px-1 rounded-lg border-spacing-0 border-[1px] border-slate-200 flex justify-center xss:w-[50px] items-center w-[10%] xsm:mx-2 cs:w-[70%] xsm:w-[55%] relative z-600'>
+            <BsSearchHeart className='text-5xl h-[30px] text-slate-300 xsm:text-2xl'/>
+            <input
+              onKeyDown={testEnter}
+              name="description"
+              onChange={handleChangeValue}
+              className=' w-full outline-none rounded-lg h-[40px] pl-3 text-slate-500 p-1'
+              type="text"
+              placeholder="busqueda"
+            />
+          </div>
+        }
+        <div className='flex justify-center items-center xsm:w-[180px]'>
+          {userInfo
+            ?
+            <>
+              <img className='w-[35px] h-[35px] rounded-full mr-2' src={`${userInfo?.photo}`} alt={userInfo?.name} />
+              <p className='capitalize font-semibold text-gray-400'>{userInfo?.name}</p>
+            </>
+            :
+            <>
+              <div className='flex justify-center items-center gap-2'>
+                <div className='flex rounded-full w-[40px] h-[40px] bg-amber-500 justify-center items-center shadow-md'>
+                  <span className='font-dmMono text-white font-semibold'>L</span>
+                </div>
+                <span className=' font-nunito text-slate-600'>
+                  Hola Admin!
+                </span>
+
+              </div>
+            </>
+          }
         </div>
         {
           conditionalValue.description.length > 0

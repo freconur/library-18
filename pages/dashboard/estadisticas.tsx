@@ -73,7 +73,7 @@ const Estadisticas = () => {
     },
   };
   return (
-    <div className="w-full">
+    <div className="w-full relative">
       <h1 className="text-2xl text-slate-700 font-dmMono  my-5">{`Dashboard > Estadisticas`}</h1>
       <CardEstadisticas dailySale={dailySale} dailyTicket={dailyTicket} averageTicket={averageTicket} dataTotalSalesPerMonth={dataTotalSalesPerMonth} totalSalesYear={totalSalesYear} />
       <div className="mt-5">
@@ -86,7 +86,6 @@ const Estadisticas = () => {
         </div>
       </div>
     </div>
-
   )
 }
 

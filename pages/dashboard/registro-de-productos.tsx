@@ -23,8 +23,6 @@ const RegistroDeProductos = () => {
   const { LibraryData, showCategory, showUpdateCategory, marcaSocio, category, brands, showDeleteCategory, showBrands, showUpdateBrands, showDeleteBrands } = useGlobalContext()
   const { loaderRegisterProduct } = LibraryData
   const { form, handleProductValues, handleSubmit, loading, error, equalsOne, setEqualsOne } = useFormRegisterProduct(initialStateValues, onValidate);
-  // const [equalsOne, setEqualsOne] = useState(1)
-
   useEffect(() => {
     if (equalsOne === 1) {
       if (focusRef.current) {
