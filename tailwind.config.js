@@ -85,7 +85,10 @@ module.exports = {
         'pastel11':"#85b5f4",
         'pastel12':"#5589c4",
         'pastel13':"#d7ff61",
-        'pastel14':"#ff6961"
+        'pastel14':"#ff6961",
+        'pastel15':"#fdfdab",
+        'pastel16':"#fefec0",
+        'pastel17':"#fefed5"
       },
       gridTemplateRows: {
         // Complex site-specific row configuration
