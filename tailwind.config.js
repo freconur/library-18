@@ -15,6 +15,7 @@ module.exports = {
       dmMono: ['DM Mono'],
       martianMono: ['Martian Mono'],
       nunito: ['Nunito'],
+      sidebar: ['Pacifico']
     },
     screens: {
       xss:'320px',

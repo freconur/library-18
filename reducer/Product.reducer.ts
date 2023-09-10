@@ -61,12 +61,12 @@ export const ProductsReducer = (state: LibraryAllData, action: LibraryData) => {
   switch (action.type) {
 
     case "incrementAmountToItemFromCart": {
-      console.log('amount', action.payload)
-      console.log('code', action.payload2)
-
+      // console.log('amount', action.payload)
+      // console.log('code', action.payload2)
+      let amountCart = 0
       const codeItem = action.payload2 
       const amountItem = Number(action.payload )
-      console.log('cart', Library.productToCart)
+      // console.log('cart', Library.productToCart)
       const getItem = Library.productToCart.find(item => item.code === codeItem)
       if(getItem) {
         Library.productToCart.map(item => {
@@ -75,9 +75,15 @@ export const ProductsReducer = (state: LibraryAllData, action: LibraryData) => {
           }
         })
       }
+      Library.productToCart.map(item => {
+        const getPrice = Number(item.price)
+          let amountPerProduct: number = Number(item.amount) * Number(getPrice.toFixed(2))
+          amountCart = amountCart + Number(amountPerProduct.toFixed(2))
+      })
       return {
         ...state,
-        productToCart:Library.productToCart
+        productToCart:Library.productToCart,
+        totalAmountToCart:amountCart
       }
     }
     case "tostifyNotificationSales": {
@@ -198,11 +204,7 @@ export const ProductsReducer = (state: LibraryAllData, action: LibraryData) => {
       let amountCart: number = 0
       action.payload.map(prod => {
         const getPrice = Number(prod.price)
-        // console.log('getAmount', Number(prod.amount?.toFixed(2)))
-        console.log('getPrice', getPrice)
-
         let amountPerProduct: number = Number(prod.amount) * Number(getPrice.toFixed(2))
-        console.log('amountPerProduct', amountPerProduct)
         amountCart = amountCart + Number(amountPerProduct.toFixed(2))
       })
       return {

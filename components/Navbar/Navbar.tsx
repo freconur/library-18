@@ -8,6 +8,8 @@ import { CopyToClipboard } from 'react-copy-to-clipboard';
 import useOnClickOutside from '../../hooks/useOnClickOutside';
 import { useRouter } from 'next/router';
 import { BsSearchHeart } from 'react-icons/bs';
+import Logo from '../../assets/18.jpg'
+import Image from 'next/image';
 interface Props {
   showSidebar: boolean,
   setShowSidebar: React.Dispatch<React.SetStateAction<boolean>>
@@ -64,7 +66,6 @@ const Navbar = ({ showSidebar, setShowSidebar }: Props) => {
         }
         setUserInfo({ id: `${user?.uid}`, photo: `${user?.photoURL}`, name: `${names}` })
       }
-      console.log('names', names)
     }
     )
   }, [results])
@@ -115,7 +116,10 @@ const Navbar = ({ showSidebar, setShowSidebar }: Props) => {
     <>
       <nav className={`relative w-full h-[60px] px-2 bg-white shadow-md flex justify-between items-center p-1 `}>
         <div className='flex gap-3'>
-          <div className='text-xl font-semibold capitalize text-red-600'>18</div>
+          <div className='text-xl font-semibold capitalize text-red-600'>
+            {/* <img src={logo} alt="" /> */}
+            <Image src={Logo} width={40} height={40} alt="logo web"/> 
+          </div>
           <RiMenuFill onClick={() => setShowSidebar(!showSidebar)} className="text-3xl text-gray-600 font-bold cursor-pointer" />
         </div>
 
