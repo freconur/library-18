@@ -41,7 +41,8 @@ type GlobalContextProps = {
   filterProductByStock: (paramsFilter: FilterProdyctBySTock) => void,
   productByCodeToUpdateContext: (code: string) => void,
   showGenerateSale: (boolean:boolean) => void,
-  resetValueToastify: () => void
+  resetValueToastify: () => void,
+  incrementAmountToItemFromCart: (amount:number,code:string) => void
 }
 
 
@@ -57,6 +58,10 @@ export function GlobalcontextProdiver({ children }: Props) {
   const [showModalUpdateBrands, setShowModalUpdateBrands] = useState<boolean>(false)
   const [showModalDeleteBrands, setShowModalDeleteBrands] = useState<boolean>(false)
 
+
+  const incrementAmountToItemFromCart = (amount:number, code:string) => {
+    dispatch({type:"incrementAmountToItemFromCart", payload:amount, payload2: code})
+  }
   const addProduct = (productData: FormProductValues) => {
     addNewProduct(dispatch, productData)
   }
@@ -179,7 +184,8 @@ export function GlobalcontextProdiver({ children }: Props) {
       filterProductByStock,
       productByCodeToUpdateContext,
       showGenerateSale,
-      resetValueToastify
+      resetValueToastify,
+      incrementAmountToItemFromCart
     }}>
       {children}
     </GlobalContext.Provider>

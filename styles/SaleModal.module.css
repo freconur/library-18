@@ -15,18 +15,18 @@
   place-content: center;
   width: 350px;
   height: 250px;
-  background: linear-gradient(90deg, rgba(0,41,207,1) 0%, rgba(0,36,171,1) 24%, rgba(0,25,139,1) 100%);
+  background: linear-gradient(90deg, rgba(246,246,246,1) 0%, rgba(210,210,210,1) 51%, rgba(196,196,196,1) 100%);
   /* text-transform: capitalize; */
   border-radius: 15px;
   margin-bottom: 10px;
+  padding:20px
 }
 .title {
-  text-transform: capitalize;
   font-family: "DM Mono";
   font-size: medium;
   text-align: center;
   margin-bottom: 20px;
-  color: white;
+  color: rgb(114, 121, 134);
 }
 .options {
   display: flex;
@@ -59,7 +59,7 @@
   padding: 5px;
   height:40px;
   border-radius: 5px;
-  color: rgb(255, 136, 0);
+  color: rgb(97, 105, 172);
   cursor: pointer;
   width: 100px;
   font-family: 'Nunito';

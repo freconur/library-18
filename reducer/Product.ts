@@ -121,6 +121,9 @@ export const findToAddProductCart = async (dispatch: (action: any) => void, code
       //compruebo si se encuentra en el array cart
       const productCartRepeat = cart?.find(prod => prod.code === codeProduct)
       if (productCartRepeat) {
+        // console.log('no hacemos nada')
+        //       dispatch({ type: "loaderToSell", payload: false })
+
         cart?.map(prod => {
           if (prod.code === productCartRepeat.code) {
             productCartRepeat.amount = productCartRepeat?.amount as number + 1
@@ -150,6 +153,7 @@ export const findToAddProductCart = async (dispatch: (action: any) => void, code
           dispatch({ type: "loaderToSell", payload: false })
         }
         if (prod?.stock > 0) {
+          console.log('hay stock')
           const amount = { amount: 1, warning: "" }
           rta = { ...prod, ...amount }
           cart?.push(rta)
@@ -287,11 +291,12 @@ export const generateSold = async (dispatch: (action: any) => void, cart: Produc
       library18: library18
     }
   ).then(async(r) => {
-    dispatch({ type: "cleanCart" })
+    console.log('hemos entrado bien')
     dispatch({ type: "resetAmountCart" })
     dispatch({ type: "generateSold", payload: false })
     dispatch({type:"showSaleModal", payload:false})
     dispatch({type:"tostifyNotificationSales", payload:cero + 1})
+    dispatch({ type: "cleanCart" })
     await updatedailySale(totalAmountOfCartLibrary)
     await updateDailySaleWaliky(totalAmountOfCartWaliky)
     await updateDailySaleWalikySublimados(totalAmountOfCartWalikySublimados)

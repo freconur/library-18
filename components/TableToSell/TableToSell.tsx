@@ -1,15 +1,28 @@
-import React from 'react'
+import React, { useEffect, useReducer, useState } from 'react'
 import { RiDeleteBin7Fill } from "react-icons/ri";
 import { useGlobalContext } from '../../context/GlobalContext';
-import { RiLoader4Line } from "react-icons/ri";
-
 interface Props {
   productToCart: ProductToCart[] | undefined,
   totalAmountToCart: number,
 }
 const TableToSell = ({ productToCart, totalAmountToCart }: Props) => {
+  const initialAmount = { amount: 0 }
+  const { deleteProductCart, incrementAmountToItemFromCart } = useGlobalContext()
+  const [valueInputAmount, setValueInputAmount] = useState(initialAmount)
+  const [itemcode, setItemCode] = useState<string>("")
 
-  const { deleteProductCart } = useGlobalContext()
+  const handleClickItem = (code: string) => {
+    setItemCode(code)
+  }
+  const onChangeValue = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setValueInputAmount({
+      ...valueInputAmount,
+      [e.target.name]: e.target.value
+    })
+  }
+  useEffect(() => {
+    incrementAmountToItemFromCart(valueInputAmount.amount, itemcode)
+  }, [valueInputAmount.amount])
 
   return (
     <div className='rounded-lg shadow max-cs:mr-0 mt-5 overflow-auto hidden md:block'>
@@ -30,7 +43,6 @@ const TableToSell = ({ productToCart, totalAmountToCart }: Props) => {
           </tr>
         </thead>
         <tbody className="divide-y divide-gray-100">
-          
           {
             productToCart &&
               productToCart.length > 0
@@ -38,15 +50,17 @@ const TableToSell = ({ productToCart, totalAmountToCart }: Props) => {
               productToCart?.map((product, index) => {
                 return (
                   <tr key={product.code}>
-                    <td className='text-gray-500 pl-3 text-left'>{index+1}</td>
+                    <td className='text-gray-500 pl-3 text-left'>{index + 1}</td>
                     <td className='text-gray-500 px-1 text-left'>{product.code}</td>
                     <td className='text-gray-500 px-1 text-left'>{product.description}</td>
                     <td className='text-gray-500 px-3 text-center'>{product.stock}</td>
                     <td className='text-gray-500 px-3 text-center'>{product.brand}</td>
                     <td className='px-3 text-center text-green-500'>S/{product.price}</td>
-                    <td className=' px-3 text-center text-blue-500 font-semibold'>{product.amount}</td>
+                    <td className='flex justify-center items-center px-3 text-center text-blue-500 font-semibold'>
+                      <input value={product.amount} name="amount" onClick={() => handleClickItem(product.code as string)} onChange={onChangeValue} className={`w-[40px] text-center bg-slate-200 rounded-md outline-none pl-1`} type="number" />
+                    </td>
                     <td className='text-gray-500 px-3 text-center'>{(Number(product.amount) * Number(product.price)).toFixed(2)}</td>
-                    <td className='text-gray-500'>
+                    <td className='text-gray-500 flex justify-center items-center'>
                       <div onClick={() => deleteProductCart(productToCart, product.code)} className='flex items-center justify-center cursor-pointer'>
                         <RiDeleteBin7Fill />
                       </div>
@@ -79,7 +93,7 @@ const TableToSell = ({ productToCart, totalAmountToCart }: Props) => {
             <td></td>
             <td></td>
             <td></td>
-            <td className="px-2 text-lg text-green-500 text-center font-semibold">S/{totalAmountToCart}</td>
+            <td className="px-2 text-lg text-green-500 text-center font-semibold">S/{totalAmountToCart.toFixed(2)}</td>
             <td></td>
             <td></td>
           </tr>

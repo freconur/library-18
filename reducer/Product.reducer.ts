@@ -27,6 +27,7 @@ type LibraryData =
   | { type: "productToUpdate"; payload: ProductToCart }
   | { type: "showSaleModal"; payload: boolean }
   | { type: "tostifyNotificationSales"; payload: number }
+  | { type: "incrementAmountToItemFromCart", payload: number, payload2: string }
 
 export const Library = {
   newProduct: {} as FormProductValues,
@@ -53,45 +54,66 @@ export const Library = {
   productsFromFilterByStock: [] as ProductToCart[],
   productToUpdate: {} as ProductToCart,
   showSaleModal: false as boolean,
-  tostifyNotificationSales: 0 as number
+  tostifyNotificationSales: 0 as number,
 }
 
 export const ProductsReducer = (state: LibraryAllData, action: LibraryData) => {
   switch (action.type) {
-    case "tostifyNotificationSales" : {
+
+    case "incrementAmountToItemFromCart": {
+      console.log('amount', action.payload)
+      console.log('code', action.payload2)
+
+      const codeItem = action.payload2 
+      const amountItem = Number(action.payload )
+      console.log('cart', Library.productToCart)
+      const getItem = Library.productToCart.find(item => item.code === codeItem)
+      if(getItem) {
+        Library.productToCart.map(item => {
+          if(item.code === codeItem) {
+            item.amount = amountItem
+          }
+        })
+      }
+      return {
+        ...state,
+        productToCart:Library.productToCart
+      }
+    }
+    case "tostifyNotificationSales": {
       return {
         ...state,
         tostifyNotificationSales: action.payload
       }
     }
-    case "showSaleModal" : {
+    case "showSaleModal": {
       return {
         ...state,
-        showSaleModal:  action.payload
+        showSaleModal: action.payload
       }
     }
-    case "productToUpdate" : {
+    case "productToUpdate": {
       return {
         ...state,
-        productToUpdate:action.payload
+        productToUpdate: action.payload
       }
     }
-    case "productsFromFilterByStock":{
+    case "productsFromFilterByStock": {
       return {
         ...state,
-        productsFromFilterByStock:action.payload
+        productsFromFilterByStock: action.payload
       }
     }
-    case "totalSalesYear":{
+    case "totalSalesYear": {
       return {
         ...state,
-        totalSalesYear:action.payload
+        totalSalesYear: action.payload
       }
     }
-    case "dataTotalSalesPerMonth":{
+    case "dataTotalSalesPerMonth": {
       return {
         ...state,
-        dataTotalSalesPerMonth:action.payload
+        dataTotalSalesPerMonth: action.payload
       }
     }
     case "dataSales": {
@@ -176,9 +198,10 @@ export const ProductsReducer = (state: LibraryAllData, action: LibraryData) => {
       let amountCart: number = 0
       action.payload.map(prod => {
         const getPrice = Number(prod.price)
+        // console.log('getAmount', Number(prod.amount?.toFixed(2)))
         console.log('getPrice', getPrice)
 
-        let amountPerProduct: number = Number(prod.amount?.toFixed(2)) * Number(getPrice.toFixed(2))
+        let amountPerProduct: number = Number(prod.amount) * Number(getPrice.toFixed(2))
         console.log('amountPerProduct', amountPerProduct)
         amountCart = amountCart + Number(amountPerProduct.toFixed(2))
       })

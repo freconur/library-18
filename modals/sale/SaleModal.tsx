@@ -15,11 +15,8 @@ const SaleModal = ({ generateSold }: Props) => {
   if (typeof window !== "undefined") {
     container = document.getElementById("portal-modal");
   }
-
-
   const handleSubmit = () => {
     soldProducts(productToCart)
-
   }
   return container
     ? createPortal(
@@ -34,7 +31,7 @@ const SaleModal = ({ generateSold }: Props) => {
               </div>
               :
               <>
-                <h3 className={styles.title}>genial estas a un click de generar una venta, dale a <span className='font-semibold'>SI</span> para seguir</h3>
+                <h3 className={styles.title}>Genial estas a un click de generar una venta, dale a <span className='font-semibold'>SI</span> para continuar.</h3>
                 <div className={styles.options}>
                   <div className={styles.optionButtonCancel} onClick={() => showGenerateSale(showSaleModal)}>cancelar</div>
                   <div onClick={handleSubmit} className={styles.optionButtonAgree} >
@@ -42,7 +39,6 @@ const SaleModal = ({ generateSold }: Props) => {
                   </div>
                 </div>
               </>
-
           }
         </div>
       </div>,

@@ -1,3 +1,4 @@
+import { useEffect, useState } from "react";
 import { useGlobalContext } from "../../context/GlobalContext"
 import { RiDeleteBin7Fill } from "react-icons/ri";
 
@@ -8,7 +9,26 @@ interface Props {
 }
 const ProductToSaleMobile = ({ productToCart, totalAmountToCart }: Props) => {
 
-  const { deleteProductCart } = useGlobalContext()
+  const { deleteProductCart,incrementAmountToItemFromCart } = useGlobalContext()
+  const [itemcode, setItemCode] = useState<string>("")
+
+  const handleClickItem = (code: string) => {
+    setItemCode(code)
+  }
+  const initialAmount = { amount: 0 }
+
+  const [valueInputAmount, setValueInputAmount] = useState(initialAmount)
+
+  const onChangeValue = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setValueInputAmount({
+      ...valueInputAmount,
+      [e.target.name]: e.target.value
+    })
+    // forceUpdate()
+  }
+  useEffect(() => {
+    incrementAmountToItemFromCart(valueInputAmount.amount, itemcode)
+  }, [valueInputAmount.amount])
   return (
     <div className=" md:hidden w-full my-3">
       {
@@ -46,8 +66,10 @@ const ProductToSaleMobile = ({ productToCart, totalAmountToCart }: Props) => {
                   <div className="text-blue-600">
                     stock: {item.stock}
                   </div>
-                  <div className="text-blue-600 ">
-                    cantidad: <span className="font-semibold">{item.amount}</span>
+                  <div className="text-blue-600 flex">
+                    {/* cantidad: <span className="font-semibold">{item.amount}</span> */}
+                    <div>cantidad: </div>
+                    <input value={item.amount} name="amount" onClick={() => handleClickItem(item.code as string)} onChange={onChangeValue} className={`w-[30px] text-center bg-slate-200 rounded-md outline-none pl-1 ml-2`} type="number" />
                   </div>
                 </div>
                 <div className="flex justify-between text-slate-600">
