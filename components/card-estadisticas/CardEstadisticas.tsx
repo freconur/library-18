@@ -36,11 +36,11 @@ const CardEstadisticas = ({ dailySale,dailyTicket,averageTicket,dataTotalSalesPe
       </div>
 
       {/* ticket diarios */}
-      <div className="w-full h-[150px] rounded-sm p-3 drop-shadow-xl bg-gradient-to-r from-gy-1 from-0% via-gy-2 via-80% to-gy-3 to-100%">
+      <div className="w-full h-[150px] rounded-sm p-3 drop-shadow-xl bg-pastel7">
         <div className="grid w-full grid-cols-gridCardStat">
           <div className="w-full p-3">
-            <div className="text-white font-bold text-xl capitalize ">Tickets</div>
-            <div className="text-white flex gap-3 text-2xl font-bold">
+            <div className="text-slate-500 font-bold text-xl capitalize ">Tickets</div>
+            <div className="text-slate-500 flex gap-3 text-2xl font-bold">
               <div className="flex justify-center items-center">
                 <p>{dailyTicket && dailyTicket.toFixed(2)}</p>
               </div>
@@ -51,18 +51,18 @@ const CardEstadisticas = ({ dailySale,dailyTicket,averageTicket,dataTotalSalesPe
             <BsTicketPerforated className="w-full h-full" />
           </div>
         </div>
-        <div className="text-white p-3">
+        <div className="text-slate-400 p-3">
           <span className="bg-cardTransparent rounded-sm p-1">25 %</span> menos que ayer
         </div>
       </div>
 
       {/* ticket promedio */}
 
-      <div className="w-full h-[150px] rounded-sm p-3 drop-shadow-xl bg-gradient-to-r from-gb-1 from-0% via-gb-2 via-80% to-gb-3 to-100%">
+      <div className="w-full h-[150px] rounded-sm p-3 drop-shadow-xl bg-pastel6">
         <div className="grid w-full grid-cols-gridCardStat">
           <div className="w-full p-3">
-            <div className="text-white font-bold text-xl capitalize ">T. promedio</div>
-            <div className="text-white flex gap-3 text-2xl font-bold">
+            <div className="text-slate-500 font-bold text-xl capitalize ">T. promedio</div>
+            <div className="text-slate-500 flex gap-3 text-2xl font-bold">
               <div className="flex justify-center items-center">
                 <p>$ {averageTicket && averageTicket.toFixed(2)}</p>
               </div>
@@ -73,18 +73,18 @@ const CardEstadisticas = ({ dailySale,dailyTicket,averageTicket,dataTotalSalesPe
             <BiMoneyWithdraw className="w-full h-full" />
           </div>
         </div>
-        <div className="text-white p-3">
+        <div className="text-slate-400 p-3">
           <span className="bg-cardTransparent rounded-sm p-1">25 %</span> menos que ayer
         </div>
       </div>
 
       {/* ingresos acumlativos del mes */}
 
-      <div className="w-full h-[150px] rounded-sm p-3 drop-shadow-xl bg-gradient-to-r from-go-1 from-0% via-go-2 via-80% to-go-3 to-100%">
+      <div className="w-full h-[150px] rounded-sm p-3 drop-shadow-xl bg-pastel8">
         <div className="grid w-full grid-cols-gridCardStat">
           <div className="w-full p-3">
-            <div className="text-white font-bold text-xl capitalize ">{currentMonth()}</div>
-            <div className="text-white flex gap-3 text-2xl font-bold">
+            <div className="text-slate-500 font-bold text-xl capitalize ">{currentMonth()}</div>
+            <div className="text-slate-500 flex gap-3 text-2xl font-bold">
               <div className="flex justify-center items-center">
                 <p>$ {dataTotalSalesPerMonth && dataTotalSalesPerMonth.toFixed(2)}</p>
               </div>
@@ -95,17 +95,17 @@ const CardEstadisticas = ({ dailySale,dailyTicket,averageTicket,dataTotalSalesPe
             <BsCashCoin className="w-full h-full" />
           </div>
         </div>
-        <div className="text-white p-3">
+        <div className="text-slate-400 p-3">
           <span className="bg-cardTransparent rounded-sm p-1">25 %</span> menos que ayer
         </div>
       </div>
 
       {/* ingresos anual */}
-      <div className="w-full h-[150px] rounded-sm p-3 drop-shadow-xl bg-gradient-to-r from-ggw-1 from-0% via-ggw-2 via-80% to-ggw-3 to-100%">
+      <div className="w-full h-[150px] rounded-sm p-3 drop-shadow-xl bg-pastel9">
         <div className="grid w-full grid-cols-gridCardStat">
           <div className="w-full p-3">
-            <div className="text-white font-bold text-xl capitalize ">{currentYear()}</div>
-            <div className="text-white flex gap-3 text-2xl font-bold">
+            <div className="text-slate-500 font-bold text-xl capitalize ">{currentYear()}</div>
+            <div className="text-slate-500 flex gap-3 text-2xl font-bold">
               <div className="flex justify-center items-center">
                 <p>$ {totalSalesYear && totalSalesYear.toFixed(2)}</p>
               </div>
@@ -116,7 +116,7 @@ const CardEstadisticas = ({ dailySale,dailyTicket,averageTicket,dataTotalSalesPe
             <BsCashCoin className="w-full h-full" />
           </div>
         </div>
-        <div className="text-white p-3">
+        <div className="text-slate-400 p-3">
           <span className="bg-cardTransparent rounded-sm p-1">25 %</span> menos que ayer
         </div>
       </div>

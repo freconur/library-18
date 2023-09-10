@@ -78,6 +78,9 @@ module.exports = {
         'pastel4':"#cae1fd",
         'pastel5':"#e1fdca",
         'pastel6':"#cae1fd",
+        'pastel7':"#fdfd9b",
+        'pastel8':"#fdcc9b",
+        'pastel9':"#96fdc9"
       },
       gridTemplateRows: {
         // Complex site-specific row configuration
