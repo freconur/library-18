@@ -61,10 +61,11 @@ const CargasStock = () => {
   }
   return (
       <div className='w-full m-3'>
+        <h1 className='text-slate-500 text-2xl mb-4 font-dmMono capitalize'>cargas de stock</h1>
         <form className='-wfull'>
           <div className='w-full'>
-            <label className='text-slate-400 font-semibold capitalize'>codigo de producto</label>
-            <input ref={focusRef} autoFocus value={codeProduct.code} onKeyDown={testEnter} name="code" onChange={onChangeCodeProduct} type="text" className='pl-2 border-blue-500 w-full border-[1px] rounded-lg h-[40px] outline-none focus-visible:border-[1px] focus-visible:border-blue-500' />
+            <label className='text-slate-400 font-nunito capitalize'>codigo de producto</label>
+            <input placeholder="escribe el codigo del producto" ref={focusRef} autoFocus value={codeProduct.code} onKeyDown={testEnter} name="code" onChange={onChangeCodeProduct} type="text" className='pl-2 border-pastel11 text-slate-500 w-full border-[1px] rounded-lg h-[40px] outline-none focus-visible:border-[1px] focus-visible:border-blue-500' />
           </div>
         </form>
         <div>
@@ -90,12 +91,12 @@ const CargasStock = () => {
               }
               <div className='rounded-lg shadow max-cs:mr-0 mt-5 overflow-auto'>
                 <table className='w-full rounded-lg overflow-hidden  border-[1px] '>
-                  <thead className='bg-pink-600 border-b-2 text-left border-gray-200'>
+                  <thead className='bg-pastel17 border-b-2 text-left border-gray-200'>
                     <tr className="p-5">
-                      <th className="p-2 text-white text-left">code</th>
-                      <th className="p-2 text-white text-left">descripcion</th>
-                      <th className="p-2 text-white text-left">stock disponible</th>
-                      <th className="p-2 text-white text-left">stock a cargar</th>
+                      <th className="p-2 text-slate-500 text-left">code</th>
+                      <th className="p-2 text-slate-500 text-left">descripcion</th>
+                      <th className="p-2 text-slate-500 text-left">stock disponible</th>
+                      <th className="p-2 text-slate-500 text-left">stock a cargar</th>
                     </tr>
                   </thead>
                   <tbody className="divide-y  divide-gray-100">
@@ -104,13 +105,13 @@ const CargasStock = () => {
                       <td className='text-gray-500 px-1 text-left'>{addStockProduct.description}</td>
                       <td className='text-gray-500 px-1 text-left'>{addStockProduct.stock}</td>
                       <td>
-                        <input ref={focusRefStock} autoFocus name="stock" onChange={handleCargaStock} type="number" className='w-[100px] border-[1px] border-red-400 rounded-lg outline-none focus-visible:border-[1px] focus-visible:border-blue-500 pl-3' />
+                        <input ref={focusRefStock} autoFocus name="stock" onChange={handleCargaStock} type="number" className='w-[40px] border-[1px] border-pastel13 rounded-lg outline-none focus-visible:border-[1px] focus-visible:border-pastel11 pl-3' />
                       </td>
                     </tr>
                   </tbody>
                 </table>
               </div>
-              <button onClick={() => handleAddStock(addStockProduct, stockProductToCharger)} className='w-full capitalize text-slate-100 font-semibold h-[40px] rounded-lg bg-blue-500 mt-5'>agregar nueva carga de stock</button>
+              <button onClick={() => handleAddStock(addStockProduct, stockProductToCharger)} className='w-full capitalize text-slate-100 font-semibold h-[40px] rounded-lg bg-pastel11 mt-5'>agregar nueva carga de stock</button>
             </>
           }
 

@@ -87,7 +87,7 @@ const RegistroDeProductos = () => {
             <div>
               <label className={styles.labelForm}>Marca de socio</label>
               <div className='flex'>
-                <select onChange={handleProductValues} value={form.marcaSocio} name='marcaSocio' className='w-full rounded-lg p-2'>
+                <select onChange={handleProductValues} value={form.marcaSocio} name='marcaSocio' className='w-full rounded-lg p-2 text-slate-500'>
                   <option value="">marca de socio</option>
                   {
                     LibraryData.marcaSocio?.map((marcasocio) => {
@@ -117,7 +117,7 @@ const RegistroDeProductos = () => {
             <div>
               <label className={styles.labelForm}>Marca de producto</label>
               <div className='flex'>
-                <select onChange={handleProductValues} value={form.brand} name='brand' className='w-full rounded-lg p-2'>
+                <select onChange={handleProductValues} value={form.brand} name='brand' className='w-full rounded-lg p-2 text-slate-500'>
                   <option value="">marca</option>
                   {
                     form.code && form.description && form.price && form.marcaSocio ?
@@ -154,7 +154,7 @@ const RegistroDeProductos = () => {
             <div>
               <label className={styles.labelForm}>Categoria de producto</label>
               <div className='flex'>
-                <select onChange={handleProductValues} value={form.category} name='category' className='w-full rounded-lg p-2'>
+                <select onChange={handleProductValues} value={form.category} name='category' className='w-full rounded-lg p-2 text-slate-500'>
                   <option value="">categoria</option>
                   {
                     form.code && form.description && form.price && form.marcaSocio && form.brand ?
@@ -180,11 +180,11 @@ const RegistroDeProductos = () => {
 
             </div>
           </div>
-          <button className='rounded-lg bg-blue-500 p-1 text-white h-[40px]'>agregar nuevo producto</button>
+          <button className='rounded-lg bg-pastel11 p-1 text-white h-[40px] shadow-lg'>agregar nuevo producto</button>
           {
             loaderRegisterProduct &&
             <div className="flex w-full mt-5 items-center m-auto justify-center">
-              <RiLoader4Line className="animate-spin text-3xl text-blue-500 " />
+              <RiLoader4Line className="animate-spin text-3xl text-pastel11 " />
               <p className="text-gray-400">registrando producto...</p>
 
             </div>
