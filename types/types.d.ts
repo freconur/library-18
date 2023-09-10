@@ -33,7 +33,9 @@ interface LibraryAllData {
   dataTotalSalesPerMonth: number,
   totalSalesYear:number,
   productsFromFilterByStock: ProductToCart[],
-  productToUpdate: ProductToCart
+  productToUpdate: ProductToCart,
+  showSaleModal: boolean,
+  tostifyNotificationSales:number
 }
 interface Brands {
   id?:string

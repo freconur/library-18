@@ -25,6 +25,8 @@ type LibraryData =
   | { type: "totalSalesYear"; payload: number }
   | { type: "productsFromFilterByStock"; payload: ProductToCart[] }
   | { type: "productToUpdate"; payload: ProductToCart }
+  | { type: "showSaleModal"; payload: boolean }
+  | { type: "tostifyNotificationSales"; payload: number }
 
 export const Library = {
   newProduct: {} as FormProductValues,
@@ -49,11 +51,25 @@ export const Library = {
   dataTotalSalesPerMonth: 0 as number,
   totalSalesYear: 0 as number,
   productsFromFilterByStock: [] as ProductToCart[],
-  productToUpdate: {} as ProductToCart
+  productToUpdate: {} as ProductToCart,
+  showSaleModal: false as boolean,
+  tostifyNotificationSales: 0 as number
 }
 
 export const ProductsReducer = (state: LibraryAllData, action: LibraryData) => {
   switch (action.type) {
+    case "tostifyNotificationSales" : {
+      return {
+        ...state,
+        tostifyNotificationSales: action.payload
+      }
+    }
+    case "showSaleModal" : {
+      return {
+        ...state,
+        showSaleModal:  action.payload
+      }
+    }
     case "productToUpdate" : {
       return {
         ...state,

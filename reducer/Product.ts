@@ -224,7 +224,7 @@ export const dailyTicket = async (dispatch: (action: any) => void) => {
   // console.log('dailySaleRef', dailySaleRef)
   // console.log('docSnap', docSnap)
 }
-export const generateSold = async (dispatch: (action: any) => void, cart: ProductToCart[] | undefined) => {
+export const generateSold = async (dispatch: (action: any) => void, cart: ProductToCart[] | undefined, cero:number) => {
   dispatch({ type: "generateSold", payload: true })
   // let totalAmountOfCart: number = 0
   let library18 = true
@@ -266,6 +266,20 @@ export const generateSold = async (dispatch: (action: any) => void, cart: Produc
     // }
     // await updateDoc(ref, { stock: Number(item.stock) - Number(item.amount) })
   })
+  // await addProductFromCartToTicket(
+  //   {
+  //     timestamp: Timestamp.fromDate(new Date()),
+  //     product: cart,
+  //     library18: library18
+  //   }
+  // ).then(async(r) => {
+  //   dispatch({ type: "cleanCart" })
+  //   dispatch({ type: "resetAmountCart" })
+  //   dispatch({ type: "generateSold", payload: false })
+  //   await updatedailySale(totalAmountOfCartLibrary)
+  //   await updateDailySaleWaliky(totalAmountOfCartWaliky)
+  //   await updateDailySaleWalikySublimados(totalAmountOfCartWalikySublimados)
+  // })
   await addProductFromCartToTicket(
     {
       timestamp: Timestamp.fromDate(new Date()),
@@ -276,6 +290,8 @@ export const generateSold = async (dispatch: (action: any) => void, cart: Produc
     dispatch({ type: "cleanCart" })
     dispatch({ type: "resetAmountCart" })
     dispatch({ type: "generateSold", payload: false })
+    dispatch({type:"showSaleModal", payload:false})
+    dispatch({type:"tostifyNotificationSales", payload:cero + 1})
     await updatedailySale(totalAmountOfCartLibrary)
     await updateDailySaleWaliky(totalAmountOfCartWaliky)
     await updateDailySaleWalikySublimados(totalAmountOfCartWalikySublimados)

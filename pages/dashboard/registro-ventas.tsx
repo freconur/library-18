@@ -6,33 +6,53 @@ import { AuthAction, withUser } from 'next-firebase-auth';
 import { todayDate } from '../../dates/date';
 import { RiLoader4Line } from "react-icons/ri";
 import ProductToSaleMobile from '../../components/ProductToSaleMobile/ProductToSaleMobile';
-
+import SaleModal from '../../modals/sale/SaleModal';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 const RegistroVentas = () => {
   const focusRef = useRef<HTMLInputElement>(null)
   const initialValue = { code: "" }
-  const { addProductRegisterToSell, LibraryData, soldProducts, stateLoader} = useGlobalContext()
+  const { addProductRegisterToSell, LibraryData,showGenerateSale, stateLoader,resetValueToastify} = useGlobalContext()
   const [codeBar, setCodeBar] = useState(initialValue)
-  const { productToCart, totalAmountToCart, loaderToSell, productNotFound, generateSold } = LibraryData
+  const { productToCart, totalAmountToCart, loaderToSell,showSaleModal, productNotFound, tostifyNotificationSales,generateSold } = LibraryData
   const onChangeCodeProduct = (e: React.ChangeEvent<HTMLInputElement>) => {
     setCodeBar({
       ...codeBar,
       [e.target.name]: e.target.value
     })
   };
+  const successToastify = () => {
+    console.log('estamos entrando')
+    toast.success('venta exitosa!', {
+      position: "top-center",
+      autoClose: 2000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      theme: "colored",
+    })
+  }
   useEffect(() => {
+    resetValueToastify()
+    
+    console.log('no estamos repitiendo')
     if (focusRef.current) {
       focusRef.current.focus();
     }
     if (codeBar.code.length === 13) {
-      // if (codeBar.code.length === 12 || codeBar.code.length === 13) {
+      resetValueToastify()
       setCodeBar(codeBar)
       stateLoader(true)
       addProductRegisterToSell(codeBar.code as string, productToCart)
       setCodeBar(initialValue);
     }
+    if(tostifyNotificationSales === 1){
+      successToastify()
+    }
   }, [codeBar.code, productToCart, loaderToSell, productNotFound])
   const testEnter = (e:React.KeyboardEvent<HTMLInputElement>) => {
-    // console.log('key', e.key)
     if(e.key === 'Enter') {
       e.preventDefault()
     }
@@ -42,6 +62,11 @@ const RegistroVentas = () => {
   }
   return (
       <>
+      <ToastContainer/>
+      {
+        showSaleModal &&
+        <SaleModal generateSold={generateSold}/>
+      }
         <div className='xss:m-0 xss:p-1 md:m-3 w-full'>
           <div className='flex items-center justify-end mb-3 font-nunito text-xs'>
             <h3 className='text-lg  text-gray-400'>{todayDate()}</h3>
@@ -74,7 +99,8 @@ const RegistroVentas = () => {
             <>
               {loaderToSell
                 &&
-                <div className="flex w-full mt-5 items-center m-auto justify-center">
+                <div className="              <button className={}>holis</button>
+                flex w-full mt-5 items-center m-auto justify-center">
                   <RiLoader4Line className="animate-spin text-3xl text-blue-500 " />
                   <p className="text-gray-400">cargando...</p>
                 </div>
@@ -83,18 +109,7 @@ const RegistroVentas = () => {
               <ProductToSaleMobile productToCart={productToCart} totalAmountToCart={totalAmountToCart}/>
             </>
           }
-          {
-            generateSold
-              ?
-              <div className="flex w-full mt-5 items-center m-auto justify-center">
-                <RiLoader4Line className="animate-spin text-3xl text-blue-500 " />
-                <p className="text-gray-400">generando venta...</p>
-
-              </div>
-              // <div>cargando...</div>
-              :
-              <button disabled={productToCart && productToCart?.length > 0 ? false : true} onClick={() => soldProducts(productToCart)} className={`${productToCart && productToCart.length === 0 ? 'bg-gray-300' : 'bg-blue-500 duration-300 text-md   hover:bg-blue-400'} w-full h-[40px] capitalize font-semibold  rounded-lg text-white my-5`}>generar venta</button>
-          }
+            <button disabled={productToCart && productToCart?.length > 0 ? false : true} onClick={()=>showGenerateSale(showSaleModal)} className={`${productToCart && productToCart.length === 0 ? 'bg-gray-300' : 'bg-blue-500 duration-300 text-md   hover:bg-blue-400'} w-full h-[40px] capitalize font-semibold  rounded-lg text-white my-5`}>generar venta</button>
         </div>
       </>
   )

@@ -39,7 +39,9 @@ type GlobalContextProps = {
   incomePerDay: () => void,
   totalSalesPerYearContext: () => void,
   filterProductByStock: (paramsFilter: FilterProdyctBySTock) => void,
-  productByCodeToUpdateContext: (code:string) => void
+  productByCodeToUpdateContext: (code: string) => void,
+  showGenerateSale: (boolean:boolean) => void,
+  resetValueToastify: () => void
 }
 
 
@@ -57,6 +59,13 @@ export function GlobalcontextProdiver({ children }: Props) {
 
   const addProduct = (productData: FormProductValues) => {
     addNewProduct(dispatch, productData)
+  }
+  const resetValueToastify = () => {
+    dispatch({type:"tostifyNotificationSales", payload: 0})
+  }
+  const showGenerateSale = (boolean:boolean) => {
+    // setShowSaleModal(!showSaleModal)
+    dispatch({type:"showSaleModal", payload: !boolean})
   }
   const showCategory = () => {
     setShowModalCategory(!showModalCategory)
@@ -89,7 +98,7 @@ export function GlobalcontextProdiver({ children }: Props) {
     deleteProductToCart(dispatch, cart, codeFromProduct)
   }
   const soldProducts = (cart: ProductToCart[] | undefined) => {
-    generateSold(dispatch, cart)
+    generateSold(dispatch, cart, 0)
   }
   const stateLoader = (state: boolean) => {
     dispatch({ type: "loaderToSell", payload: state })
@@ -130,10 +139,10 @@ export function GlobalcontextProdiver({ children }: Props) {
   const filterProductByStock = (paramsFilter: FilterProdyctBySTock) => {
     getFilterProductByStock(dispatch, paramsFilter)
   }
-  const productByCodeToUpdateContext = (code:string) => {
+  const productByCodeToUpdateContext = (code: string) => {
     getProductByCodeToUpdateContext(dispatch, code)
   }
- 
+
   return (
     <GlobalContext.Provider value={{
       LibraryData,
@@ -168,7 +177,9 @@ export function GlobalcontextProdiver({ children }: Props) {
       incomePerDay,
       totalSalesPerYearContext,
       filterProductByStock,
-      productByCodeToUpdateContext
+      productByCodeToUpdateContext,
+      showGenerateSale,
+      resetValueToastify
     }}>
       {children}
     </GlobalContext.Provider>
