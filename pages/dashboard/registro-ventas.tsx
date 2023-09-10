@@ -92,7 +92,7 @@ const RegistroVentas = () => {
             Carrito de compra de cliente 
           </h3>
         </div>
-        <div className='md:hidden  font-dmMono flex justify-between text-sm shadow-md rounded-sm bg-gradient-to-r from-gr-1 from-0% via-gr-2 via-80% to-gr-3 to-100% text-white p-1'>Total: <span className='font-semibold'>$ {totalAmountToCart.toFixed(2)}</span></div>
+        <div className='md:hidden  font-dmMono flex justify-between text-sm shadow-md rounded-sm bg-pastel14 text-white p-1'>Total: <span className='font-semibold'>$ {totalAmountToCart.toFixed(2)}</span></div>
         {productNotFound
           ?
           <div className='my-3 text-red-500'>*{productNotFound}</div>
@@ -114,7 +114,7 @@ const RegistroVentas = () => {
             <ProductToSaleMobile productToCart={productToCart} totalAmountToCart={totalAmountToCart} />
           </>
         }
-        <button disabled={productToCart && productToCart?.length > 0 ? false : true} onClick={() => showGenerateSale(showSaleModal)} className={`${productToCart && productToCart.length === 0 ? 'bg-gray-300' : 'bg-blue-500 duration-300 text-md   hover:bg-blue-400'} w-full h-[40px] capitalize font-semibold  rounded-lg text-white my-5`}>generar venta</button>
+        <button disabled={productToCart && productToCart?.length > 0 ? false : true} onClick={() => showGenerateSale(showSaleModal)} className={`${productToCart && productToCart.length === 0 ? 'bg-gray-300' : 'bg-pastel11 duration-300 text-md   hover:bg-pastel12'} w-full h-[40px] capitalize font-semibold  rounded-lg text-white my-5 duration-300 shadow-lg`}>generar venta</button>
       </div>
     </>
   )
