@@ -92,7 +92,7 @@ const RegistroVentas = () => {
             Carrito de compra de cliente 
           </h3>
         </div>
-        <div className='md:hidden  font-dmMono flex justify-between text-sm shadow-md rounded-sm bg-gradient-to-r from-gr-1 from-0% via-gr-2 via-80% to-gr-3 to-100% text-white p-1'>Total: <span className='font-semibold'>$ {totalAmountToCart}</span></div>
+        <div className='md:hidden  font-dmMono flex justify-between text-sm shadow-md rounded-sm bg-gradient-to-r from-gr-1 from-0% via-gr-2 via-80% to-gr-3 to-100% text-white p-1'>Total: <span className='font-semibold'>$ {totalAmountToCart.toFixed(2)}</span></div>
         {productNotFound
           ?
           <div className='my-3 text-red-500'>*{productNotFound}</div>

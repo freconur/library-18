@@ -71,7 +71,13 @@ module.exports = {
         'gos-1':'#f4b5d3',
         'gos-2':'#c79bc3',
         'gos-3':'#746171',
-        'sbb':'#ffd7b2'
+        'sbb':'#ffd7b2',
+        'pastel1':"#fafdca",
+        'pastel2':"#cafde6",
+        'pastel3':"#cccafd",
+        'pastel4':"#cae1fd",
+        'pastel5':"#e1fdca",
+        'pastel6':"#cae1fd",
       },
       gridTemplateRows: {
         // Complex site-specific row configuration
