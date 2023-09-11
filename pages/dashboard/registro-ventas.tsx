@@ -65,7 +65,8 @@ const RegistroVentas = () => {
         showSaleModal &&
         <SaleModal generateSold={generateSold} />
       }
-      <div className='xss:m-0 xss:p-1 md:m-3 w-full'>
+      <div className='relative h-sales m-0 p-1 md:m-3 w-full mb-[110px]'>
+        {/* <div className='relavite'> */}
         <div className='flex items-center justify-end mb-3 font-nunito text-xs'>
           <h3 className='text-lg  text-gray-400'>{todayDate()}</h3>
         </div>
@@ -74,25 +75,15 @@ const RegistroVentas = () => {
 
         </div>
 
-        <form className='my-3'>
-          <div>
-            <label className='text-slate-400 capitalize font-nunito'>codigo de barra</label>
-            <input placeholder="ingresa codigo de barra" onKeyDown={testEnter} ref={focusRef} autoFocus value={codeBar.code}
-              onChange={onChangeCodeProduct} name="code" type="text"
-              // className={styles.inputCode} 
-              className='pl-2 border-blue-500 w-full border-[1px] rounded-lg h-[40px] outline-none focus-visible:border-[1px] focus-visible:border-blue-500'
-            />
-          </div>
-        </form>
         <div className='flex gap-2 mb-2'>
           <div className='text-slate-600 font-dmMono text-lg flex justify-center items-center'>
             <RiShoppingCartFill />
           </div>
           <h3 className='text-slate-600 font-dmMono text-lg'>
-            Carrito de compra de cliente 
+            Carrito de compra de cliente
           </h3>
         </div>
-        <div className='md:hidden  font-dmMono flex justify-between text-sm shadow-md rounded-sm bg-pastel14 text-white p-1'>Total: <span className='font-semibold'>$ {totalAmountToCart.toFixed(2)}</span></div>
+
         {productNotFound
           ?
           <div className='my-3 text-red-500'>*{productNotFound}</div>
@@ -104,8 +95,7 @@ const RegistroVentas = () => {
           <>
             {loaderToSell
               &&
-              <div className="              <button className={}>holis</button>
-                flex w-full mt-5 items-center m-auto justify-center">
+              <div className="flex w-full mt-5 items-center m-auto justify-center">
                 <RiLoader4Line className="animate-spin text-3xl text-blue-500 " />
                 <p className="text-gray-400">cargando...</p>
               </div>
@@ -114,7 +104,22 @@ const RegistroVentas = () => {
             <ProductToSaleMobile productToCart={productToCart} totalAmountToCart={totalAmountToCart} />
           </>
         }
-        <button disabled={productToCart && productToCart?.length > 0 ? false : true} onClick={() => showGenerateSale(showSaleModal)} className={`${productToCart && productToCart.length === 0 ? 'bg-gray-300' : 'bg-pastel11 duration-300 text-md   hover:bg-pastel12'} w-full h-[40px] capitalize font-semibold  rounded-lg text-white my-5 duration-300 shadow-lg`}>generar venta</button>
+        <div className='w-full fixed bottom-0 bg-white left-0 right-0 p-1'>
+          <div className='md:hidden  font-dmMono flex justify-between text-sm shadow-md rounded-sm bg-pastel14 text-white p-1 mb-1'>Total: <span className='font-semibold'>$ {totalAmountToCart.toFixed(2)}</span></div>
+          <form className='mb-1 sticky top-[10px]'>
+            <div>
+              {/* <label className='text-slate-400 capitalize font-nunito'>codigo de barra</label> */}
+              <input placeholder="ingresa codigo de barra" onKeyDown={testEnter} ref={focusRef} autoFocus value={codeBar.code}
+                onChange={onChangeCodeProduct} name="code" type="text"
+                // className={styles.inputCode} 
+                className='pl-2 border-blue-500 w-full border-[1px] rounded-lg h-[40px] outline-none focus-visible:border-[1px] focus-visible:border-blue-500'
+              />
+
+            </div>
+          </form>
+          <button disabled={productToCart && productToCart?.length > 0 ? false : true} onClick={() => showGenerateSale(showSaleModal)} className={`${productToCart && productToCart.length === 0 ? 'bg-gray-300' : 'bg-pastel11 duration-300 text-md   hover:bg-pastel12'} h-[40px] capitalize font-semibold  rounded-lg text-white duration-300 shadow-lg w-full`}>generar venta</button>
+        </div>
+        {/* </div> */}
       </div>
     </>
   )

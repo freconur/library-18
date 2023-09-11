@@ -34,7 +34,7 @@ const ProductToSaleMobile = ({ productToCart, totalAmountToCart }: Props) => {
       {
         productToCart.length > 0
         ?
-<ul className="grid grid-cols-1 gap-4 p-1">
+<ul className="grid grid-cols-1 gap-2 p-1">
         {
           productToCart &&
           productToCart.map((item, index) => {

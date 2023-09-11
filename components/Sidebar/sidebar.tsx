@@ -11,7 +11,7 @@ interface Props {
 }
 const Sidebar = ({ showSidebar, setShowSidebar,closeSidebar }: Props) => {
   return (
-    <div ref={closeSidebar} className={`z-50 fixed duration-300 drop-shadow-xl -left-[300px] h-full w-[250px] bg-white  ${showSidebar && "left-0 duration-300"}`}>
+    <div ref={closeSidebar} className={`z-[900] fixed duration-300 drop-shadow-xl -left-[300px] h-full w-[250px] bg-white  ${showSidebar && "left-0 duration-300"}`}>
       <h1 className='pl-5 flex items-center bg-gos-1 text-3xl capitalize text-white font-sidebar h-[60px] font-semibold tracking-wider'>Libreria <span className='text-sm font-dmMono ml-2 flex items-center justify-center'>18</span></h1>
       {/* <h1 className='pl-5 flex items-center bg-gradient-to-r from-gos-1 from-0% via-gos-2 via-50% to-gos-3 to-100% text-2xl capitalize text-white font-sidebar h-[60px] font-semibold tracking-wider'>Libreria 18</h1> */}
       {/* <div className='pl-5 flex items-center bg-white text-xl capitalize text-white font-nunito h-[60px]'>

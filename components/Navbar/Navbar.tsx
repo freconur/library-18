@@ -114,7 +114,7 @@ const Navbar = ({ showSidebar, setShowSidebar }: Props) => {
   }
   return (
     <>
-      <nav className={`relative w-full h-[60px] px-2 bg-white shadow-md flex justify-between items-center pl-0 pr-1 pb-1 pt-1 `}>
+      <nav className={`sticky top-0 z-[800] w-full h-[60px] px-2 bg-white shadow-md flex justify-between items-center pl-0 pr-1 pb-1 pt-1 `}>
         <div className='flex gap-1  justify-center items-center'>
           {/* <div className='text-xl font-semibold capitalize text-red-600'>
             <Image src={Logo} width={40} height={40} alt="logo web"/> 

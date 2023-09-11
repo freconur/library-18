@@ -33,7 +33,8 @@ module.exports = {
     },
     extend: {
       height: {
-        'altura': 'calc(100vh - 72px)'
+        'altura': 'calc(100vh - 72px)',
+        'sales': '100%'
       },
       margin: {
         'centrar-contenido': 'auto'
@@ -88,7 +89,8 @@ module.exports = {
         'pastel14':"#ff6961",
         'pastel15':"#fdfdab",
         'pastel16':"#fefec0",
-        'pastel17':"#fefed5"
+        'pastel17':"#fefed5",
+        'pastel18':"#9696fd"
       },
       gridTemplateRows: {
         // Complex site-specific row configuration

@@ -26,16 +26,16 @@ const LayoutDashboard = ({ children }: Props) => {
             {children}
           </>
           :
-          <>
+          <div className='relative z-[1000]'>
 
             <Sidebar closeSidebar={closeSidebar} showSidebar={showSidebar} setShowSidebar={setShowSidebar} />
-            <div className='w-full'>
+            <div className='w-full relative'>
               <Navbar showSidebar={showSidebar} setShowSidebar={setShowSidebar} />
-              <div className=" overflow-hidden rounded-t-lg mt-2 p-1 md:p-3 flex w-full">
+              <div className="relative z-[700] overflow-hidden rounded-t-lg mt-2 p-1 md:p-3 flex w-full">
                 {children}
               </div>
             </div>
-          </>
+          </div>
       }
     </>
   )
