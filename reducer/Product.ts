@@ -116,7 +116,6 @@ export const findToAddProductCart = async (dispatch: (action: any) => void, code
     if (docSnap.exists()) {
       console.log('existe')
       dispatch({ type: "productNotFound" })
-
       dispatch({ type: "loaderToSell", payload: true })
       //compruebo si se encuentra en el array cart
       const productCartRepeat = cart?.find(prod => prod.code === codeProduct)
@@ -148,7 +147,7 @@ export const findToAddProductCart = async (dispatch: (action: any) => void, code
         if (prod?.stock === 0) {
           const amount = { amount: prod?.stock }
           rta = { ...prod, ...amount }
-          cart?.push(rta)
+          cart?.unshift(rta)
           dispatch({ type: "productToCart", payload: cart })
           dispatch({ type: "loaderToSell", payload: false })
         }
@@ -156,7 +155,7 @@ export const findToAddProductCart = async (dispatch: (action: any) => void, code
           console.log('hay stock')
           const amount = { amount: 1, warning: "" }
           rta = { ...prod, ...amount }
-          cart?.push(rta)
+          cart?.unshift(rta)
           dispatch({ type: "productToCart", payload: cart })
           dispatch({ type: "loaderToSell", payload: false })
         }
