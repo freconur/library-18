@@ -305,16 +305,15 @@ export const addProductCartToProductSales = async (cart: ProductToCart[] | undef
 
   if (querySnapshot.size === 0) {
     console.log('vacio')
-    const rta = await setDoc(doc(db, pathProductsSales, '1'), { product: "test" }).then(r => true)
-    if (rta) {
-      cart?.map(async (item) => {
-        await setDoc(doc(db, pathProductsSales, `${item.code}`), { ...item, totalAmountSale: item.amount })
-        await deleteDoc(doc(db, pathProductsSales, "1"));
-      })
-    }
+    await setDoc(doc(db, pathProductsSales, '1'), { product: "test" })
+    cart?.map(async (item) => {
+      await setDoc(doc(db, pathProductsSales, `${item.code}`), { ...item, totalAmountSale: item.amount })
+      await deleteDoc(doc(db, pathProductsSales, "1"));
+    })
   } else if (querySnapshot.size > 0) {
+    console.log('con merca')
     querySnapshot.docs.forEach(doc => {
-      productsFromCart.unshift({ ...doc.data(), id: doc.id })
+      productsFromCart.push({ ...doc.data(), id: doc.id })
     })
     cart?.map(async (item) => {
       const findItem = productsFromCart.find(i => i.code === item.code)
