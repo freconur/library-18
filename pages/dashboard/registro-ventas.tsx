@@ -83,12 +83,12 @@ const RegistroVentas = () => {
           <h3 className='text-slate-600 font-dmMono text-lg'>
             Carrito de compra de cliente
           </h3>
-          {/* {
+          {
             productToCart ?
           <button className='bg-blue-500 p-2 text-white font-dmMono' onClick={() => addProductCartToProductSales(productToCart)}>test</button>
           :
           null
-          } */}
+          }
         </div>
 
         {productNotFound

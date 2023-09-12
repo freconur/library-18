@@ -279,10 +279,8 @@ export const generateSold = async (dispatch: (action: any) => void, cart: Produc
     await updatedailySale(totalAmountOfCartLibrary)
     await updateDailySaleWaliky(totalAmountOfCartWaliky)
     await updateDailySaleWalikySublimados(totalAmountOfCartWalikySublimados)
-  })
-  if (cart) {
     await addProductCartToProductSales(cart)
-  }
+  })
 }
 export const addProductFromCartToTicket = async (ticket: Ticket) => {
   const docRef = doc(db, "/ticket", "1gZJTbl4yu6S8oD9a1En");
@@ -299,7 +297,7 @@ export const addProductFromCartToTicket = async (ticket: Ticket) => {
   }
 }
 
-export const addProductCartToProductSales = async (cart: ProductToCart[]) => {
+export const addProductCartToProductSales = async (cart: ProductToCart[] | undefined) => {
   const pathProductsSales = `/products-sales-library18/${currentYear()}/${currentMonth()}/${currentMonth()}/${currentDate()}`
   const pathQuery = collection(db, pathProductsSales)
   const querySnapshot = await getDocs(pathQuery)
@@ -309,7 +307,7 @@ export const addProductCartToProductSales = async (cart: ProductToCart[]) => {
     console.log('vacio')
     const rta = await setDoc(doc(db, pathProductsSales, '1'), { product: "test" }).then(r => true)
     if (rta) {
-      cart.map(async (item) => {
+      cart?.map(async (item) => {
         await setDoc(doc(db, pathProductsSales, `${item.code}`), { ...item, totalAmountSale: item.amount })
         await deleteDoc(doc(db, pathProductsSales, "1"));
       })
@@ -318,7 +316,7 @@ export const addProductCartToProductSales = async (cart: ProductToCart[]) => {
     querySnapshot.docs.forEach(doc => {
       productsFromCart.unshift({ ...doc.data(), id: doc.id })
     })
-    cart.map(async (item) => {
+    cart?.map(async (item) => {
       const findItem = productsFromCart.find(i => i.code === item.code)
       if (findItem) {
         const totalAmountSaleItem: number = Number(findItem?.totalAmountSale) + Number(item?.amount)

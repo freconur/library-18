@@ -10,7 +10,7 @@ interface Props {
 }
 const SidebarList = ({ showSidebar, setShowSidebar }: Props) => {
   return (
-    <ul className='capitalize p-1 font-dmMono text-slate-200 overflow-y-scroll h-altura'>
+    <ul className='capitalize p-1 font-dmMono text-slate-200 h-full'>
       <li className="text-gray-300 border-b-[1px] border-slate-300 text-sm flex items-center gap-x-4 cursor-pointer   mt-2 capitalize   hover:bg-slate-200 duration-300 hover:text-gray-800 whitespace-nowrap my-3">
         <Link onClick={() => setShowSidebar(!showSidebar)} href="/dashboard/estadisticas" className="my-3 w-56 p-2">
           <RiBarChart2Fill className="text-slate-600 text-xl block float-left" />
