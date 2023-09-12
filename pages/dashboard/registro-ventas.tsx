@@ -9,6 +9,7 @@ import ProductToSaleMobile from '../../components/ProductToSaleMobile/ProductToS
 import SaleModal from '../../modals/sale/SaleModal';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { addProductCartToProductSales } from '../../reducer/Product';
 const RegistroVentas = () => {
   const focusRef = useRef<HTMLInputElement>(null)
   const initialValue = { code: "" }
@@ -82,6 +83,12 @@ const RegistroVentas = () => {
           <h3 className='text-slate-600 font-dmMono text-lg'>
             Carrito de compra de cliente
           </h3>
+          {/* {
+            productToCart ?
+          <button className='bg-blue-500 p-2 text-white font-dmMono' onClick={() => addProductCartToProductSales(productToCart)}>test</button>
+          :
+          null
+          } */}
         </div>
 
         {productNotFound

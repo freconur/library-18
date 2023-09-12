@@ -1,5 +1,5 @@
 import { createContext, useContext, useReducer, useState } from "react";
-import { addNewProduct, addStockToProduct, addStockToProductUpdate, dailySale, dailyTicket, deleteProductToCart, findToAddProductCart, generateSold, getBrands, getCategory, getFilterProductByStock, getIncomePerDay, getMarcaSocio, getTotalSalesPerYear } from "../reducer/Product";
+import { addNewProduct, addStockToProduct, addStockToProductUpdate, dailySale, dailyTicket, deleteProductToCart, findToAddProductCart, generateSold, getBrands, getCategory, getFilterProductByStock, getIncomePerDay, getMarcaSocio, getProductsSales, getTotalSalesPerYear } from "../reducer/Product";
 import { Library, ProductsReducer } from "../reducer/Product.reducer";
 import { getProductByCodeToUpdateContext } from "../reducer/UpdateProducts";
 
@@ -42,7 +42,8 @@ type GlobalContextProps = {
   productByCodeToUpdateContext: (code: string) => void,
   showGenerateSale: (boolean:boolean) => void,
   resetValueToastify: () => void,
-  incrementAmountToItemFromCart: (amount:number,code:string) => void
+  incrementAmountToItemFromCart: (amount:number,code:string) => void,
+  getProductsSalesContext: () => void
 }
 
 
@@ -58,6 +59,9 @@ export function GlobalcontextProdiver({ children }: Props) {
   const [showModalUpdateBrands, setShowModalUpdateBrands] = useState<boolean>(false)
   const [showModalDeleteBrands, setShowModalDeleteBrands] = useState<boolean>(false)
 
+  const getProductsSalesContext = () => {
+    getProductsSales(dispatch)
+  }
 
   const incrementAmountToItemFromCart = (amount:number, code:string) => {
     dispatch({type:"incrementAmountToItemFromCart", payload:amount, payload2: code})
@@ -150,6 +154,7 @@ export function GlobalcontextProdiver({ children }: Props) {
 
   return (
     <GlobalContext.Provider value={{
+      getProductsSalesContext,
       LibraryData,
       addProduct,
       showCategory,

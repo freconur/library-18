@@ -35,7 +35,8 @@ interface LibraryAllData {
   productsFromFilterByStock: ProductToCart[],
   productToUpdate: ProductToCart,
   showSaleModal: boolean,
-  tostifyNotificationSales:number
+  tostifyNotificationSales:number,
+  getProductsSales: ProductToCart[]
 }
 interface Brands {
   id?:string
@@ -59,7 +60,9 @@ interface ProductToCart {
   amount?:number,
   warning?:string,
   active?:boolean,
-  marcaSocio?:string
+  marcaSocio?:string,
+  id?:string,
+  totalAmountSale?:number
 }
 interface Ticket {
   id?:string,

@@ -28,6 +28,7 @@ type LibraryData =
   | { type: "showSaleModal"; payload: boolean }
   | { type: "tostifyNotificationSales"; payload: number }
   | { type: "incrementAmountToItemFromCart", payload: number, payload2: string }
+  | { type: "getProductsSales"; payload: ProductToCart[] }
 
 export const Library = {
   newProduct: {} as FormProductValues,
@@ -55,18 +56,21 @@ export const Library = {
   productToUpdate: {} as ProductToCart,
   showSaleModal: false as boolean,
   tostifyNotificationSales: 0 as number,
+  getProductsSales: [] as ProductToCart[]
 }
 
 export const ProductsReducer = (state: LibraryAllData, action: LibraryData) => {
   switch (action.type) {
-
+    case "getProductsSales" : {
+      return {
+        ...state,
+        getProductsSales:action.payload
+      }
+    }
     case "incrementAmountToItemFromCart": {
-      // console.log('amount', action.payload)
-      // console.log('code', action.payload2)
       let amountCart = 0
       const codeItem = action.payload2 
       const amountItem = Number(action.payload )
-      // console.log('cart', Library.productToCart)
       const getItem = Library.productToCart.find(item => item.code === codeItem)
       if(getItem) {
         Library.productToCart.map(item => {

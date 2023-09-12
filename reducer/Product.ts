@@ -1,5 +1,5 @@
 
-import { OrderByDirection, Timestamp, addDoc, collection, deleteDoc, doc, endAt, endBefore, getDoc, getDocs, getFirestore, limit, onSnapshot, orderBy, query, setDoc, startAfter, updateDoc, where } from "firebase/firestore";
+import { OrderByDirection, QuerySnapshot, Timestamp, addDoc, collection, deleteDoc, doc, endAt, endBefore, getDoc, getDocs, getFirestore, limit, onSnapshot, orderBy, query, setDoc, startAfter, updateDoc, where } from "firebase/firestore";
 import { app } from "../firebase/firebase.config";
 import { currentDate, currentMonth, currentYear } from "../dates/date";
 
@@ -9,7 +9,7 @@ const yearMonth = `${currentMonth()}-${currentYear()}`
 
 export const addNewProduct = async (dispatch: (action: any) => void, productData: FormProductValues) => {
 
-  console.log('productData',productData)
+  console.log('productData', productData)
   const docRef = doc(db, "products", productData.code as string); // busco en la base de datos
   // const docSnap = await getDoc(docRef);
   // const prod = docSnap?.data()
@@ -227,7 +227,7 @@ export const dailyTicket = async (dispatch: (action: any) => void) => {
   // console.log('dailySaleRef', dailySaleRef)
   // console.log('docSnap', docSnap)
 }
-export const generateSold = async (dispatch: (action: any) => void, cart: ProductToCart[] | undefined, cero:number) => {
+export const generateSold = async (dispatch: (action: any) => void, cart: ProductToCart[] | undefined, cero: number) => {
   dispatch({ type: "generateSold", payload: true })
   // let totalAmountOfCart: number = 0
   let library18 = true
@@ -249,60 +249,43 @@ export const generateSold = async (dispatch: (action: any) => void, cart: Produc
 
       totalAmountOfCartWalikySublimados = totalAmountOfCartWalikySublimados + (Number(item.amount) * Number(item.price))
       library18 = false
-    } else if (item.marcaSocio === "libreria18"){
+    } else if (item.marcaSocio === "libreria18") {
       console.log('marcasocio', item.marcaSocio)
       totalAmountOfCartLibrary = totalAmountOfCartLibrary + (Number(item.amount) * Number(item.price))
       // aqui debo crear la logica para crear un nuevo mes cada que se inicia uno nuevo antes de seguir con el codigo de abajo,
       // de lo contrario podria no registrar los nuevos datos con el siguiente mes.
-      await setDoc(doc(db, `/salesPerMonth/EwszanTDNKpiCy4gMvSu/library18/${currentYear()}/month-${currentYear()}/${currentMonth()}`), {month:`${currentMonth()}`, totalSales:0})
+      await setDoc(doc(db, `/salesPerMonth/EwszanTDNKpiCy4gMvSu/library18/${currentYear()}/month-${currentYear()}/${currentMonth()}`), { month: `${currentMonth()}`, totalSales: 0 })
       const ref = doc(db, `/salesPerMonth/EwszanTDNKpiCy4gMvSu/library18/${currentYear()}/month-${currentYear()}/${currentMonth()}`);
       const totalSaleMonth = await getDoc(ref)
       await updateDoc(ref, { totalSales: totalAmountOfCartLibrary + totalSaleMonth.data()?.totalSales })
-      await updateDoc(refProduct, {stock: Number(item.stock) - Number(item.amount) })
+      await updateDoc(refProduct, { stock: Number(item.stock) - Number(item.amount) })
     }
-    // const stockSobrante = Number(item.stock) - Number(item.amount)
-    // console.log('stockSobrante',stockSobrante)
-    // if (stockSobrante === 0) {
-    //   await updateDoc(ref, {
-    //     active: false
-    //   })
-    // }
-    // await updateDoc(ref, { stock: Number(item.stock) - Number(item.amount) })
+
   })
-  // await addProductFromCartToTicket(
-  //   {
-  //     timestamp: Timestamp.fromDate(new Date()),
-  //     product: cart,
-  //     library18: library18
-  //   }
-  // ).then(async(r) => {
-  //   dispatch({ type: "cleanCart" })
-  //   dispatch({ type: "resetAmountCart" })
-  //   dispatch({ type: "generateSold", payload: false })
-  //   await updatedailySale(totalAmountOfCartLibrary)
-  //   await updateDailySaleWaliky(totalAmountOfCartWaliky)
-  //   await updateDailySaleWalikySublimados(totalAmountOfCartWalikySublimados)
-  // })
+
   await addProductFromCartToTicket(
     {
       timestamp: Timestamp.fromDate(new Date()),
       product: cart,
       library18: library18
     }
-  ).then(async(r) => {
+  ).then(async (r) => {
     console.log('hemos entrado bien')
     dispatch({ type: "resetAmountCart" })
     dispatch({ type: "generateSold", payload: false })
-    dispatch({type:"showSaleModal", payload:false})
-    dispatch({type:"tostifyNotificationSales", payload:cero + 1})
+    dispatch({ type: "showSaleModal", payload: false })
+    dispatch({ type: "tostifyNotificationSales", payload: cero + 1 })
     dispatch({ type: "cleanCart" })
     await updatedailySale(totalAmountOfCartLibrary)
     await updateDailySaleWaliky(totalAmountOfCartWaliky)
     await updateDailySaleWalikySublimados(totalAmountOfCartWalikySublimados)
   })
+  if (cart) {
+    await addProductCartToProductSales(cart)
+  }
 }
 export const addProductFromCartToTicket = async (ticket: Ticket) => {
-  const docRef = doc(db, "/ticket","1gZJTbl4yu6S8oD9a1En");
+  const docRef = doc(db, "/ticket", "1gZJTbl4yu6S8oD9a1En");
   const docSnap = await getDoc(docRef);
   if (docSnap.exists()) {
     const numeroTicket = docSnap.data().ticket + 1
@@ -314,6 +297,61 @@ export const addProductFromCartToTicket = async (ticket: Ticket) => {
       ticket: numeroTicket
     });
   }
+}
+
+export const addProductCartToProductSales = async (cart: ProductToCart[]) => {
+  const pathProductsSales = `/products-sales-library18/${currentYear()}/${currentMonth()}/${currentMonth()}/${currentDate()}`
+  const pathQuery = collection(db, pathProductsSales)
+  const querySnapshot = await getDocs(pathQuery)
+  const productsFromCart: ProductToCart[] = []
+
+  if (querySnapshot.size === 0) {
+    console.log('vacio')
+    const rta = await setDoc(doc(db, pathProductsSales, '1'), { product: "test" }).then(r => true)
+    if (rta) {
+      cart.map(async (item) => {
+        await setDoc(doc(db, pathProductsSales, `${item.code}`), { ...item, totalAmountSale: item.amount })
+        await deleteDoc(doc(db, pathProductsSales, "1"));
+      })
+    }
+  } else if (querySnapshot.size > 0) {
+    querySnapshot.docs.forEach(doc => {
+      productsFromCart.unshift({ ...doc.data(), id: doc.id })
+    })
+    cart.map(async (item) => {
+      const findItem = productsFromCart.find(i => i.code === item.code)
+      if (findItem) {
+        const totalAmountSaleItem: number = Number(findItem?.totalAmountSale) + Number(item?.amount)
+        const refItemUpdate = doc(db, pathProductsSales, `${findItem.code}`)
+        await updateDoc(refItemUpdate, {
+          totalAmountSale: totalAmountSaleItem
+        })
+      } else {
+        await setDoc(doc(db, pathProductsSales, `${item.code}`), { ...item, totalAmountSale: item.amount })
+      }
+    })
+  }
+}
+
+export const getProductsSales = (dispatch: (action: any) => void) => {
+  const pathProductsSales = `/products-sales-library18/${currentYear()}/${currentMonth()}/${currentMonth()}/${currentDate()}`
+  const producstSalesRef = query(collection(db, pathProductsSales))
+  const products: ProductToCart[] = []
+  onSnapshot(producstSalesRef, querySnapshot => {
+    querySnapshot.forEach((doc) => {
+      products.push(doc.data())
+    })
+    dispatch({ type: "getProductsSales", payload: products })
+  })
+
+  // onSnapshot(res, (snapshot) => {
+  //   const marcaSocio: MarcaSocio[] = []
+  //   snapshot.docs.forEach((doc) => {
+  //     marcaSocio.push({ ...doc.data(), id: doc.id })
+  //   })
+  //   dispatch({ type: "marcaSocio", payload: marcaSocio })
+
+
 }
 export const updatedailySale = async (totalAmountOfCart: number) => {
   const updatedailySaleRef = doc(db, `/dailysale/vAWFt15qlNVykhHvNno0/${yearMonth}/${currentDate()}`);
@@ -472,7 +510,7 @@ export const getFilterProductByStock = async (dispatch: (action: any) => void, p
     }
   } else {
     console.log('entramos con marca')
-    if(paramsFilter.stock === 0) {
+    if (paramsFilter.stock === 0) {
       const q = query(productRef, where("stock", "==", Number(paramsFilter.stock)), where("brand", "==", `${paramsFilter.brand}`), where("marcaSocio", "==", `${paramsFilter.marcaSocio}`), orderBy("stock"));
       const data = await getDocs(q)
       console.log('datasize', data.size)
@@ -481,7 +519,7 @@ export const getFilterProductByStock = async (dispatch: (action: any) => void, p
       })
       dispatch({ type: "productsFromFilterByStock", payload: productsFilterByStock })
     } else {
-      const q = query(productRef, where("stock", "<=", Number(paramsFilter.stock)),where("brand", "==", `${paramsFilter.brand}`), where("stock", ">=", 1), where("marcaSocio", "==", `${paramsFilter.marcaSocio}`), orderBy("stock"));
+      const q = query(productRef, where("stock", "<=", Number(paramsFilter.stock)), where("brand", "==", `${paramsFilter.brand}`), where("stock", ">=", 1), where("marcaSocio", "==", `${paramsFilter.marcaSocio}`), orderBy("stock"));
       const data = await getDocs(q)
       console.log('datasize', data.size)
       data.docs.forEach(item => {
