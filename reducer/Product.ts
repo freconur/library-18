@@ -230,6 +230,8 @@ export const dailyTicket = async (dispatch: (action: any) => void) => {
 export const generateSold = async (dispatch: (action: any) => void, cart: ProductToCart[] | undefined, cero: number) => {
   dispatch({ type: "generateSold", payload: true })
   // let totalAmountOfCart: number = 0
+  await addProductCartToProductSales(cart)
+
   let library18 = true
   let totalAmountOfCartLibrary: number = 0
   let totalAmountOfCartWaliky: number = 0
@@ -279,7 +281,6 @@ export const generateSold = async (dispatch: (action: any) => void, cart: Produc
     await updatedailySale(totalAmountOfCartLibrary)
     await updateDailySaleWaliky(totalAmountOfCartWaliky)
     await updateDailySaleWalikySublimados(totalAmountOfCartWalikySublimados)
-    await addProductCartToProductSales(cart)
   })
 }
 export const addProductFromCartToTicket = async (ticket: Ticket) => {

@@ -15,9 +15,9 @@ const Ventas = () => {
       <div className='w-full flex justify-end text-slate-500 font-dmMono my-5'>{todayDate()}</div>
       <h1 className='font-dmMono text-slate-600 capitalize text-2xl mb-4'>Mis productos vendidos</h1>
 
-      <div className='rounded-lg shadow mb-5 max-cs:mr-0 mt-5 overflow-auto hidden md:block'>
-        <table className='text-slate-500 w-full rounded-lg overflow-hidden  border-[1px] '>
-          <thead className=' bg-pastel16 border-b-2 border-gray-200'>
+      <div className='rounded-sm shadow mb-5 max-cs:mr-0 mt-5 overflow-auto hidden md:block'>
+        <table className='text-slate-500 w-full bg-whiterounded-lg overflow-hidden  border-[1px] '>
+          <thead className=' bg-pastel16 border-b-[1px] border-gray-200'>
             <tr className="p-5 ">
               <th className='p-1 text-center'>#</th>
               <th className='p-1 text-center'>codigo</th>
@@ -33,7 +33,7 @@ const Ventas = () => {
                 ?
                 getProductsSales?.map((item, index) => {
                   return (
-                    <tr key={item.code}>
+                    <tr key={item.code} className='border-b-[1px] border-gray-100 hover:bg-slate-100 cursor-pointer bg-white'>
                       <td className='text-center'>{index + 1}</td>
                       <td className='text-center'>{item.code}</td>
                       <td className='text-left'>{item.description}</td>
