@@ -89,7 +89,8 @@ interface MarcaSocio {
   name?: string
 }
 interface DailySales {
-  amount?:number
+  amount?:number,
+  id?:string | number
 }
 interface FilterProdyctBySTock {
   stock: number,

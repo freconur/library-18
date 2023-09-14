@@ -64,7 +64,7 @@ export function GlobalcontextProdiver({ children }: Props) {
   }
 
   const incrementAmountToItemFromCart = (amount:number, code:string) => {
-    dispatch({type:"incrementAmountToItemFromCart", payload:amount, payload2: code})
+    dispatch({type:"incrementAmountToItemFromCart", payload:amount, payload2: code, payload3: LibraryData.productToCart})
   }
   const addProduct = (productData: FormProductValues) => {
     addNewProduct(dispatch, productData)

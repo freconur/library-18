@@ -2,6 +2,7 @@
 import { OrderByDirection, QuerySnapshot, Timestamp, addDoc, collection, deleteDoc, doc, endAt, endBefore, getDoc, getDocs, getFirestore, limit, onSnapshot, orderBy, query, setDoc, startAfter, updateDoc, where } from "firebase/firestore";
 import { app } from "../firebase/firebase.config";
 import { currentDate, currentMonth, currentYear } from "../dates/date";
+import { secureHeapUsed } from "crypto";
 
 const db = getFirestore(app)
 const YEAR_MONTH = `${currentMonth()}-${currentYear()}/${currentMonth()}-${currentYear()}`
@@ -217,8 +218,8 @@ export const dailyTicket = async (dispatch: (action: any) => void) => {
       })
     }
   })
-  console.log('totalAmountDailySale', totalAmountDailySale)
-  console.log('dailyTicket', docSnap)
+  // console.log('totalAmountDailySale', totalAmountDailySale)
+  // console.log('dailyTicket', docSnap)
   const averageTicket = totalAmountDailySale / dailyTicket
   dispatch({ type: "dailyTicket", payload: dailyTicket })
   dispatch({ type: "averageTicket", payload: averageTicket })
@@ -456,9 +457,26 @@ export const getIncomePerDay = async (dispatch: (action: any) => void) => {
   if (docSnap) {
     docSnap.docs.forEach(perDay => {
       totalSalesPerMonth = totalSalesPerMonth + Number(perDay.data().amount.toFixed(2))
-      dailySales.push({ ...perDay.data() })
-      dataSales.push(Number(perDay.data().amount.toFixed(2)))
-      dataSalesLabel.push(perDay.id)
+      dailySales.push({ ...perDay.data(), id: Number(perDay.id) })
+      
+    })
+    const rta = dailySales.sort((a, b) => {
+      const fe = Number(a.id)
+      const se = Number(b.id)
+      if (fe > se) {
+        return 1;
+      }
+      if (fe < se) {
+        return -1;
+      }
+      return 0;
+    })
+    rta.map(item => {
+      if (item.amount) {
+        const sale = Number(item.amount.toFixed(2))
+        dataSales.push(sale)
+        dataSalesLabel.push(item.id as string)
+      }
     })
     dispatch({ type: "dataSales", payload: dataSales })
     dispatch({ type: "dataSalesLabel", payload: dataSalesLabel })
@@ -474,7 +492,7 @@ export const getTotalSalesPerYear = async (dispatch: (action: any) => void) => {
     docSnap.docs.forEach(month => {
       totalSalesYear = totalSalesYear + month.data().totalSales
     })
-    console.log('totalSalesYear', totalSalesYear)
+    // console.log('totalSalesYear', totalSalesYear)
     dispatch({ type: "totalSalesYear", payload: totalSalesYear })
   }
 }

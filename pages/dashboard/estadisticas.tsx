@@ -39,9 +39,9 @@ const Estadisticas = () => {
     totalSalesPerYearContext()
     incomePerDay()
   }, [dailySale, dailyTicket])
-  console.log('dataSales', dataSales)
-  console.log('dataSalesLabel', dataSalesLabel)
-  console.log('dataTotalSalesPerMonth', dataTotalSalesPerMonth)
+  // console.log('dataSales', dataSales)
+  // console.log('dataSalesLabel', dataSalesLabel)
+  // console.log('dataTotalSalesPerMonth', dataTotalSalesPerMonth)
 
   const sales = {
     labels: dataSalesLabel,

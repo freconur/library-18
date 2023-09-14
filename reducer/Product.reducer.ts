@@ -27,7 +27,7 @@ type LibraryData =
   | { type: "productToUpdate"; payload: ProductToCart }
   | { type: "showSaleModal"; payload: boolean }
   | { type: "tostifyNotificationSales"; payload: number }
-  | { type: "incrementAmountToItemFromCart", payload: number, payload2: string }
+  | { type: "incrementAmountToItemFromCart", payload: number, payload2: string, payload3: ProductToCart[] | undefined }
   | { type: "getProductsSales"; payload: ProductToCart[] }
 
 export const Library = {
@@ -61,33 +61,34 @@ export const Library = {
 
 export const ProductsReducer = (state: LibraryAllData, action: LibraryData) => {
   switch (action.type) {
-    case "getProductsSales" : {
+    case "getProductsSales": {
       return {
         ...state,
-        getProductsSales:action.payload
+        getProductsSales: action.payload
       }
     }
     case "incrementAmountToItemFromCart": {
       let amountCart = 0
-      const codeItem = action.payload2 
-      const amountItem = Number(action.payload )
-      const getItem = Library.productToCart.find(item => item.code === codeItem)
-      if(getItem) {
-        Library.productToCart.map(item => {
-          if(item.code === codeItem) {
+      const codeItem = action.payload2
+      const amountItem = Number(action.payload)
+      const cart = action.payload3
+      const getItem = cart?.find(item => item.code === codeItem)
+      if (getItem) {
+        cart?.map(item => {
+          if (item.code === codeItem) {
             item.amount = amountItem
           }
         })
       }
-      Library.productToCart.map(item => {
+      cart?.map(item => {
         const getPrice = Number(item.price)
-          let amountPerProduct: number = Number(item.amount) * Number(getPrice.toFixed(2))
-          amountCart = amountCart + Number(amountPerProduct.toFixed(2))
+        let amountPerProduct: number = Number(item.amount) * Number(getPrice.toFixed(2))
+        amountCart = amountCart + Number(amountPerProduct.toFixed(2))
       })
       return {
         ...state,
-        productToCart:Library.productToCart,
-        totalAmountToCart:amountCart
+        productToCart: cart,
+        totalAmountToCart: amountCart
       }
     }
     case "tostifyNotificationSales": {
