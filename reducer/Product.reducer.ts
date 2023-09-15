@@ -29,6 +29,8 @@ type LibraryData =
   | { type: "tostifyNotificationSales"; payload: number }
   | { type: "incrementAmountToItemFromCart", payload: number, payload2: string, payload3: ProductToCart[] | undefined }
   | { type: "getProductsSales"; payload: ProductToCart[] }
+  | { type: "resetToastifyNotificationAddProduct"}
+  | { type: "toastifyNotificationAddProduct"}
 
 export const Library = {
   newProduct: {} as FormProductValues,
@@ -56,11 +58,25 @@ export const Library = {
   productToUpdate: {} as ProductToCart,
   showSaleModal: false as boolean,
   tostifyNotificationSales: 0 as number,
-  getProductsSales: [] as ProductToCart[]
+  getProductsSales: [] as ProductToCart[],
+  resetToastifyNotificationAddProduct: 0 as number,
+  toastifyNotificationAddProduct: 0 as number
 }
 
 export const ProductsReducer = (state: LibraryAllData, action: LibraryData) => {
   switch (action.type) {
+    case "toastifyNotificationAddProduct": {
+      return {
+        ...state,
+        toastifyNotificationAddProduct: 1
+      }
+    }
+    case "resetToastifyNotificationAddProduct": {
+      return {
+        ...state,
+        toastifyNotificationAddProduct: 0
+      }
+    }
     case "getProductsSales": {
       return {
         ...state,

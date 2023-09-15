@@ -130,10 +130,13 @@ export const findToAddProductCart = async (dispatch: (action: any) => void, code
             if (Number(productCartRepeat.amount) < Number(prod.stock)) {
               dispatch({ type: "productToCart", payload: cart })
               dispatch({ type: "loaderToSell", payload: false })
+              dispatch({ type: "toastifyNotificationAddProduct"})
             }
             if (Number(productCartRepeat.amount) === Number(prod.stock)) {
               dispatch({ type: "productToCart", payload: cart })
               dispatch({ type: "loaderToSell", payload: false })
+              dispatch({ type: "toastifyNotificationAddProduct"})
+
             }
             if (Number(productCartRepeat.amount) > Number(prod.stock)) {
               console.log('se pasaron')
@@ -141,6 +144,8 @@ export const findToAddProductCart = async (dispatch: (action: any) => void, code
               productCartRepeat.warning = "no puedes cargar mas productos"
               dispatch({ type: "productToCart", payload: cart })
               dispatch({ type: "loaderToSell", payload: false })
+              dispatch({ type: "toastifyNotificationAddProduct"})
+
             }
           }
         })
@@ -151,6 +156,8 @@ export const findToAddProductCart = async (dispatch: (action: any) => void, code
           cart?.unshift(rta)
           dispatch({ type: "productToCart", payload: cart })
           dispatch({ type: "loaderToSell", payload: false })
+          dispatch({ type: "toastifyNotificationAddProduct"})
+
         }
         if (prod?.stock > 0) {
           console.log('hay stock')
@@ -159,6 +166,8 @@ export const findToAddProductCart = async (dispatch: (action: any) => void, code
           cart?.unshift(rta)
           dispatch({ type: "productToCart", payload: cart })
           dispatch({ type: "loaderToSell", payload: false })
+          dispatch({ type: "toastifyNotificationAddProduct"})
+
         }
       }
     } else {

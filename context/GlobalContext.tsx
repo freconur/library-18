@@ -43,7 +43,8 @@ type GlobalContextProps = {
   showGenerateSale: (boolean:boolean) => void,
   resetValueToastify: () => void,
   incrementAmountToItemFromCart: (amount:number,code:string) => void,
-  getProductsSalesContext: () => void
+  getProductsSalesContext: () => void,
+  resetToastifyNotificationAddProduct: () => void
 }
 
 
@@ -58,6 +59,10 @@ export function GlobalcontextProdiver({ children }: Props) {
   const [showModalBrands, setShowModalBrands] = useState<boolean>(false)
   const [showModalUpdateBrands, setShowModalUpdateBrands] = useState<boolean>(false)
   const [showModalDeleteBrands, setShowModalDeleteBrands] = useState<boolean>(false)
+
+const resetToastifyNotificationAddProduct = () => {
+  dispatch({type:"resetToastifyNotificationAddProduct"})
+}
 
   const getProductsSalesContext = () => {
     getProductsSales(dispatch)
@@ -154,6 +159,7 @@ export function GlobalcontextProdiver({ children }: Props) {
 
   return (
     <GlobalContext.Provider value={{
+      resetToastifyNotificationAddProduct,
       getProductsSalesContext,
       LibraryData,
       addProduct,

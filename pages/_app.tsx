@@ -9,11 +9,11 @@ initAuth()
 function MyApp({ Component, pageProps }: AppProps) {
 
   return (
-    <LayoutDashboard>
-      <GlobalcontextProdiver>
+    <GlobalcontextProdiver>
+      <LayoutDashboard>
         <Component {...pageProps} />
-      </GlobalcontextProdiver>
-    </LayoutDashboard>
+      </LayoutDashboard>
+    </GlobalcontextProdiver>
   )
 }
 

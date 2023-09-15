@@ -8,8 +8,9 @@ import { CopyToClipboard } from 'react-copy-to-clipboard';
 import useOnClickOutside from '../../hooks/useOnClickOutside';
 import { useRouter } from 'next/router';
 import { BsSearchHeart } from 'react-icons/bs';
-import Logo from '../../assets/18.jpg'
-import Image from 'next/image';
+import { useGlobalContext } from '../../context/GlobalContext';
+import { ToastContainer, toast } from 'react-toastify';
+
 interface Props {
   showSidebar: boolean,
   setShowSidebar: React.Dispatch<React.SetStateAction<boolean>>
@@ -31,7 +32,8 @@ const Navbar = ({ showSidebar, setShowSidebar }: Props) => {
   const { pathname } = useRouter()
   const closeBoxSearch = useRef<HTMLDivElement>(null)
   const closeBoxSearchInput = useRef<HTMLInputElement>(null)
-
+  const { addProductRegisterToSell, LibraryData, resetToastifyNotificationAddProduct } = useGlobalContext()
+  const { productToCart, toastifyNotificationAddProduct } = LibraryData
   const [onInput, setOnInput] = useState(false)
   const [userInfo, setUserInfo] = useState<UserInfo>()
   const authUser = getAuth()
@@ -40,6 +42,11 @@ const Navbar = ({ showSidebar, setShowSidebar }: Props) => {
   const initialValueInput = { description: "" }
   const [conditionalValue, setConditionalValue] = useState(initialValueInput)
   const [results, setResults] = useState<any>(null)
+
+
+  const addProductFromNavbar = (code: string) => {
+    addProductRegisterToSell(code, productToCart)
+  }
 
   const handleClickOutside = () => {
     setConditionalValue(initialValueInput)
@@ -50,7 +57,21 @@ const Navbar = ({ showSidebar, setShowSidebar }: Props) => {
   }
   useOnClickOutside(closeBoxSearch, handleClickOutside)
 
+  const successToastify = () => {
+    toast.success('se agrego producto al carrito', {
+      position: "top-center",
+      autoClose: 1000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      theme: "colored",
+    })
+  }
+
   useEffect(() => {
+    resetToastifyNotificationAddProduct()
     authUser.onAuthStateChanged(user => {
       let char = []
       let names = ""
@@ -68,7 +89,10 @@ const Navbar = ({ showSidebar, setShowSidebar }: Props) => {
       }
     }
     )
-  }, [results])
+    if (toastifyNotificationAddProduct === 1) {
+      successToastify()
+    }
+  }, [results,toastifyNotificationAddProduct])
 
   const handleChangeValue = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { value } = e.target
@@ -178,27 +202,31 @@ const Navbar = ({ showSidebar, setShowSidebar }: Props) => {
                   results &&
                   results.map((item: ProductToCart) => {
                     return (
-                      <CopyToClipboard key={item.code} text={item.code as string}>
-                        <div className='w-full my-2 hover:bg-slate-200 border-b-2 cursor-pointer border-slate-100'>
-                          <div className='flex justify-between items-center'>
-                            <p className='text-slate-600 capitalize font-nunito' dangerouslySetInnerHTML={testData(`${item.code}`)} />
+                      // <CopyToClipboard key={item.code} text={item.code as string}>
 
-                            {/* <p className='text-slate-600 font-nunito'>{item.code}</p> */}
-                            <p className='text-slate-600 font-nunito'>stock: {item.stock}</p>
-                          </div>
-                          <h3 className='text-slate-600 capitalize font-nunito' dangerouslySetInnerHTML={testData(`${item.description}`)} />
-                          <div className='flex justify-between items-center'>
-                            <div className='flex'>
-                              <span className='font-nunito text-slate-600'>marca: </span><p className='text-slate-600 capitalize font-nunito' dangerouslySetInnerHTML={testData(`${item.brand}`)} />
-                            </div>
-                            <div className='flex'>
-                              <span className='font-nunito text-slate-600'>precio: $</span><p className='text-slate-600 capitalize font-nunito' dangerouslySetInnerHTML={testData(`${item.price}`)} />
-                            </div>
-                            {/* <p className='text-slate-600 font-nunito'>marca: {item.brand}</p> */}
-                            {/* <p className='text-slate-600 font-nunito'>precio: $ {item.price}</p> */}
-                          </div>
+                      productToCart &&
+
+                      <div onClick={() => addProductFromNavbar(`${item?.code}`)} className='w-full my-2 hover:bg-slate-200 border-b-2 cursor-pointer border-slate-100'>
+                        <div className='flex justify-between items-center'>
+                          <p className='text-slate-600 capitalize font-nunito' dangerouslySetInnerHTML={testData(`${item.code}`)} />
+
+                          {/* <p className='text-slate-600 font-nunito'>{item.code}</p> */}
+                          <p className='text-slate-600 font-nunito'>stock: {item.stock}</p>
                         </div>
-                      </CopyToClipboard>
+                        <h3 className='text-slate-600 capitalize font-nunito' dangerouslySetInnerHTML={testData(`${item.description}`)} />
+                        <div className='flex justify-between items-center'>
+                          <div className='flex'>
+                            <span className='font-nunito text-slate-600'>marca: </span><p className='text-slate-600 capitalize font-nunito' dangerouslySetInnerHTML={testData(`${item.brand}`)} />
+                          </div>
+                          <div className='flex'>
+                            <span className='font-nunito text-slate-600'>precio: $</span><p className='text-slate-600 capitalize font-nunito' dangerouslySetInnerHTML={testData(`${item.price}`)} />
+                          </div>
+                          {/* <p className='text-slate-600 font-nunito'>marca: {item.brand}</p> */}
+                          {/* <p className='text-slate-600 font-nunito'>precio: $ {item.price}</p> */}
+                        </div>
+                      </div>
+
+                      // </CopyToClipboard>
                     )
                   })
                 }

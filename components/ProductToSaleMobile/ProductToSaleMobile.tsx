@@ -42,7 +42,7 @@ const ProductToSaleMobile = ({ productToCart, totalAmountToCart }: Props) => {
               <li key={item.code} className="w-full bg-white p-2 rounded-md shadow-md">
                 <div className="flex justify-between font-nunito  items-center">
                   <div className="flex gap-3">
-                    <div className="rounded-full flex items-center justify-center bg-pastel13 text-white w-[20px] h-[20px]">
+                    <div className="rounded-full flex items-center justify-center bg-pastel8 text-white w-[20px] h-[20px]">
                       {index + 1}
                     </div>
                     <div className="text-slate-600 font-dmMono">

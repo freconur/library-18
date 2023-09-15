@@ -36,7 +36,9 @@ interface LibraryAllData {
   productToUpdate: ProductToCart,
   showSaleModal: boolean,
   tostifyNotificationSales:number,
-  getProductsSales: ProductToCart[]
+  getProductsSales: ProductToCart[],
+  resetToastifyNotificationAddProduct: number,
+  toastifyNotificationAddProduct: number
 }
 interface Brands {
   id?:string
