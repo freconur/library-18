@@ -16,8 +16,9 @@ import {
   Legend,
   ChartData,
 } from 'chart.js';
-import { currentMonth } from "../../dates/date";
 import CardEstadisticas from "../../components/card-estadisticas/CardEstadisticas";
+import { getDailySales } from "../../reducer/Product";
+import TableStatidisticsPerMonth from "../../components/tableStatidisticsPerMonth/TableStatidisticsPerMonth";
 
 ChartJS.register(
   CategoryScale,
@@ -30,18 +31,18 @@ ChartJS.register(
 );
 
 const Estadisticas = () => {
-  const { dailySaleContext, LibraryData, dailyTicketContext, incomePerDay, totalSalesPerYearContext } = useGlobalContext()
-  const { dailySale, dailyTicket, averageTicket, dataSales, dataSalesLabel, dataTotalSalesPerMonth, totalSalesYear } = LibraryData
+  const { dailySaleContext, LibraryData, dailyTicketContext, incomePerDay, totalSalesPerYearContext, getDataToStatistics } = useGlobalContext()
+  const { dailySale, dailyTicket, averageTicket, dataSales, dataSalesLabel, dataTotalSalesPerMonth, totalSalesYear, dataStatistics } = LibraryData
 
   useEffect(() => {
     dailySaleContext()
     dailyTicketContext()
     totalSalesPerYearContext()
     incomePerDay()
+    getDataToStatistics()
+
+    getDailySales()
   }, [dailySale, dailyTicket])
-  // console.log('dataSales', dataSales)
-  // console.log('dataSalesLabel', dataSalesLabel)
-  // console.log('dataTotalSalesPerMonth', dataTotalSalesPerMonth)
 
   const sales = {
     labels: dataSalesLabel,
@@ -72,16 +73,23 @@ const Estadisticas = () => {
       },
     },
   };
+  console.log('dataStatistics',dataStatistics)
+  // console.log('dataStatistics',dataStatistics[dataStatistics.length - 1].dailySales)
   return (
     <div className="w-full relative">
       <h1 className="text-2xl text-slate-700 font-dmMono  my-5">{`Dashboard > Estadisticas`}</h1>
-      <CardEstadisticas dailySale={dailySale} dailyTicket={dailyTicket} averageTicket={averageTicket} dataTotalSalesPerMonth={dataTotalSalesPerMonth} totalSalesYear={totalSalesYear} />
-      <div className="mt-5">
-        <h2 className="text-slate-600 font-dmMono text-xl font-medium capitalize mb-5">graficos</h2>
+      <CardEstadisticas dataStatistics={dataStatistics} dataSales={dataSales} dailySale={dailySale} dailyTicket={dailyTicket} averageTicket={averageTicket} dataTotalSalesPerMonth={dataTotalSalesPerMonth} totalSalesYear={totalSalesYear} />
+      <div className="my-[50px] w-full cs:h-[300px] lg:h-[350px] xl:h-[400px]">
+        <h2 className="text-slate-600 font-dmMono text-xl font-medium capitalize mb-5">graficos y ratios</h2>
         {/* <div className="w-[99%]"> */}
-        <div className="grid p-2 grid-cols-1 lg:grid-cols-2 w-full rounded-sm">
+        <div className="grid p-2 grid-cols-1 gap-4 cs:grid-cols-2 w-full rounded-sm mb-[50px]">
           <div className="w-full bg-white p-2">
-            <Line options={options} data={sales} />
+            <Line className="w-full" options={options} data={sales} />
+
+          </div>
+            {/* <Line className="w-full" options={options} data={sales} /> */}
+          <div className="w-full bg-white">
+            <TableStatidisticsPerMonth dataStatistics={dataStatistics} />
           </div>
         </div>
       </div>

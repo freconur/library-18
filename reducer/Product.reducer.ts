@@ -31,6 +31,7 @@ type LibraryData =
   | { type: "getProductsSales"; payload: ProductToCart[] }
   | { type: "resetToastifyNotificationAddProduct"}
   | { type: "toastifyNotificationAddProduct"}
+  | { type: "dataStatistics", payload: GeneralStatisticsPerDay[]}
 
 export const Library = {
   newProduct: {} as FormProductValues,
@@ -60,11 +61,18 @@ export const Library = {
   tostifyNotificationSales: 0 as number,
   getProductsSales: [] as ProductToCart[],
   resetToastifyNotificationAddProduct: 0 as number,
-  toastifyNotificationAddProduct: 0 as number
+  toastifyNotificationAddProduct: 0 as number,
+  dataStatistics: [] as GeneralStatisticsPerDay[]
 }
 
 export const ProductsReducer = (state: LibraryAllData, action: LibraryData) => {
   switch (action.type) {
+    case "dataStatistics": {
+      return {
+        ...state,
+        dataStatistics:action.payload
+      }
+    }
     case "toastifyNotificationAddProduct": {
       return {
         ...state,

@@ -2,6 +2,7 @@ import { createContext, useContext, useReducer, useState } from "react";
 import { addNewProduct, addStockToProduct, addStockToProductUpdate, dailySale, dailyTicket, deleteProductToCart, findToAddProductCart, generateSold, getBrands, getCategory, getFilterProductByStock, getIncomePerDay, getMarcaSocio, getProductsSales, getTotalSalesPerYear } from "../reducer/Product";
 import { Library, ProductsReducer } from "../reducer/Product.reducer";
 import { getProductByCodeToUpdateContext } from "../reducer/UpdateProducts";
+import { dataToStatistics } from "../reducer/Statistics";
 
 interface Props {
   children: React.ReactNode
@@ -44,7 +45,8 @@ type GlobalContextProps = {
   resetValueToastify: () => void,
   incrementAmountToItemFromCart: (amount:number,code:string) => void,
   getProductsSalesContext: () => void,
-  resetToastifyNotificationAddProduct: () => void
+  resetToastifyNotificationAddProduct: () => void,
+  getDataToStatistics: () => void
 }
 
 
@@ -60,6 +62,10 @@ export function GlobalcontextProdiver({ children }: Props) {
   const [showModalUpdateBrands, setShowModalUpdateBrands] = useState<boolean>(false)
   const [showModalDeleteBrands, setShowModalDeleteBrands] = useState<boolean>(false)
 
+  const getDataToStatistics = () => {
+    dataToStatistics(dispatch)
+    
+  }
 const resetToastifyNotificationAddProduct = () => {
   dispatch({type:"resetToastifyNotificationAddProduct"})
 }
@@ -159,6 +165,7 @@ const resetToastifyNotificationAddProduct = () => {
 
   return (
     <GlobalContext.Provider value={{
+      getDataToStatistics,
       resetToastifyNotificationAddProduct,
       getProductsSalesContext,
       LibraryData,

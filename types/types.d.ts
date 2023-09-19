@@ -1,103 +1,120 @@
 
+interface GeneralStatisticsPerDay {
+  date?: number,
+  dailySales?: number,
+  tickets?: number,
+  averageTicket?: number,
+  growthTicket?: Number,
+  growthSales?: Number,
+  growthAverageTicket?: Number,
+}
 interface FormProductValues {
-  code?:string,
-  description?:string,
-  price?:string,
-  category?:string,
-  brand?:string,
-  stock?:number,
-  marcaSocio?:string
+  code?: string,
+  description?: string,
+  price?: string,
+  category?: string,
+  brand?: string,
+  stock?: number,
+  marcaSocio?: string
 
 }
-
+interface StatisticsData {
+  averageTickets?: number,
+  dailySales?: number,
+  growthAverageTickets?: number,
+  growthDailySales?: number,
+  growthTickets?: number,
+  tickets?: number,
+}
 interface LibraryAllData {
   newProduct?: FormProductValues,
-  brands?:Brands[],
-  category?:Category[],
-  productToCart?:ProductToCart[],
+  brands?: Brands[],
+  category?: Category[],
+  productToCart?: ProductToCart[],
   totalAmountToCart: number,
   currentlyDate: string,
   loaderToSell: boolean,
-  productNotFound:string,
+  productNotFound: string,
   generateSold: boolean,
-  loaderRegisterProduct:boolean,
-  dailySale?:number,
-  dailyTicket?:number,
-  averageTicket?:number,
-  addStockProduct?:ProductToCart | string,
-  loaderChargerStock:boolean,
-  loaderChargerStockAdd:boolean,
-  marcaSocio:MarcaSocio[],
+  loaderRegisterProduct: boolean,
+  dailySale?: number,
+  dailyTicket?: number,
+  averageTicket?: number,
+  addStockProduct?: ProductToCart | string,
+  loaderChargerStock: boolean,
+  loaderChargerStockAdd: boolean,
+  marcaSocio: MarcaSocio[],
   dataSales: number[],
   dataSalesLabel: string[],
   dataTotalSalesPerMonth: number,
-  totalSalesYear:number,
+  totalSalesYear: number,
   productsFromFilterByStock: ProductToCart[],
   productToUpdate: ProductToCart,
   showSaleModal: boolean,
-  tostifyNotificationSales:number,
+  tostifyNotificationSales: number,
   getProductsSales: ProductToCart[],
   resetToastifyNotificationAddProduct: number,
-  toastifyNotificationAddProduct: number
+  toastifyNotificationAddProduct: number,
+  dataStatistics: GeneralStatisticsPerDay[]
 }
 interface Brands {
-  id?:string
-  name?:string
+  id?: string
+  name?: string
 }
 interface Category {
-  id?:string
-  name?:string
+  id?: string
+  name?: string
 }
 interface Brand {
-  id?:string
-  name?:string
+  id?: string
+  name?: string
 }
 interface ProductToCart {
-  code?:string,
-  description?:string,
-  price?:string,
-  category?:string,
-  brand?:string,
-  stock?:string,
-  amount?:number,
-  warning?:string,
-  active?:boolean,
-  marcaSocio?:string,
-  id?:string,
-  totalAmountSale?:number
+  code?: string,
+  description?: string,
+  price?: string,
+  category?: string,
+  brand?: string,
+  stock?: string,
+  amount?: number,
+  warning?: string,
+  active?: boolean,
+  marcaSocio?: string,
+  id?: string,
+  totalAmountSale?: number
 }
 interface Ticket {
-  id?:string,
-  date?:Date | string,
+  id?: string,
+  date?: Date | string,
   timestamp: Date | string | toDate,
   product: ProductsFromTicket[] | undefined,
-  library18:true
+  library18: true
 }
-interface ProductsFromTicket { 
-  code?:string,
-  amount?:number,
-  description?:string
+interface ProductsFromTicket {
+  code?: string,
+  amount?: number,
+  description?: string
 }
 
 interface NumberTicket {
-  ticket?:number
+  ticket?: number
 }
 
 interface StockProductCharger {
-  stock:number
+  stock: number
 }
 interface MarcaSocio {
-  id?:string
+  id?: string
   name?: string
 }
 interface DailySales {
-  amount?:number,
-  id?:string | number
+  amount?: number,
+  id?: string | number
 }
 interface FilterProdyctBySTock {
   stock: number,
   marcaSocio: string,
-  brand:string
+  brand: string
 }
 interface CodeProduct {
   code: string
