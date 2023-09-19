@@ -22,7 +22,7 @@ const SidebarList = ({ sidebarProducts, showSidebar, setShowSidebar }: Props) =>
       <li className="text-gray-300 border-b-[1px] border-slate-300 text-sm flex items-center gap-x-4 cursor-pointer   mt-2 capitalize   hover:bg-slate-200 duration-300 hover:text-gray-800 whitespace-nowrap my-3">
         <div className='flex justify-between items-center '>
 
-        <Link onClick={sidebarProducts} href="/dashboard/estadisticas" className="my-3 w-[200px] p-2">
+        <Link onClick={sidebarProducts} href="" className="my-3 w-[200px] p-2">
           <BsFillBoxFill className="text-slate-600 text-xl block float-left" />
           <span className={`text-base flex-1 ml-2 text-md text-slate-500`}>productos</span>
 

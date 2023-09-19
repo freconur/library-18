@@ -14,8 +14,8 @@ const TableStatidisticsPerMonth = ({ dataStatistics }: Props) => {
           <th className='text-center uppercase'>i %</th>
           <th className='text-center uppercase'>t</th>
           <th className='text-center uppercase'>t %</th>
-          <th className='text-center uppercase'>t. prom</th>
-          <th className='text-center uppercase'>t. prom %</th>
+          <th className='text-center uppercase'>t. p.</th>
+          <th className='text-center uppercase'>t. p. %</th>
         </tr>
       </thead>
       <tbody className='text-slate-400'>
