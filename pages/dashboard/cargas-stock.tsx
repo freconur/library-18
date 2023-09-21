@@ -89,7 +89,7 @@ const CargasStock = () => {
                 <p className="text-gray-400">agregando carga...</p>
               </div>
             }
-            <div className='hidden sm:block rounded-sm shadow max-cs:mr-0 mt-5 overflow-auto'>
+            <div className='hidden md:block rounded-sm shadow max-cs:mr-0 mt-5 overflow-auto'>
               <table className='w-full rounded-sm overflow-hidden  border-[1px] '>
                 <thead className='bg-pastel2 border-b-2 text-left border-gray-200 font-nunito capitalize'>
                   <tr className="p-5">
@@ -111,7 +111,7 @@ const CargasStock = () => {
                 </tbody>
               </table>
             </div>
-            <div className='sm:hidden mt-5 w-full border-[1px] border-pastel10 p-2 rounded-sm shadow-md'>
+            <div className='md:hidden mt-5 w-full border-[1px] border-pastel10 p-2 rounded-sm shadow-md'>
               <div className='flex justify-between items-center font-dmMono text-slate-500'>
                 <span>codigo: {addStockProduct.code}</span>
                 <span className='text-green-600'>stock: {addStockProduct.stock}</span>
