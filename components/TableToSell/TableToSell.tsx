@@ -27,7 +27,7 @@ const TableToSell = ({ productToCart, totalAmountToCart }: Props) => {
   return (
     <div className='rounded-lg shadow max-cs:mr-0 mt-5 overflow-auto hidden md:block'>
       <table className='w-full rounded-lg overflow-hidden  border-[1px] '>
-        <thead className='bg-pastel16 border-b-2 border-gray-200'>
+        <thead className='bg-pastel2 border-b-2 border-gray-200'>
           <tr className="p-5">
             <th className="p-2 text-slate-500 w-[20px] text-left">#</th>
             <th className="p-2 text-slate-500 text-left">codigo</th>
@@ -85,7 +85,7 @@ const TableToSell = ({ productToCart, totalAmountToCart }: Props) => {
                 <td className="px-2 text-center font-semibold"></td>
               </tr>
           }
-          <tr className='h-[35px] bg-pastel17'>
+          <tr className='h-[35px] bg-pastel5'>
             <td className='text-slate-500 px-3 text-center  capitalize font-semibold'>total</td>
             <td></td>
             <td></td>

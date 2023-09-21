@@ -28,7 +28,7 @@ const SidebarList = ({ sidebarProducts, showSidebar, setShowSidebar }: Props) =>
 
           {/* <span className={`text-base flex-1 ml-2   ${!openSidebar && "hidden"}`}>estadisticas</span> */}
         </Link>
-        <Link onClick={sidebarProducts} href="/dashboard/estadisticas">
+        <Link onClick={sidebarProducts} href="">
         <RiArrowLeftSLine className='rotate-180 text-2xl text-slate-600 w-[40px]' />
 
         </Link>

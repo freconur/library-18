@@ -79,7 +79,7 @@ const UpdateProduct = () => {
           null
       }
       <div className='bg-white rounded-lg drop-shadow-md p-2'>
-        <label className='capitalize text-slate-600 font-semibold'>ingresa codigo de producto</label>
+        <label className='capitalize text-slate-600 font-dmMono'>ingresa codigo de producto</label>
         <input onChange={onChangeCodeValue} ref={focusRef} onKeyDown={testEnter} className={styles.inputCode} type="text" name="code" value={codeProduct.code} placeholder='ingresa un codigo' />
       </div>
       <FormUpdate handleActiveBrands={handleActiveBrands} handleActiveCategory={handleActiveCategory} loaderChargerStock={loaderChargerStock} codeProduct={codeProduct.code} item={item} brandActive={brandActive} brands={LibraryData.brands} category={LibraryData.category} setShowUpdateProductModal={setShowUpdateProductModal} showUpdateProductModal={showUpdateProductModal} onChangeItem={onChangeItem} categoryActive={categoryActive}/>

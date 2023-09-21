@@ -17,7 +17,7 @@ const Ventas = () => {
 
       <div className='rounded-sm shadow mb-5 max-cs:mr-0 mt-5 overflow-auto hidden md:block'>
         <table className='text-slate-500 w-full bg-whiterounded-lg overflow-hidden  border-[1px] '>
-          <thead className=' bg-pastel16 border-b-[1px] border-gray-200'>
+          <thead className=' bg-pastel2 border-b-[1px] border-gray-200'>
             <tr className="p-5 ">
               <th className='p-1 text-center'>#</th>
               <th className='p-1 text-center'>codigo</th>
@@ -60,7 +60,7 @@ const Ventas = () => {
                     <div className='flex justify-between items-center'>
 
                       <div className='flex gap-3'>
-                        <div className='flex text-white justify-center items-center rounded-full h-[20px] w-[20px] bg-pastel13'>{index + 1}</div>
+                        <div className='flex text-white justify-center items-center rounded-full h-[20px] w-[20px] bg-pastel9'>{index + 1}</div>
                         <p className='font-dmMono'>cod: {item.code}</p>
                       </div>
                       <p className='font-nunito capitalize text-pastel12'>cantidad: <span className='font-bold'>{item.totalAmountSale}</span></p>

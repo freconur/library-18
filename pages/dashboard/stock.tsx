@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { useGlobalContext } from '../../context/GlobalContext'
 import TableStock from '../../components/tableStock/TableStock'
+import { RiCheckLine } from 'react-icons/ri'
 
 const params: FilterProdyctBySTock = {
   marcaSocio: "",
@@ -11,6 +12,7 @@ const Stock = () => {
   const { filterProductByStock, LibraryData, brands, marcaSocio } = useGlobalContext()
   const { productsFromFilterByStock } = LibraryData
   const [currentPage, setCurrentPage] = useState(0)
+  const [activeButton, setActiveButton] = useState(false)
   const [paramsFilter, setParamsFilter] = useState<FilterProdyctBySTock>(params)
   const onChangeValueAmountStock = (e: React.ChangeEvent<HTMLSelectElement>) => {
     setParamsFilter({
@@ -19,7 +21,7 @@ const Stock = () => {
     })
   }
   useEffect(() => {
-    brands()
+
     marcaSocio()
   }, [])
 
@@ -27,7 +29,10 @@ const Stock = () => {
 
     return productsFromFilterByStock.slice(currentPage, currentPage + 5)
   }
-
+  const getBrands = () => {
+    brands()
+    setActiveButton(!activeButton)
+  }
   const filterProductHandle = () => {
     filterProductByStock(paramsFilter)
   }
@@ -41,11 +46,11 @@ const Stock = () => {
   }
   return (
     <div className='w-full'>
-      <h1 className='text-slate-700 font-semibold capitalize text-2xl'>productos por agotarse</h1>
+      <h1 className='text-slate-700 font-dmMono capitalize text-2xl'>filtro de productos por stock</h1>
       <div className='p-1'>
         <div className="my-3">
-          <h3 className='text-slate-500 font-semibold'>Stock :</h3>
-          <select className='w-full rounded-lg p-2' onChange={onChangeValueAmountStock} value={paramsFilter.stock} name="stock">
+          <h3 className='text-slate-600 font-dmMono'>Stock :</h3>
+          <select className='w-full rounded-lg p-2 text-slate-500' onChange={onChangeValueAmountStock} value={paramsFilter.stock} name="stock">
             <option value="">filtrar por</option>
             <option value={0 as number}> igual a 0 </option>
             <option value={5 as number}>menores a 5 </option>
@@ -53,8 +58,8 @@ const Stock = () => {
           </select>
         </div>
         <div className="my-3">
-          <h3 className='text-slate-500 font-semibold'>Marca socio :</h3>
-          <select className='w-full rounded-lg p-2' onChange={onChangeValueAmountStock} value={paramsFilter.marcaSocio} name="marcaSocio">
+          <h3 className='text-slate-600 font-dmMono'>Marca socio :</h3>
+          <select className='w-full rounded-lg p-2 text-slate-500' onChange={onChangeValueAmountStock} value={paramsFilter.marcaSocio} name="marcaSocio">
             <option value="">filtrar por</option>
             {
               LibraryData.marcaSocio?.map((marcasocio, index) => {
@@ -66,8 +71,11 @@ const Stock = () => {
           </select>
         </div>
         <div className="my-3">
-          <h3 className='text-slate-500 font-semibold'>Marca de producto :</h3>
-          <select className='w-full rounded-lg p-2' onChange={onChangeValueAmountStock} value={paramsFilter.brand} name="brand">
+          <div className='flex'>
+            <h3 className='text-slate-600 font-dmMono'>Marca de producto : </h3>
+            <div onClick={getBrands} className={`${activeButton ? "bg-green-400 text-slate-600": "bg-slate-300"} cursor-pointer w-[20px] h-[20px] flex justify-center items-center rounded-sm  font-semibold ml-3`}><RiCheckLine /></div>
+          </div>
+          <select className='w-full rounded-lg p-2 text-slate-500' onChange={onChangeValueAmountStock} value={paramsFilter.brand} name="brand">
             {
               paramsFilter?.marcaSocio === "waliky"
                 ?
@@ -106,7 +114,7 @@ const Stock = () => {
         {
           paginationProducts().length < 5
             ?
-            null 
+            null
             :
             <button onClick={nextPage} className='h-[40px] w-[160px] bg-red-300 text-slate-700 font-semibold rounded-lg shadow-md'>Siguiente</button>
         }

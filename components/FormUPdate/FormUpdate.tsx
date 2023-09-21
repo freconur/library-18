@@ -43,31 +43,31 @@ const FormUpdate = ({ categoryActive, handleActiveBrands, handleActiveCategory, 
             {item?.description
               &&
               <>
-                <label className='text-slate-500 font-semibold capitalize '>
+                <label className='text-slate-500 font-dmMono capitalize '>
                   codigo :
                 </label>
                 <div className='flex gap-4'>
                 <input disabled={true} className={styles.inputCode} type="text" placeholder={item?.code} />
-                <button onClick={() => setShowDeleteProductModal(!showDeleteProductModal)} className='p-1 rounded-md text-white capitalize shadow-md font-semibold bg-red-500 hover:bg-red-400 duration-300 '>eliminar</button>
+                <button onClick={() => setShowDeleteProductModal(!showDeleteProductModal)} className='p-1 rounded-md text-white capitalize shadow-md font-semibold bg-pastel10 hover:bg-pastel8 duration-300 '>eliminar</button>
                 </div>
-                <label className='text-slate-500 font-semibold capitalize '>
+                <label className='text-slate-500 font-dmMono capitalize '>
                   descripcion :
                 </label>
                 <input onChange={onChangeItem} name="description" className={styles.inputCode} type="text" value={item?.description} />
-                <label className='text-slate-500 font-semibold capitalize '>
+                <label className='text-slate-500 font-dmMono capitalize '>
                   precio :
                 </label>
                 <input onChange={onChangeItem} name="price" className={styles.inputCode} type="text" value={item?.price} />
-                <label className='text-slate-500 font-semibold capitalize '>
+                <label className='text-slate-500 font-dmMono capitalize '>
                   stock :
                 </label>
                 <input disabled={true} className={styles.inputCode} type="text" placeholder={item?.stock} />
                 <div className='block'>
-                  <label className='text-slate-500 font-semibold capitalize '>
+                  <label className='text-slate-500 font-dmMono capitalize '>
                     marca de socio :
                   </label>
                   <div className='w-full'>
-                    <select name="marcaSocio" onChange={onChangeItem} className='w-full rounded-lg  h-[40px]'>
+                    <select name="marcaSocio" onChange={onChangeItem} className='w-full rounded-lg text-slate-500  h-[40px]'>
                       <option value={item?.marcaSocio}>{item?.marcaSocio}</option>
                       <option value="waliky">waliky</option>
                       <option value="waliky-sublimados">waliky-sublimados</option>
@@ -75,7 +75,7 @@ const FormUpdate = ({ categoryActive, handleActiveBrands, handleActiveCategory, 
                     </select>
                   </div>
                 </div>
-                <label className='text-slate-500 font-semibold capitalize '>
+                <label className='text-slate-500 font-dmMono capitalize '>
                   marca :
                 </label>
                 <div className='w-full flex gap-4 justify-center items-center'>
@@ -93,7 +93,7 @@ const FormUpdate = ({ categoryActive, handleActiveBrands, handleActiveCategory, 
                   </select>
                   <button onClick={handleActiveBrands} className='w-[30px] h-[30px] bg-yellow-500 rounded-sm shadow-sm'>E</button>
                 </div>
-                <label className='text-slate-500 font-semibold capitalize '>
+                <label className='text-slate-500 font-dmMono capitalize '>
                   categoria :
                 </label>
                 <div className='w-full flex gap-4 justify-center items-center'>
@@ -112,7 +112,7 @@ const FormUpdate = ({ categoryActive, handleActiveBrands, handleActiveCategory, 
                   <button onClick={handleActiveCategory} className='w-[30px] h-[30px] bg-yellow-500 rounded-sm shadow-sm'>E</button>
 
                 </div>
-                <button onClick={() => setShowUpdateProductModal(!showUpdateProductModal)} className='bg-gradient-to-l from-blue-500 to-blue-400 w-full h-[40px] rounded-lg shadow-lg mt-3 text-slate-700 font-semibold capitalize'>actualizar producto</button>
+                <button onClick={() => setShowUpdateProductModal(!showUpdateProductModal)} className='bg-pastel11 hover:bg-pastel12 w-full h-[40px] rounded-lg shadow-lg mt-3 text-slate-700 font-semibold capitalize'>actualizar producto</button>
               </>
             }
           </div>
