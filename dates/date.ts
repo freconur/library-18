@@ -28,3 +28,10 @@ export const currentDate = () => {
   const date = new Date()
   return `${date.getDate()}`
 }
+export const functionDateConvert = (date: Date) => {
+  return `${date.getDate()}/${monthNumber[date.getMonth()]}/${date.getFullYear().toString().slice(2, 4)}`
+}
+export const numberToNameMonth = (value:number) => {
+  // const date = new Date()
+  return months[value]
+}

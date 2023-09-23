@@ -29,9 +29,11 @@ type LibraryData =
   | { type: "tostifyNotificationSales"; payload: number }
   | { type: "incrementAmountToItemFromCart", payload: number, payload2: string, payload3: ProductToCart[] | undefined }
   | { type: "getProductsSales"; payload: ProductToCart[] }
-  | { type: "resetToastifyNotificationAddProduct"}
-  | { type: "toastifyNotificationAddProduct"}
-  | { type: "dataStatistics", payload: GeneralStatisticsPerDay[]}
+  | { type: "resetToastifyNotificationAddProduct" }
+  | { type: "toastifyNotificationAddProduct" }
+  | { type: "dataStatistics", payload: GeneralStatisticsPerDay[] }
+  | { type: "getTickets", payload: Ticket[] }
+  | { type: "showCancellationOfsaleModal", payload: boolean }
 
 export const Library = {
   newProduct: {} as FormProductValues,
@@ -62,15 +64,29 @@ export const Library = {
   getProductsSales: [] as ProductToCart[],
   resetToastifyNotificationAddProduct: 0 as number,
   toastifyNotificationAddProduct: 0 as number,
-  dataStatistics: [] as GeneralStatisticsPerDay[]
+  dataStatistics: [] as GeneralStatisticsPerDay[],
+  getTickets: [] as Ticket[],
+  showCancellationOfsaleModal: false as boolean
 }
 
 export const ProductsReducer = (state: LibraryAllData, action: LibraryData) => {
   switch (action.type) {
+    case "showCancellationOfsaleModal": {
+      return {
+        ...state,
+        showCancellationOfsaleModal:action.payload
+      }
+    }
+    case "getTickets": {
+      return {
+        ...state,
+        getTickets: action.payload
+      }
+    }
     case "dataStatistics": {
       return {
         ...state,
-        dataStatistics:action.payload
+        dataStatistics: action.payload
       }
     }
     case "toastifyNotificationAddProduct": {

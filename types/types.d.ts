@@ -55,7 +55,15 @@ interface LibraryAllData {
   getProductsSales: ProductToCart[],
   resetToastifyNotificationAddProduct: number,
   toastifyNotificationAddProduct: number,
-  dataStatistics: GeneralStatisticsPerDay[]
+  dataStatistics: GeneralStatisticsPerDay[],
+  getTickets:Ticket[],
+  showCancellationOfsaleModal: boolean
+}
+
+interface DateData {
+  date: number,
+  month:string,
+  year:number
 }
 interface Brands {
   id?: string
@@ -81,19 +89,30 @@ interface ProductToCart {
   active?: boolean,
   marcaSocio?: string,
   id?: string,
-  totalAmountSale?: number
+  totalAmountSale?: number,
+  warningAmount?:boolean,
+  cancelAmount?:number,
+
 }
 interface Ticket {
   id?: string,
   date?: Date | string,
   timestamp: Date | string | toDate,
-  product: ProductsFromTicket[] | undefined,
-  library18: true
+  product: ProductsFromTicket[] | undefined | ProductToCart[],
+  library18: boolean
 }
 interface ProductsFromTicket {
   code?: string,
   amount?: number,
-  description?: string
+  description?: string,
+  price?:string,
+  brand?:string,
+  stock?:number,
+  warning?:string,
+  marcaSocio?:string,
+  category?:string,
+  cancelAmount?:number,
+  warningAmount?:boolean
 }
 
 interface NumberTicket {

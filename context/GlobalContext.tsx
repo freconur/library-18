@@ -3,6 +3,7 @@ import { addNewProduct, addStockToProduct, addStockToProductUpdate, dailySale, d
 import { Library, ProductsReducer } from "../reducer/Product.reducer";
 import { getProductByCodeToUpdateContext } from "../reducer/UpdateProducts";
 import { dataToStatistics } from "../reducer/Statistics";
+import { getTickets } from "../reducer/ventas";
 
 interface Props {
   children: React.ReactNode
@@ -46,7 +47,9 @@ type GlobalContextProps = {
   incrementAmountToItemFromCart: (amount:number,code:string) => void,
   getProductsSalesContext: () => void,
   resetToastifyNotificationAddProduct: () => void,
-  getDataToStatistics: () => void
+  getDataToStatistics: () => void,
+  getTicketsContext: (dateData:DateData) => void,
+  setModalCancellationOfSale: (value:boolean) => void
 }
 
 
@@ -62,6 +65,12 @@ export function GlobalcontextProdiver({ children }: Props) {
   const [showModalUpdateBrands, setShowModalUpdateBrands] = useState<boolean>(false)
   const [showModalDeleteBrands, setShowModalDeleteBrands] = useState<boolean>(false)
 
+  const setModalCancellationOfSale = (value:boolean) => {
+    dispatch({type:"showCancellationOfsaleModal", payload: !value})
+  }
+  const getTicketsContext = (dateData:DateData) => {
+    getTickets(dispatch,dateData)
+  }
   const getDataToStatistics = () => {
     dataToStatistics(dispatch)
     
@@ -165,6 +174,8 @@ const resetToastifyNotificationAddProduct = () => {
 
   return (
     <GlobalContext.Provider value={{
+      setModalCancellationOfSale,
+      getTicketsContext,
       getDataToStatistics,
       resetToastifyNotificationAddProduct,
       getProductsSalesContext,
