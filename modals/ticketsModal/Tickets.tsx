@@ -8,6 +8,7 @@ interface Props {
   findTicket: Ticket
 }
 const Tickets = ({ findTicket }: Props) => {
+  const { cancelTicketContext } = useGlobalContext()
   const initialValueAmount = { amount: 0 }
   const { setModalCancellationOfSale, LibraryData } = useGlobalContext()
   const { showCancellationOfsaleModal } = LibraryData
@@ -30,15 +31,19 @@ const Tickets = ({ findTicket }: Props) => {
           item.cancelAmount = Number(valueAmount.amount)
           item.warningAmount = false
           setValueAmount(initialValueAmount)
-          
+
         } else {
           item.warningAmount = true
         }
       }
     })
   }
+  const handleCancelTicket = () => {
+    cancelTicketContext(findTicket)
+    setModalCancellationOfSale(showCancellationOfsaleModal)
+  }
   useEffect(() => {
-    if(valueAmount.amount !== 0) {
+    if (valueAmount.amount !== 0) {
       findAndUpdateAmount()
     }
     setCount(count + 1)
@@ -47,7 +52,6 @@ const Tickets = ({ findTicket }: Props) => {
   if (typeof window !== "undefined") {
     container = document.getElementById("portal-modal");
   }
-  console.log('findTicket.product', findTicket.product)
   return container
     ? createPortal(
       <div className={styles.containerModal}>
@@ -61,6 +65,7 @@ const Tickets = ({ findTicket }: Props) => {
             {
               findTicket.product?.map(item => {
                 return (
+                  
                   <li className='border-[1px] border-pastel2  text-slate-600 font-nunito p-2' key={item.code}>
                     <div className='flex capitalize justify-between'>
                       <h3>cod: {item.code}</h3>
@@ -70,31 +75,36 @@ const Tickets = ({ findTicket }: Props) => {
                       <h3>{item.description}</h3>
                       <h3>precio: s/ {item.price}</h3>
                     </div>
+                    {
+                      item.amount === 0 ?
+                      null:
                     <div className='flex w-full justify-between'>
                       <span>devolucion: </span>
                       <div className='flex justify-center items-center'>
 
                         <>
-                          <input value={item.cancelAmount} onClick={() => setCatchCode(`${item.code}`)} onChange={onChangeValueAmount} className='w-[30px] border-[1px] rounded-sm border-pastel10 pl-1 ml-2 outline-none h-[20px]' type="number" name="amount" />
+                          <input  onClick={() => setCatchCode(`${item.code}`)} onChange={onChangeValueAmount} className='w-[30px] border-[1px] rounded-sm border-pastel10 pl-1 ml-2 outline-none h-[20px]' type="number" name="amount" />
                           <RiDeleteBack2Line className='text-red-500 text-xl ml-3 cursor-pointer' />
                         </>
                       </div>
                     </div>
-                        <div>
-                          {
-                            item.warningAmount === true ?
-                            <span className='text-red-500'>* no puedes anular una cantidad mayor a la cantidad vendida</span>
-                            : null
-                          }
-                        </div>
+
+                    }
+                    <div>
+                      {
+                        item.warningAmount === true ?
+                          <span className='text-red-500'>* no puedes anular una cantidad mayor a la cantidad vendida</span>
+                          : null
+                      }
+                    </div>
                   </li>
                 )
               })
             }
           </ul>
-            <div className='p-2 bg-pastel10 rounded-sm mt-3 text-center text-white font-nunito capitalize font-semibold hover:opacity-90 cursor-pointer duration-300'> anular</div>
+          <div onClick={handleCancelTicket} className='p-2 bg-pastel10 rounded-sm mt-3 text-center text-white font-nunito capitalize font-semibold hover:opacity-90 cursor-pointer duration-300'> anular</div>
           <div>
-          <p className='cursor-pointer text-slate-500 text-center mt-3 underline decoration-solid' onClick={() => setModalCancellationOfSale(showCancellationOfsaleModal)}>cerrar</p>
+            <p className='cursor-pointer text-slate-500 text-center mt-3 underline decoration-solid' onClick={() => setModalCancellationOfSale(showCancellationOfsaleModal)}>cerrar</p>
           </div>
         </div>
       </div>,

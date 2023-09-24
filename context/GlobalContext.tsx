@@ -3,7 +3,7 @@ import { addNewProduct, addStockToProduct, addStockToProductUpdate, dailySale, d
 import { Library, ProductsReducer } from "../reducer/Product.reducer";
 import { getProductByCodeToUpdateContext } from "../reducer/UpdateProducts";
 import { dataToStatistics } from "../reducer/Statistics";
-import { getTickets } from "../reducer/ventas";
+import { cancelTicket, getTickets } from "../reducer/ventas";
 
 interface Props {
   children: React.ReactNode
@@ -42,14 +42,15 @@ type GlobalContextProps = {
   totalSalesPerYearContext: () => void,
   filterProductByStock: (paramsFilter: FilterProdyctBySTock) => void,
   productByCodeToUpdateContext: (code: string) => void,
-  showGenerateSale: (boolean:boolean) => void,
+  showGenerateSale: (boolean: boolean) => void,
   resetValueToastify: () => void,
-  incrementAmountToItemFromCart: (amount:number,code:string) => void,
+  incrementAmountToItemFromCart: (amount: number, code: string) => void,
   getProductsSalesContext: () => void,
   resetToastifyNotificationAddProduct: () => void,
   getDataToStatistics: () => void,
-  getTicketsContext: (dateData:DateData) => void,
-  setModalCancellationOfSale: (value:boolean) => void
+  getTicketsContext: (dateData: DateData) => void,
+  setModalCancellationOfSale: (value: boolean) => void,
+  cancelTicketContext: (ticket:Ticket) => void
 }
 
 
@@ -65,36 +66,40 @@ export function GlobalcontextProdiver({ children }: Props) {
   const [showModalUpdateBrands, setShowModalUpdateBrands] = useState<boolean>(false)
   const [showModalDeleteBrands, setShowModalDeleteBrands] = useState<boolean>(false)
 
-  const setModalCancellationOfSale = (value:boolean) => {
-    dispatch({type:"showCancellationOfsaleModal", payload: !value})
+
+  const cancelTicketContext = (ticket:Ticket) => {
+    cancelTicket(ticket)
   }
-  const getTicketsContext = (dateData:DateData) => {
-    getTickets(dispatch,dateData)
+  const setModalCancellationOfSale = (value: boolean) => {
+    dispatch({ type: "showCancellationOfsaleModal", payload: !value })
+  }
+  const getTicketsContext = (dateData: DateData) => {
+    getTickets(dispatch, dateData)
   }
   const getDataToStatistics = () => {
     dataToStatistics(dispatch)
-    
+
   }
-const resetToastifyNotificationAddProduct = () => {
-  dispatch({type:"resetToastifyNotificationAddProduct"})
-}
+  const resetToastifyNotificationAddProduct = () => {
+    dispatch({ type: "resetToastifyNotificationAddProduct" })
+  }
 
   const getProductsSalesContext = () => {
     getProductsSales(dispatch)
   }
 
-  const incrementAmountToItemFromCart = (amount:number, code:string) => {
-    dispatch({type:"incrementAmountToItemFromCart", payload:amount, payload2: code, payload3: LibraryData.productToCart})
+  const incrementAmountToItemFromCart = (amount: number, code: string) => {
+    dispatch({ type: "incrementAmountToItemFromCart", payload: amount, payload2: code, payload3: LibraryData.productToCart })
   }
   const addProduct = (productData: FormProductValues) => {
     addNewProduct(dispatch, productData)
   }
   const resetValueToastify = () => {
-    dispatch({type:"tostifyNotificationSales", payload: 0})
+    dispatch({ type: "tostifyNotificationSales", payload: 0 })
   }
-  const showGenerateSale = (boolean:boolean) => {
+  const showGenerateSale = (boolean: boolean) => {
     // setShowSaleModal(!showSaleModal)
-    dispatch({type:"showSaleModal", payload: !boolean})
+    dispatch({ type: "showSaleModal", payload: !boolean })
   }
   const showCategory = () => {
     setShowModalCategory(!showModalCategory)
@@ -174,6 +179,7 @@ const resetToastifyNotificationAddProduct = () => {
 
   return (
     <GlobalContext.Provider value={{
+      cancelTicketContext,
       setModalCancellationOfSale,
       getTicketsContext,
       getDataToStatistics,

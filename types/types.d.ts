@@ -92,7 +92,7 @@ interface ProductToCart {
   totalAmountSale?: number,
   warningAmount?:boolean,
   cancelAmount?:number,
-
+  dateLastModified?:Date | toDate
 }
 interface Ticket {
   id?: string,
@@ -112,7 +112,8 @@ interface ProductsFromTicket {
   marcaSocio?:string,
   category?:string,
   cancelAmount?:number,
-  warningAmount?:boolean
+  warningAmount?:boolean,
+  dateLastModified?:Date | toDate
 }
 
 interface NumberTicket {

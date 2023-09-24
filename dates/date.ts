@@ -31,6 +31,13 @@ export const currentDate = () => {
 export const functionDateConvert = (date: Date) => {
   return `${date.getDate()}/${monthNumber[date.getMonth()]}/${date.getFullYear().toString().slice(2, 4)}`
 }
+export const dateConvertObject = (date:Date) => {
+  return {
+    date:date.getDate(),
+    month:months[date.getMonth()],
+    year:Number(date.getFullYear())
+  }
+}
 export const numberToNameMonth = (value:number) => {
   // const date = new Date()
   return months[value]

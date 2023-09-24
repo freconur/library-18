@@ -1,12 +1,12 @@
-import { OrderByDirection, QuerySnapshot, Timestamp, addDoc, collection, deleteDoc, doc, endAt, endBefore, getDoc, getDocs, getFirestore, limit, onSnapshot, orderBy, query, setDoc, startAfter, updateDoc, where } from "firebase/firestore";
+import { OrderByDirection, QuerySnapshot, Timestamp, addDoc, arrayRemove, arrayUnion, collection, deleteDoc, doc, endAt, endBefore, getDoc, getDocs, getFirestore, limit, onSnapshot, orderBy, query, setDoc, startAfter, updateDoc, where } from "firebase/firestore";
 import { app } from "../firebase/firebase.config";
-import { currentDate, currentMonth, currentYear, functionDateConvert } from "../dates/date";
+import { currentDate, currentMonth, currentYear, dateConvertObject, functionDateConvert } from "../dates/date";
 
 const db = getFirestore(app)
 const YEAR_MONTH = `${currentMonth()}-${currentYear()}/${currentMonth()}-${currentYear()}`
 const yearMonth = `${currentMonth()}-${currentYear()}`
 
-export const getTickets = async (dispatch: (action: any) => void,dateData:DateData) => {
+export const getTickets = async (dispatch: (action: any) => void, dateData: DateData) => {
   const pathTicket = `${dateData.month}-${dateData.year}/${dateData.month}-${dateData.year}/${dateData.date}`
   const ticketPath = `/db-ventas/xB98zEEqUPU3LXiIf7rQ/${pathTicket}/`
   const ticketsRef = collection(db, ticketPath)
@@ -24,6 +24,195 @@ export const getTickets = async (dispatch: (action: any) => void,dateData:DateDa
   }
 }
 
-export const cancelTicket = () => {
+export const cancelTicket = async (ticket: Ticket) => {
+  const dateData = dateConvertObject(ticket.timestamp.toDate())
+  console.log('ticket', ticket)
+  const pathTicket = `/db-ventas/xB98zEEqUPU3LXiIf7rQ/${dateData.month}-${dateData.year}/${dateData.month}-${dateData.year}/${dateData.date}`
+  const ticketRef = doc(db, pathTicket, ticket.id as string)
+  const querySnapTicket = await getDoc(ticketRef)
+  // .then( r=> {
+  //   // if (querySnapTicket) {
+  //     if (Number(currentDate()) === dateData.date) {
+  //       ticket.product?.map(async (item, index) => {
+  //         if (item.cancelAmount !== undefined && item.cancelAmount > 0) {
+  //           //-----DAILYSALES-------//
+  //           const pathDailySales = `/dailysale/vAWFt15qlNVykhHvNno0/${yearMonth}/`
+  //           const currentDailySales = doc(db, pathDailySales, currentDate())
+  //           const queryDailySales = await getDoc(currentDailySales)//esto solo sirve para validar que la data existe//
+  //           //-----DAILYSALES-------//
+  //           //-----DAILYSALESTATICTICS-------//
+  //           const pathDailySalesStatistics = `/statistics/${YEAR_MONTH}/`
+  //           const currentDailySalesStatistics = doc(db, pathDailySalesStatistics, currentDate())
+  //           const queryDailySalesStatistics = await getDoc(currentDailySalesStatistics)//esto solo sirve para validar que la data existe//
+  //           //-----DAILYSALESTATICTICS-------//
+  //           //-----PRODUCTS-------//
+  //           const productRef = doc(db, 'products', item.code as string)
+  //           const productData = await getDoc(productRef)//esto solo sirve para validar que la data existe//
+  //           //-----PRODUCTS-------//
 
+  //           const updateAmountFromProduct = Number(item.amount) - item.cancelAmount
+  //           const totalAmountofCashToCancel = Number(item.price) * item.cancelAmount
+  //           console.log('updateAmountFromProduct', updateAmountFromProduct)
+  //           item.amount = Number(item.amount) - item.cancelAmount,
+  //             item.dateLastModified = Timestamp.fromDate(new Date())
+
+  //           if (productData.exists()) {
+  //             const updateStockFromProduct = productData.data()?.stock + item.cancelAmount
+  //             // await updateDoc(productRef, { stock: updateStockFromProduct })
+
+  //             if (queryDailySales.exists() && queryDailySalesStatistics.exists()) {
+  //               console.log('descontando el cash')
+  //               const updateCash = queryDailySales.data().amount - totalAmountofCashToCancel
+  //               console.log('updateCash', updateCash)
+  //               // await updateDoc(currentDailySalesStatistics, { dailySales: updateCash })
+  //               // await updateDoc(currentDailySales, { amount: updateCash })
+  //             }
+  //           }
+  //         }
+  //         // newProductsArray.push(item)
+  //       })
+  //       // await updateDoc(ticketRef, { ...ticket, dateLastModified: Timestamp.fromDate(new Date()) })
+  //     }
+  //   // }
+  // })
+  // .then(async r=>await updateDoc(ticketRef, { ...ticket, dateLastModified: Timestamp.fromDate(new Date()) }))
+  // const myFunction = () => {
+  //   return new Promise((resolve) => {
+  //     const newProductsArray:any = []
+
+
+  //     setTimeout(() => {
+  //       resolve(newProductsArray)
+  //     }, 3000);
+  //   })
+  // }
+  // const testFunction = async () => {
+  //   console.log('primero')
+  //   // console.log(await myFunction())
+  //   console.log('ticket2', ticket)
+  //   await myFunction().then(response=> {
+  //     response
+  //     console.log('response',response)
+  //   })
+  //   // await myFunction().then(async(r)=>await updateDoc(ticketRef, { ...ticket,product:, dateLastModified: Timestamp.fromDate(new Date()) }))
+
+  //   console.log('tercero')
+  // }
+  // // testFunction()
+  // // console.log(await myFunction().then(r=>console.log('final')))
+  if (querySnapTicket.exists()) {
+    if (Number(currentDate()) === dateData.date) {
+      // pasaria a descontar los montos de en tiempo real y las cantidadaes de stock del ticket
+      ticket.product?.map(async (item, index) => {
+        if (item.cancelAmount !== undefined && item.cancelAmount > 0) {
+          //-----DAILYSALES-------//
+          const pathDailySales = `/dailysale/vAWFt15qlNVykhHvNno0/${yearMonth}/`
+          const currentDailySales = doc(db, pathDailySales, currentDate())
+          const queryDailySales = await getDoc(currentDailySales)//esto solo sirve para validar que la data existe//
+          //-----DAILYSALES-------//
+          //-----DAILYSALESTATICTICS-------//
+          const pathDailySalesStatistics = `/statistics/${YEAR_MONTH}/`
+          const currentDailySalesStatistics = doc(db, pathDailySalesStatistics, currentDate())
+          const queryDailySalesStatistics = await getDoc(currentDailySalesStatistics)//esto solo sirve para validar que la data existe//
+          //-----DAILYSALESTATICTICS-------//
+          //-----PRODUCTS-------//
+          const productRef = doc(db, 'products', item.code as string)
+          const productData = await getDoc(productRef)//esto solo sirve para validar que la data existe//
+          //-----PRODUCTS-------//
+          const productsSalesRef = doc(db, `/products-sales-library18/${currentYear()}/${currentMonth()}/${currentMonth()}/${currentDate()}`, item.code as string)
+          if (productData.exists()) {
+            await updateDoc(ticketRef, {
+              product: arrayRemove({
+                amount: item.amount,
+                brand: item.brand,
+                category: item.category,
+                code: item.code,
+                description: item.description,
+                marcaSocio: item.marcaSocio,
+                price: item.price,
+                stock: item.stock,
+                warning: item.warning,
+              })
+            })
+
+            const updateStockFromProduct = productData.data()?.stock + item.cancelAmount
+            const updateAmountFromProduct = Number(item.amount) - item.cancelAmount
+            const totalAmountofCashToCancel = Number(item.price) * item.cancelAmount
+              item.amount = updateAmountFromProduct,
+              item.dateLastModified = Timestamp.fromDate(new Date())
+            await updateDoc(productRef, { stock: updateStockFromProduct })
+            await updateDoc(ticketRef, {
+              product: arrayUnion({
+                amount: item.amount,
+                brand: item.brand,
+                category: item.category,
+                code: item.code,
+                description: item.description,
+                marcaSocio: item.marcaSocio,
+                price: item.price,
+                stock: item.stock,
+                warning: item.warning,
+              })
+            })
+            if (queryDailySales.exists() && queryDailySalesStatistics.exists()) {
+              console.log('descontando el cash')
+              const updateCash = queryDailySales.data().amount - totalAmountofCashToCancel
+              console.log('updateCash', updateCash)
+              await updateDoc(currentDailySalesStatistics, { dailySales: updateCash })
+              await updateDoc(currentDailySales, { amount: updateCash })
+              await deleteDoc(productsSalesRef)
+            }
+          }
+        }
+      })
+      await updateDoc(ticketRef, { dateLastModified: Timestamp.fromDate(new Date()) })
+
+    } else {
+      // pasaria a actualizar las cantidad de stock del stick
+
+      ticket.product?.map(async (item, index) => {
+
+        if (item.cancelAmount !== undefined && item.cancelAmount > 0) {
+          const productRef = doc(db, 'products', item.code as string)
+          const productData = await getDoc(productRef)//esto solo sirve para validar que la data existe//
+          if (productData.exists()) {
+            await updateDoc(ticketRef, {
+              product: arrayRemove({
+                amount: item.amount,
+                brand: item.brand,
+                category: item.category,
+                code: item.code,
+                description: item.description,
+                marcaSocio: item.marcaSocio,
+                price: item.price,
+                stock: item.stock,
+                warning: item.warning,
+              })
+            })
+            const updateStockFromProduct = productData.data()?.stock + item.cancelAmount
+            const updateAmountFromProduct = Number(item.amount) - item.cancelAmount
+            item.amount = updateAmountFromProduct
+            item.dateLastModified = Timestamp.fromDate(new Date())
+            item.cancelAmount = item.cancelAmount
+            await updateDoc(ticketRef, {
+              product: arrayUnion({
+                amount: item.amount,
+                brand: item.brand,
+                category: item.category,
+                code: item.code,
+                description: item.description,
+                marcaSocio: item.marcaSocio,
+                price: item.price,
+                stock: item.stock,
+                warning: item.warning,
+              })
+            })
+
+            await updateDoc(productRef, { stock: updateStockFromProduct })
+          }
+        }
+      })
+      await updateDoc(ticketRef, { dateLastModified: Timestamp.fromDate(new Date()) })
+    }
+  }
 }
