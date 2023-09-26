@@ -1,5 +1,5 @@
 
-import { OrderByDirection, QuerySnapshot, Timestamp, addDoc, collection, deleteDoc, doc, endAt, endBefore, getDoc, getDocs, getFirestore, limit, onSnapshot, orderBy, query, setDoc, startAfter, updateDoc, where } from "firebase/firestore";
+import { OrderByDirection, QuerySnapshot, Timestamp, addDoc, collection, deleteDoc, doc, endAt, endBefore, getDoc, getDocs, getFirestore, increment, limit, onSnapshot, orderBy, query, setDoc, startAfter, updateDoc, where } from "firebase/firestore";
 import { app } from "../firebase/firebase.config";
 import { currentDate, currentMonth, currentYear } from "../dates/date";
 
@@ -276,8 +276,10 @@ export const generateSold = async (dispatch: (action: any) => void, cart: Produc
       const ref = doc(db, `/salesPerMonth/EwszanTDNKpiCy4gMvSu/library18/${currentYear()}/month-${currentYear()}/${currentMonth()}`);
       const totalSaleMonth = await getDoc(ref)
       await updateDoc(ref, { totalSales: totalAmountOfCartLibrary + totalSaleMonth.data()?.totalSales })
+      await updateDoc(ref, { totalSales: totalAmountOfCartLibrary + totalSaleMonth.data()?.totalSales })
       //estoy actualizando el stock de cada producto del cart
-      await updateDoc(refProduct, { stock: Number(item.stock) - Number(item.amount) })
+      await updateDoc(refProduct, { stock: increment(-Number(item.amount))})
+      // await updateDoc(refProduct, { stock: Number(item.stock) - Number(item.amount) }) 
     }
 
   })
@@ -313,7 +315,7 @@ const addTicketDataToStatistics = async () => {
     const dataStatistics = await getDoc(statisticsRef)
     if (dataStatistics.exists()) {
       const ticketsAmount = Number(dataStatistics.data().tickets) + 1
-      await updateDoc(statisticsRef, { tickets: ticketsAmount })
+      await updateDoc(statisticsRef, { tickets: increment(1) })
     } else {
       await updateDoc(statisticsRef, { tickets: 1 })
     }
@@ -343,16 +345,13 @@ export const addProductCartToProductSales = async (cart: ProductToCart[] | undef
   const pathQuery = collection(db, pathProductsSales)
   const querySnapshot = await getDocs(pathQuery)
   const productsFromCart: ProductToCart[] = []
-
   if (querySnapshot.size === 0) {
-    console.log('vacio')
     await setDoc(doc(db, pathProductsSales, '1'), { product: "test" })
     cart?.map(async (item) => {
-      await setDoc(doc(db, pathProductsSales, `${item.code}`), { ...item, totalAmountSale: item.amount })
+      await setDoc(doc(db, pathProductsSales, `${item.code}`), { ...item, totalAmountSale: increment(Number(item.amount)) })
       await deleteDoc(doc(db, pathProductsSales, "1"));
     })
   } else if (querySnapshot.size > 0) {
-    console.log('con merca')
     querySnapshot.docs.forEach(doc => {
       productsFromCart.push({ ...doc.data(), id: doc.id })
     })
@@ -362,10 +361,12 @@ export const addProductCartToProductSales = async (cart: ProductToCart[] | undef
         const totalAmountSaleItem: number = Number(findItem?.totalAmountSale) + Number(item?.amount)
         const refItemUpdate = doc(db, pathProductsSales, `${findItem.code}`)
         await updateDoc(refItemUpdate, {
-          totalAmountSale: totalAmountSaleItem
+          // totalAmountSale: totalAmountSaleItem
+          totalAmountSale: increment(Number(item?.amount))
         })
       } else {
-        await setDoc(doc(db, pathProductsSales, `${item.code}`), { ...item, totalAmountSale: item.amount })
+        await setDoc(doc(db, pathProductsSales, `${item.code}`), { ...item, totalAmountSale: increment(Number(item.amount))})
+        // await setDoc(doc(db, pathProductsSales, `${item.code}`), { ...item, totalAmountSale: item.amount })
       }
     })
   }
@@ -400,7 +401,8 @@ export const updateDailySaleFromStatistics = async (totalAmountCart: number) => 
   if (dailyData.exists()) {
     if (statisticsSnap.exists()) {
       const dailySales = Number(statisticsSnap.data().dailySales) + totalAmountCart
-      await updateDoc(updateDailySaleFromStatistics, { dailySales: dailySales })
+      // await updateDoc(updateDailySaleFromStatistics, { dailySales: dailySales })
+      await updateDoc(updateDailySaleFromStatistics, { dailySales: increment(totalAmountCart)})
     } else {
       await setDoc(monthRef, {month:"setiembre"});
       await setDoc(updateDailySaleFromStatistics, {dailySales:0, tickets:0});
