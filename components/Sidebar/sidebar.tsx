@@ -1,9 +1,6 @@
-import Link from 'next/link'
 import React from 'react'
 import { BsArrowLeftShort } from "react-icons/bs";
 import SidebarList from '../sidebarList/SidebarList';
-import Image from 'next/image';
-import Logo from '../../assets/18.jpg';
 import SidebarProducts from './SidebarProducts';
 interface Props {
   sidebar: () => void,

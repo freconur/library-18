@@ -4,8 +4,9 @@ import { useGlobalContext } from '../../context/GlobalContext'
 import { RiLoader4Line } from "react-icons/ri";
 import UpdateProductModal from '../../modals/updateProduct/UpdateProductModal';
 import FormUpdate from '../../components/FormUPdate/FormUpdate';
-import { AuthAction, withUser } from 'next-firebase-auth';
+import { AuthAction, useUser, withUser } from 'next-firebase-auth';
 import LayoutDashboard from '../../layout/LayoutDashboard';
+import PinModal from '../../modals/updateProduct/PinModal';
 const initialValueItem = {
   description: "",
   stock: "",
@@ -15,12 +16,16 @@ const initialValueItem = {
 }
 
 const UpdateProduct = () => {
-  const { productByCodeToUpdateContext, stateLoaderFromChargerStock, brands, category, LibraryData } = useGlobalContext()
+  const dataUser = useUser()
+
+  const userId = useUser().id
+  const { getDataUser,productByCodeToUpdateContext, stateLoaderFromChargerStock, brands, category, LibraryData } = useGlobalContext()
   const { loaderChargerStock, productToUpdate } = LibraryData
   const focusRef = useRef<HTMLInputElement>(null)
   const initialValue: CodeProduct = { code: "" }
   const [codeProduct, setCodeProduct] = useState(initialValue)
   const [brandActive, setBrandActive] = useState<boolean>(true)
+  const [pinModal, setPinModal] = useState<boolean>(true)
   const [categoryActive, setCategoryActive] = useState<boolean>(true)
   const [showUpdateProductModal, setShowUpdateProductModal] = useState<boolean>(false)
   const [item, setItem] = useState<ProductToCart>(initialValueItem)
@@ -46,6 +51,11 @@ const UpdateProduct = () => {
     category()
   }
   useEffect(() => {
+    if(dataUser.id){
+      getDataUser(dataUser.id)
+    }
+  },[dataUser.id])
+  useEffect(() => {
     if (codeProduct.code.length === 13) {
       productByCodeToUpdateContext(codeProduct.code)
       stateLoaderFromChargerStock(true)
@@ -63,14 +73,15 @@ const UpdateProduct = () => {
       'key': 'Tab'
     })
   }
+  console.log('item', item)
   return (
     <LayoutDashboard>
-
       <div className='w-full p-2'>
         {
           showUpdateProductModal
             ?
             <UpdateProductModal
+              userId={userId}
               initialValueItem={initialValueItem}
               item={item}
               setItem={setItem}

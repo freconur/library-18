@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { useGlobalContext } from '../../context/GlobalContext'
 import TableStock from '../../components/tableStock/TableStock'
 import { RiCheckLine } from 'react-icons/ri'
-import { AuthAction, withUser } from 'next-firebase-auth'
+import { AuthAction, useUser, withUser } from 'next-firebase-auth'
 import LayoutDashboard from '../../layout/LayoutDashboard'
 
 const params: FilterProdyctBySTock = {
@@ -11,7 +11,8 @@ const params: FilterProdyctBySTock = {
   brand: ""
 }
 const Stock = () => {
-  const { filterProductByStock, LibraryData, brands, marcaSocio } = useGlobalContext()
+  const dataUser = useUser()
+  const { getDataUser,filterProductByStock, LibraryData, brands, marcaSocio } = useGlobalContext()
   const { productsFromFilterByStock } = LibraryData
   const [currentPage, setCurrentPage] = useState(0)
   const [activeButton, setActiveButton] = useState(false)
@@ -22,6 +23,11 @@ const Stock = () => {
       [e.target.name]: e.target.value
     })
   }
+  useEffect(() => {
+    if(dataUser.id){
+      getDataUser(dataUser.id)
+    }
+  },[dataUser.id])
   useEffect(() => {
 
     marcaSocio()

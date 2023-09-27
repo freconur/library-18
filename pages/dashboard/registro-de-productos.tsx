@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react'
-import { AuthAction, withUser } from 'next-firebase-auth'
+import { AuthAction, useUser, withUser } from 'next-firebase-auth'
 import { useGlobalContext } from '../../context/GlobalContext'
 import { RiAddCircleFill, RiEditBoxFill, RiDeleteBin5Fill } from "react-icons/ri";
 import Modal from '../../components/Modal/Modal'
@@ -20,10 +20,15 @@ const initialStateValues: FormProductValues = {
 }
 const RegistroDeProductos = () => {
   const focusRef = useRef<HTMLInputElement>(null)
-
-  const { LibraryData, showCategory, showUpdateCategory, marcaSocio, category, brands, showDeleteCategory, showBrands, showUpdateBrands, showDeleteBrands } = useGlobalContext()
+  const dataUser = useUser()
+  const {getDataUser, LibraryData, showCategory, showUpdateCategory, marcaSocio, category, brands, showDeleteCategory, showBrands, showUpdateBrands, showDeleteBrands } = useGlobalContext()
   const { loaderRegisterProduct } = LibraryData
   const { form, handleProductValues, handleSubmit, loading, error, equalsOne, setEqualsOne } = useFormRegisterProduct(initialStateValues, onValidate);
+  useEffect(() => {
+    if(dataUser.id){
+      getDataUser(dataUser.id)
+    }
+  },[dataUser.id])
   useEffect(() => {
     if (equalsOne === 1) {
       if (focusRef.current) {

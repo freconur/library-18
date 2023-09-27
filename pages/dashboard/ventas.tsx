@@ -2,15 +2,21 @@ import React, { useEffect } from 'react'
 import { useGlobalContext } from '../../context/GlobalContext'
 import { table } from 'console'
 import { todayDate } from '../../dates/date'
-import { AuthAction, withUser } from 'next-firebase-auth'
+import { AuthAction, useUser, withUser } from 'next-firebase-auth'
 import LayoutDashboard from '../../layout/LayoutDashboard'
 
 const Ventas = () => {
-  const { getProductsSalesContext, LibraryData } = useGlobalContext()
+  const dataUser = useUser()
+  const { getDataUser,getProductsSalesContext, LibraryData } = useGlobalContext()
   const { getProductsSales } = LibraryData
   useEffect(() => {
     getProductsSalesContext()
   }, [])
+  useEffect(() => {
+    if(dataUser.id){
+      getDataUser(dataUser.id)
+    }
+  },[dataUser.id])
   console.log('getProductsSales', getProductsSales)
   return (
     <LayoutDashboard>

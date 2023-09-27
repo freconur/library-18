@@ -13,6 +13,7 @@ class MyDocument extends Document {
         <body className="my-body-class">
           <Main />
           <div id="portal-modal"></div>
+          <div id="pin-modal"></div>
           <NextScript />
 
         </body>

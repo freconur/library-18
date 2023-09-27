@@ -28,7 +28,7 @@ const index = searchClient.initIndex(ALGOLIA_INDEX)
 
 
 const Navbar = ({ showSidebar, setShowSidebar }: Props) => {
-
+  const [showOptionsUser, setShowOptionsUser] = useState(false)
   const cerrarSesion = getAuth(authApp)
   const handleLogout = () => {
     signOut(cerrarSesion)
@@ -38,7 +38,7 @@ const Navbar = ({ showSidebar, setShowSidebar }: Props) => {
   const closeBoxSearch = useRef<HTMLDivElement>(null)
   const closeBoxSearchInput = useRef<HTMLInputElement>(null)
   const { addProductRegisterToSell, LibraryData, resetToastifyNotificationAddProduct } = useGlobalContext()
-  const { productToCart, toastifyNotificationAddProduct, saveDataUser } = LibraryData
+  const { productToCart, toastifyNotificationAddProduct, getDataUser } = LibraryData
   const [onInput, setOnInput] = useState(false)
   const [userInfo, setUserInfo] = useState<SaveUserData>()
   const authUser = getAuth(app)
@@ -73,22 +73,6 @@ const Navbar = ({ showSidebar, setShowSidebar }: Props) => {
       progress: undefined,
       theme: "colored",
     })
-  }
-
-  const getDataUser = (name: string) => {
-    if (auth) {
-      let char = []
-      let names = ""
-      const toString: string = `${auth?.displayName}`
-      for (var i = 0; i < toString.length; i++) {
-        if (toString[i] === " ") {
-          names = char.join('')
-          return names
-        } else {
-          char.push(toString[i])
-        }
-      }
-    }
   }
   useEffect(() => {
     resetToastifyNotificationAddProduct()
@@ -167,12 +151,21 @@ const Navbar = ({ showSidebar, setShowSidebar }: Props) => {
             />
           </div>
         }
-        <div className='flex justify-center items-center xsm:w-[180px]'>
-          {auth
+        <div onClick={() => setShowOptionsUser(!showOptionsUser)} className='relative  flex justify-center cursor-pointer items-center xsm:w-[180px]'>
+          {getDataUser
             ?
             <>
-              <img className='w-[35px] h-[35px] rounded-full mr-2' src={`${auth?.photoURL}`} alt={auth?.displayName as string} />
-              <p className='capitalize font-nunito text-gray-400'>hola {getDataUser(auth.displayName as string)}!</p>
+              {
+                getDataUser?.name &&
+              <div className='w-[35px] h-[35px] rounded-full mr-2 flex bg-red-400 justify-center items-center capitalize text-white font-dmMono'>{(getDataUser?.name[0])}</div>
+              }
+              <p  className='capitalize font-nunito text-gray-400'>hola {getDataUser.name}!</p>
+              <div className={`fixed w-[150px] rounded-md bg-white drop-shadow-sm p-1  ${showOptionsUser ? "top-[50px] duration-300" : "-top-[200px] duration-300"}`} >
+                <ul className='text-slate-500 font-nunito capitalize'>
+                  <li className='hover:bg-slate-100 p-3 rounded-sm duration-300'>mi perfil</li>
+                  <li onClick={handleLogout} className='hover:bg-slate-100 p-3 rounded-sm duration-300'>cerrar sesion</li>
+                </ul>
+              </div>
             </>
             : 
             null
@@ -192,16 +185,11 @@ const Navbar = ({ showSidebar, setShowSidebar }: Props) => {
                   results &&
                   results.map((item: ProductToCart) => {
                     return (
-                      // <CopyToClipboard key={item.code} text={item.code as string}>
-
                       productToCart &&
-
-                      <div onClick={() => addProductFromNavbar(`${item?.code}`)} className='w-full my-2 hover:bg-slate-200 border-b-2 cursor-pointer border-slate-100'>
+                      <div key={item.id} onClick={() => addProductFromNavbar(`${item?.code}`)} className='w-full my-2 hover:bg-slate-200 border-b-2 cursor-pointer border-slate-100'>
                         <div className='flex justify-between items-center'>
                           <p className='text-slate-600 capitalize font-nunito' dangerouslySetInnerHTML={testData(`${item.code}`)} />
-
-                          {/* <p className='text-slate-600 font-nunito'>{item.code}</p> */}
-                          <p className='text-slate-600 font-nunito'>stock: {item.stock}</p>
+                          <p className='text-slate-600 font-nunito' dangerouslySetInnerHTML={testData(`${item.stock}`)} />
                         </div>
                         <h3 className='text-slate-600 capitalize font-nunito' dangerouslySetInnerHTML={testData(`${item.description}`)} />
                         <div className='flex justify-between items-center'>
@@ -211,12 +199,8 @@ const Navbar = ({ showSidebar, setShowSidebar }: Props) => {
                           <div className='flex'>
                             <span className='font-nunito text-slate-600'>precio: $</span><p className='text-slate-600 capitalize font-nunito' dangerouslySetInnerHTML={testData(`${item.price}`)} />
                           </div>
-                          {/* <p className='text-slate-600 font-nunito'>marca: {item.brand}</p> */}
-                          {/* <p className='text-slate-600 font-nunito'>precio: $ {item.price}</p> */}
                         </div>
                       </div>
-
-                      // </CopyToClipboard>
                     )
                   })
                 }

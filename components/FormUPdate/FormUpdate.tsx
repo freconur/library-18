@@ -3,6 +3,7 @@ import { deleteProduct } from '../../reducer/UpdateProducts';
 import styles from '../../styles/registtro-ventas.module.css'
 import { RiLoader4Line } from "react-icons/ri";
 import DeleteProductModal from '../../modals/updateProduct/DeleteProductModal';
+import { useGlobalContext } from '../../context/GlobalContext';
 
 interface Props {
   loaderChargerStock: boolean,
@@ -19,9 +20,8 @@ interface Props {
   categoryActive: boolean
 }
 const FormUpdate = ({ categoryActive, handleActiveBrands, handleActiveCategory, onChangeItem, showUpdateProductModal, setShowUpdateProductModal, loaderChargerStock, codeProduct, item, brandActive, brands, category }: Props) => {
-
+  const { resetPin } = useGlobalContext()
   const [showDeleteProductModal, setShowDeleteProductModal] = useState(false)
-  
   return (
     <div>
       {
@@ -61,7 +61,7 @@ const FormUpdate = ({ categoryActive, handleActiveBrands, handleActiveCategory, 
                 <label className='text-slate-500 font-dmMono capitalize '>
                   stock :
                 </label>
-                <input disabled={true} className={styles.inputCode} type="text" placeholder={item?.stock} />
+                <input onChange={onChangeItem} name="stock" className={styles.inputCode} value={item?.stock} type="text" placeholder={item?.stock} />
                 <div className='block'>
                   <label className='text-slate-500 font-dmMono capitalize '>
                     marca de socio :
@@ -112,7 +112,7 @@ const FormUpdate = ({ categoryActive, handleActiveBrands, handleActiveCategory, 
                   <button onClick={handleActiveCategory} className='w-[30px] h-[30px] bg-yellow-500 rounded-sm shadow-sm'>E</button>
 
                 </div>
-                <button onClick={() => setShowUpdateProductModal(!showUpdateProductModal)} className='bg-pastel11 hover:bg-pastel12 w-full h-[40px] rounded-lg shadow-lg mt-3 text-slate-700 font-semibold capitalize'>actualizar producto</button>
+                <button onClick={() => {setShowUpdateProductModal(!showUpdateProductModal); resetPin()}} className='bg-pastel11 hover:bg-pastel12 w-full h-[40px] rounded-lg shadow-lg mt-3 text-slate-700 font-semibold capitalize'>actualizar producto</button>
               </>
             }
           </div>

@@ -7,7 +7,14 @@ interface UserData {
 interface SaveUserData {
   displayName?:string,
   photoURL?:string,
-  email?:string
+  email?:string,
+}
+interface User {
+  name?:string,
+  lastname?:string,
+  pin?:number,
+  rol?:string,
+  picture?:string
 }
 interface GeneralStatisticsPerDay {
   date?: number,
@@ -68,7 +75,9 @@ interface LibraryAllData {
   dataStatistics: GeneralStatisticsPerDay[],
   getTickets:Ticket[],
   showCancellationOfsaleModal: boolean,
-  saveDataUser:SaveUserData
+  saveDataUser:SaveUserData,
+  getDataUser:User,
+  validatePin:boolean
 }
 
 interface DateData {

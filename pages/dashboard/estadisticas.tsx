@@ -19,7 +19,7 @@ import {
 import CardEstadisticas from "../../components/card-estadisticas/CardEstadisticas";
 import { getDailySales } from "../../reducer/Product";
 import TableStatidisticsPerMonth from "../../components/tableStatidisticsPerMonth/TableStatidisticsPerMonth";
-import { AuthAction, withUser } from "next-firebase-auth";
+import { AuthAction, useUser, withUser } from "next-firebase-auth";
 import LayoutDashboard from "../../layout/LayoutDashboard";
 
 ChartJS.register(
@@ -33,9 +33,15 @@ ChartJS.register(
 );
 
 const Estadisticas = () => {
-  const { dailySaleContext, LibraryData, dailyTicketContext, incomePerDay, totalSalesPerYearContext, getDataToStatistics } = useGlobalContext()
+  const dataUser = useUser()
+  const { getDataUser,dailySaleContext, LibraryData, dailyTicketContext, incomePerDay, totalSalesPerYearContext, getDataToStatistics } = useGlobalContext()
   const { dailySale, dailyTicket, averageTicket, dataSales, dataSalesLabel, dataTotalSalesPerMonth, totalSalesYear, dataStatistics } = LibraryData
 
+  useEffect(() => {
+    if(dataUser.id){
+      getDataUser(dataUser.id)
+    }
+  },[dataUser.id])
   useEffect(() => {
     dailySaleContext()
     dailyTicketContext()

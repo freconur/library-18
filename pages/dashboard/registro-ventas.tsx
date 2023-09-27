@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState } from 'react'
 import LayoutDashboard from '../../layout/LayoutDashboard'
 import { useGlobalContext } from '../../context/GlobalContext';
 import TableToSell from '../../components/TableToSell/TableToSell';
-import { AuthAction, withUser } from 'next-firebase-auth';
+import { AuthAction, useUser, withUser } from 'next-firebase-auth';
 import { todayDate } from '../../dates/date';
 import { RiLoader4Line, RiShoppingCartFill } from "react-icons/ri";
 import ProductToSaleMobile from '../../components/ProductToSaleMobile/ProductToSaleMobile';
@@ -11,9 +11,10 @@ import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { addProductCartToProductSales } from '../../reducer/Product';
 const RegistroVentas = () => {
+  const dataUser = useUser()
   const focusRef = useRef<HTMLInputElement>(null)
   const initialValue = { code: "" }
-  const { addProductRegisterToSell, LibraryData, showGenerateSale, stateLoader, resetValueToastify } = useGlobalContext()
+  const { addProductRegisterToSell, LibraryData, showGenerateSale, stateLoader, resetValueToastify, getDataUser } = useGlobalContext()
   const [codeBar, setCodeBar] = useState(initialValue)
   const { productToCart, totalAmountToCart, loaderToSell, showSaleModal, productNotFound, tostifyNotificationSales, generateSold } = LibraryData
   const onChangeCodeProduct = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -36,6 +37,12 @@ const RegistroVentas = () => {
     })
   }
   useEffect(() => {
+    if(dataUser.id){
+      getDataUser(dataUser.id)
+    }
+  },[dataUser.id])
+  useEffect(() => {
+
     resetValueToastify()
     if (focusRef.current) {
       focusRef.current.focus();

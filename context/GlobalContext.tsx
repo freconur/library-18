@@ -1,12 +1,12 @@
 import { createContext, useContext, useReducer, useState } from "react";
-import { addNewProduct, addStockToProduct, addStockToProductUpdate, dailySale, dailyTicket, deleteProductToCart, findToAddProductCart, generateSold, getBrands, getCategory, getFilterProductByStock, getIncomePerDay, getMarcaSocio, getProductsSales, getTotalSalesPerYear } from "../reducer/Product";
+import { addNewProduct, addStockToProduct, addStockToProductUpdate, dailySale, dailyTicket, deleteProductToCart, findToAddProductCart, generateSold, getBrands, getCategory, getFilterProductByStock, getIncomePerDay, getMarcaSocio, getProductsSales, getTotalSalesPerYear, validateUserPin } from "../reducer/Product";
 import { Library, ProductsReducer } from "../reducer/Product.reducer";
 import { getProductByCodeToUpdateContext } from "../reducer/UpdateProducts";
 import { dataToStatistics } from "../reducer/Statistics";
 import { cancelTicket, getTickets } from "../reducer/ventas";
 import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
 import { authApp } from "../firebase/firebase.config";
-import { loginWithEmail, signin } from "../reducer/google";
+import { User, loginWithEmail, signin } from "../reducer/google";
 
 interface Props {
   children: React.ReactNode
@@ -56,7 +56,10 @@ type GlobalContextProps = {
   cancelTicketContext: (ticket: Ticket) => void,
   loginWithEmailContext: (userDate: UserData) => void,
   signinWithEmailContext: (userDate: UserData) => void,
-  saveDataUser:(saveDataUser:SaveUserData) =>void
+  saveDataUser:(saveDataUser:SaveUserData) =>void,
+  getDataUser:(idUser:string) => void,
+  validateUserPinContext: (idUser:string, pin:string) => void,
+  resetPin: () => void
 }
 
 
@@ -72,6 +75,15 @@ export function GlobalcontextProdiver({ children }: Props) {
   const [showModalUpdateBrands, setShowModalUpdateBrands] = useState<boolean>(false)
   const [showModalDeleteBrands, setShowModalDeleteBrands] = useState<boolean>(false)
 
+  const resetPin =()=> {
+    dispatch({type:"validatePin", payload: false})
+  }
+  const validateUserPinContext = (idUser:string, pin:string) => {
+    validateUserPin(dispatch, idUser, pin)
+  }
+  const getDataUser = (idUser:string) => {
+    User(dispatch,idUser)
+  }
   const saveDataUser = (saveDataUser:SaveUserData) => {
     dispatch({type:"saveDataUser", payload:saveDataUser})
   }
@@ -193,6 +205,9 @@ export function GlobalcontextProdiver({ children }: Props) {
 
   return (
     <GlobalContext.Provider value={{
+      resetPin,
+      validateUserPinContext,
+      getDataUser,
       saveDataUser,
       signinWithEmailContext,
       loginWithEmailContext,

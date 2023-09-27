@@ -4,20 +4,23 @@ import LayoutDashboard from '../layout/LayoutDashboard'
 import { useGlobalContext } from '../context/GlobalContext'
 
 const Dashboard = () => {
-  const { saveDataUser } = useGlobalContext()
   const dataUser = useUser()
+  const { getDataUser, saveDataUser } = useGlobalContext()
 
   useEffect(() => {
     if (dataUser.displayName && dataUser.photoURL && dataUser.email) {
       saveDataUser({ displayName: dataUser.displayName, photoURL: dataUser.photoURL, email: dataUser.email })
     }
   }, [])
+  useEffect(() => {
+    if(dataUser.id){
+      getDataUser(dataUser.id)
+    }
+  },[dataUser.id])
   console.log('dataUser', dataUser)
   return (
     <LayoutDashboard>
       <div>
-        <img className='w-[35px] h-[35px] rounded-full mr-2' src={`${dataUser?.photoURL}`} alt={dataUser?.displayName as string} />
-        <p className='capitalize font-semibold text-gray-400'>{dataUser?.displayName}</p>
         dashboard
       </div>
 

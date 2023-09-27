@@ -4,9 +4,10 @@ import Hit from "../../components/Hits/Hit";
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
-import { useState } from "react";
-import { AuthAction, withUser } from 'next-firebase-auth';
+import { useEffect, useState } from "react";
+import { AuthAction, useUser, withUser } from 'next-firebase-auth';
 import LayoutDashboard from '../../layout/LayoutDashboard';
+import { useGlobalContext } from '../../context/GlobalContext';
 const APPLICATION_ID = 'A03AC5JW4J'
 const SEARCH_API_KEY = '3c93f2a51d243945a1e56ae63edf4794'
 const ALGOLIA_INDEX = 'products'
@@ -14,8 +15,9 @@ const searchClient = algoliasearch(APPLICATION_ID, SEARCH_API_KEY);
 
 
 const Productos = () => {
+  const dataUser = useUser()
   const [successfullCopy, setSuccessfullCopy] = useState(false)
-
+  const { getDataUser } = useGlobalContext()
 
   const successToastify = () => {
     console.log('estamos entrando')
@@ -31,7 +33,11 @@ const Productos = () => {
       theme: "colored",
     })
   }
-
+  useEffect(() => {
+    if(dataUser.id){
+      getDataUser(dataUser.id)
+    }
+  },[dataUser.id])
   const alertNotificacion = (alert: boolean) => {
     setSuccessfullCopy(alert)
   }

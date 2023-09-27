@@ -35,6 +35,8 @@ type LibraryData =
   | { type: "getTickets", payload: Ticket[] }
   | { type: "showCancellationOfsaleModal", payload: boolean }
   | { type: "saveDataUser", payload: SaveUserData }
+  | { type: "getDataUser", payload: User }
+  | { type: "validatePin", payload: boolean }
 
 export const Library = {
   newProduct: {} as FormProductValues,
@@ -68,11 +70,25 @@ export const Library = {
   dataStatistics: [] as GeneralStatisticsPerDay[],
   getTickets: [] as Ticket[],
   showCancellationOfsaleModal: false as boolean,
-  saveDataUser: [] as SaveUserData
+  saveDataUser: [] as SaveUserData,
+  getDataUser: {} as User,
+  validatePin: false as boolean
 }
 
 export const ProductsReducer = (state: LibraryAllData, action: LibraryData) => {
   switch (action.type) {
+    case "validatePin": {
+      return {
+        ...state,
+        validatePin:action.payload
+      }
+    }
+    case "getDataUser": {
+      return {
+        ...state,
+        getDataUser:action.payload
+      }
+    }
     case "saveDataUser" : {
       return {
         ...state, 

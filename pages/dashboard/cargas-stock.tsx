@@ -2,12 +2,13 @@ import React, { useEffect, useRef, useState } from 'react'
 import LayoutDashboard from '../../layout/LayoutDashboard'
 import { useGlobalContext } from '../../context/GlobalContext'
 import { RiLoader4Line } from "react-icons/ri";
-import { AuthAction, withUser } from 'next-firebase-auth';
+import { AuthAction, useUser, withUser } from 'next-firebase-auth';
 
 const CargasStock = () => {
+  const dataUser = useUser()
   const focusRef = useRef<HTMLInputElement>(null)
   const focusRefStock = useRef<HTMLInputElement>(null)
-  const { addStockToProductContext, LibraryData, stateLoaderFromChargerStock, addStockToProductUpdateContext, stateLoaderFromChargerStockAdd } = useGlobalContext()
+  const { getDataUser, addStockToProductContext, LibraryData, stateLoaderFromChargerStock, addStockToProductUpdateContext, stateLoaderFromChargerStockAdd } = useGlobalContext()
   const { addStockProduct, loaderChargerStock, loaderChargerStockAdd } = LibraryData
   const initialValue = { code: "" }
   const initialValueStockCharger = { stock: 0 }
@@ -19,7 +20,11 @@ const CargasStock = () => {
       [e.target.name]: e.target.value
     })
   }
-
+  useEffect(() => {
+    if(dataUser.id){
+      getDataUser(dataUser.id)
+    }
+  },[dataUser.id])
   useEffect(() => {
     if (focusRef.current) {
       focusRef.current.focus();

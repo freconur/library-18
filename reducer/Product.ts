@@ -610,3 +610,14 @@ export const getFilterProductByStock = async (dispatch: (action: any) => void, p
 
 }
 
+export const validateUserPin = async (dispatch:(action:any) => void, idUser:string, pin:string) => {
+  const userRef = doc(db, "users",idUser)
+  const gueryUser = await getDoc(userRef)
+  if(gueryUser.exists()) {
+
+    if(gueryUser.data().pin === Number(pin)){
+      dispatch({type:"validatePin", payload: true})
+    }
+  }
+}
+
