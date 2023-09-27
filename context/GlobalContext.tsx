@@ -4,6 +4,9 @@ import { Library, ProductsReducer } from "../reducer/Product.reducer";
 import { getProductByCodeToUpdateContext } from "../reducer/UpdateProducts";
 import { dataToStatistics } from "../reducer/Statistics";
 import { cancelTicket, getTickets } from "../reducer/ventas";
+import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
+import { authApp } from "../firebase/firebase.config";
+import { loginWithEmail, signin } from "../reducer/google";
 
 interface Props {
   children: React.ReactNode
@@ -50,14 +53,17 @@ type GlobalContextProps = {
   getDataToStatistics: () => void,
   getTicketsContext: (dateData: DateData) => void,
   setModalCancellationOfSale: (value: boolean) => void,
-  cancelTicketContext: (ticket:Ticket) => void
+  cancelTicketContext: (ticket: Ticket) => void,
+  loginWithEmailContext: (userDate: UserData) => void,
+  signinWithEmailContext: (userDate: UserData) => void,
+  saveDataUser:(saveDataUser:SaveUserData) =>void
 }
 
 
 export const GlobalContext = createContext<GlobalContextProps>({} as GlobalContextProps)
 
 export function GlobalcontextProdiver({ children }: Props) {
-
+  const auth = getAuth(authApp)
   const [LibraryData, dispatch] = useReducer(ProductsReducer, Library)
   const [showModalCategory, setShowModalCategory] = useState<boolean>(false)
   const [showModalUpdateCategory, setShowModalUpdateCategory] = useState<boolean>(false)
@@ -66,8 +72,16 @@ export function GlobalcontextProdiver({ children }: Props) {
   const [showModalUpdateBrands, setShowModalUpdateBrands] = useState<boolean>(false)
   const [showModalDeleteBrands, setShowModalDeleteBrands] = useState<boolean>(false)
 
-
-  const cancelTicketContext = (ticket:Ticket) => {
+  const saveDataUser = (saveDataUser:SaveUserData) => {
+    dispatch({type:"saveDataUser", payload:saveDataUser})
+  }
+  const loginWithEmailContext = (userDate: UserData) => {
+    loginWithEmail(userDate)
+  }
+  const signinWithEmailContext = (userDate: UserData) => {
+    signin(userDate)
+  }
+  const cancelTicketContext = (ticket: Ticket) => {
     cancelTicket(ticket)
   }
   const setModalCancellationOfSale = (value: boolean) => {
@@ -179,6 +193,9 @@ export function GlobalcontextProdiver({ children }: Props) {
 
   return (
     <GlobalContext.Provider value={{
+      saveDataUser,
+      signinWithEmailContext,
+      loginWithEmailContext,
       cancelTicketContext,
       setModalCancellationOfSale,
       getTicketsContext,

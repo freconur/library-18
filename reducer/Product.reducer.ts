@@ -34,6 +34,7 @@ type LibraryData =
   | { type: "dataStatistics", payload: GeneralStatisticsPerDay[] }
   | { type: "getTickets", payload: Ticket[] }
   | { type: "showCancellationOfsaleModal", payload: boolean }
+  | { type: "saveDataUser", payload: SaveUserData }
 
 export const Library = {
   newProduct: {} as FormProductValues,
@@ -66,11 +67,18 @@ export const Library = {
   toastifyNotificationAddProduct: 0 as number,
   dataStatistics: [] as GeneralStatisticsPerDay[],
   getTickets: [] as Ticket[],
-  showCancellationOfsaleModal: false as boolean
+  showCancellationOfsaleModal: false as boolean,
+  saveDataUser: [] as SaveUserData
 }
 
 export const ProductsReducer = (state: LibraryAllData, action: LibraryData) => {
   switch (action.type) {
+    case "saveDataUser" : {
+      return {
+        ...state, 
+        saveDataUser: action.payload
+      }
+    }
     case "showCancellationOfsaleModal": {
       return {
         ...state,

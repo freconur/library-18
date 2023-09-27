@@ -60,6 +60,8 @@ const RegistroVentas = () => {
     })
   }
   return (
+    <LayoutDashboard>
+
     <>
       <ToastContainer />
       {
@@ -129,6 +131,7 @@ const RegistroVentas = () => {
         {/* </div> */}
       </div>
     </>
+    </LayoutDashboard>
   )
 }
 export default withUser({

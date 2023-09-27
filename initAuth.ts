@@ -4,7 +4,7 @@ import { init } from 'next-firebase-auth'
 const initAuth = () => {
   init({
     authPageURL: '/register-login',
-    appPageURL: '/dashboard',
+    appPageURL: '/dashboard/registro-ventas',
     loginAPIEndpoint: '/api/login',
     logoutAPIEndpoint: '/api/logout',
     onLoginRequestError: (err) => {
@@ -35,7 +35,7 @@ const initAuth = () => {
         process.env.COOKIE_SECRET_PREVIOUS,
       ],
       httpOnly: true,
-      maxAge: 12 * 60 * 60 * 24 * 1000, // twelve days
+      maxAge: 1 * 60 * 60 * 24 * 1000, // twelve days
       overwrite: true,
       path: '/',
       sameSite: 'strict',

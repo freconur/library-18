@@ -1,5 +1,5 @@
 import { getAuth, signOut } from 'firebase/auth'
-import { withUser } from 'next-firebase-auth'
+import { AuthAction, withUser } from 'next-firebase-auth'
 import Head from 'next/head'
 import { authApp } from '../firebase/firebase.config'
 
@@ -19,4 +19,7 @@ const Home = () => {
     </div>
   )
 }
-export default withUser()(Home)//funciona en client
+export default withUser({
+  whenUnauthedBeforeInit: AuthAction.REDIRECT_TO_LOGIN
+
+})(Home)//funciona en client

@@ -1,16 +1,15 @@
 "use client"
-import { getAuth } from 'firebase/auth'
+import { getAuth, signOut } from 'firebase/auth'
 import React, { useEffect, useRef, useState } from 'react'
-import { app } from '../../firebase/firebase.config'
+import { app, authApp } from '../../firebase/firebase.config'
 import { RiMenuFill } from "react-icons/ri";
 import algoliasearch from 'algoliasearch/lite';
-import { CopyToClipboard } from 'react-copy-to-clipboard';
 import useOnClickOutside from '../../hooks/useOnClickOutside';
 import { useRouter } from 'next/router';
 import { BsSearchHeart } from 'react-icons/bs';
 import { useGlobalContext } from '../../context/GlobalContext';
 import { ToastContainer, toast } from 'react-toastify';
-
+import { useUser } from 'next-firebase-auth';
 interface Props {
   showSidebar: boolean,
   setShowSidebar: React.Dispatch<React.SetStateAction<boolean>>
@@ -29,15 +28,21 @@ const index = searchClient.initIndex(ALGOLIA_INDEX)
 
 
 const Navbar = ({ showSidebar, setShowSidebar }: Props) => {
+
+  const cerrarSesion = getAuth(authApp)
+  const handleLogout = () => {
+    signOut(cerrarSesion)
+  }
+
   const { pathname } = useRouter()
   const closeBoxSearch = useRef<HTMLDivElement>(null)
   const closeBoxSearchInput = useRef<HTMLInputElement>(null)
   const { addProductRegisterToSell, LibraryData, resetToastifyNotificationAddProduct } = useGlobalContext()
-  const { productToCart, toastifyNotificationAddProduct } = LibraryData
+  const { productToCart, toastifyNotificationAddProduct, saveDataUser } = LibraryData
   const [onInput, setOnInput] = useState(false)
-  const [userInfo, setUserInfo] = useState<UserInfo>()
-  const authUser = getAuth()
-  const auth = getAuth(app)
+  const [userInfo, setUserInfo] = useState<SaveUserData>()
+  const authUser = getAuth(app)
+  const auth = useUser()
 
   const initialValueInput = { description: "" }
   const [conditionalValue, setConditionalValue] = useState(initialValueInput)
@@ -70,29 +75,27 @@ const Navbar = ({ showSidebar, setShowSidebar }: Props) => {
     })
   }
 
-  useEffect(() => {
-    resetToastifyNotificationAddProduct()
-    authUser.onAuthStateChanged(user => {
+  const getDataUser = (name: string) => {
+    if (auth) {
       let char = []
       let names = ""
-      if (user?.displayName) {
-        const toString: string = `${user?.displayName}`
-        for (var i = 0; i < toString.length; i++) {
-          if (toString[i] === " ") {
-            names = char.join('')
-            return names
-          } else {
-            char.push(toString[i])
-          }
+      const toString: string = `${auth?.displayName}`
+      for (var i = 0; i < toString.length; i++) {
+        if (toString[i] === " ") {
+          names = char.join('')
+          return names
+        } else {
+          char.push(toString[i])
         }
-        setUserInfo({ id: `${user?.uid}`, photo: `${user?.photoURL}`, name: `${names}` })
       }
     }
-    )
+  }
+  useEffect(() => {
+    resetToastifyNotificationAddProduct()
     if (toastifyNotificationAddProduct === 1) {
       successToastify()
     }
-  }, [results,toastifyNotificationAddProduct])
+  }, [results, toastifyNotificationAddProduct])
 
   const handleChangeValue = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { value } = e.target
@@ -136,21 +139,18 @@ const Navbar = ({ showSidebar, setShowSidebar }: Props) => {
       'key': 'Tab'
     })
   }
+
+  console.log('userInfo', userInfo)
   return (
     <>
       <nav className={`sticky top-0 z-[800] w-full h-[60px] px-2 bg-white shadow-md flex justify-between items-center pl-0 pr-1 pb-1 pt-1 `}>
         <div className='flex gap-1  justify-center items-center'>
-          {/* <div className='text-xl font-semibold capitalize text-red-600'>
-            <Image src={Logo} width={40} height={40} alt="logo web"/> 
-          </div> */}
-          {/* <img src={logo} alt="" /> */}
           <h1 className='pl-1 xs:pl-1  flex items-center bg-gos-1 text-3xl capitalize text-white font-sidebar h-[60px] font-semibold tracking-wider pr-1 xs:pr-1'>
             <span className='xs:hidden'>Lib</span>
             <span className='hidden xs:block'>Libreria</span>
             <span className='text-sm font-dmMono ml-2 flex items-center justify-center'>18</span></h1>
           <RiMenuFill onClick={() => setShowSidebar(!showSidebar)} className="text-3xl text-gray-600 font-bold cursor-pointer" />
         </div>
-
         {
           pathname === "/dashboard/registro-ventas"
           &&
@@ -168,24 +168,14 @@ const Navbar = ({ showSidebar, setShowSidebar }: Props) => {
           </div>
         }
         <div className='flex justify-center items-center xsm:w-[180px]'>
-          {userInfo
+          {auth
             ?
             <>
-              <img className='w-[35px] h-[35px] rounded-full mr-2' src={`${userInfo?.photo}`} alt={userInfo?.name} />
-              <p className='capitalize font-semibold text-gray-400'>{userInfo?.name}</p>
+              <img className='w-[35px] h-[35px] rounded-full mr-2' src={`${auth?.photoURL}`} alt={auth?.displayName as string} />
+              <p className='capitalize font-nunito text-gray-400'>hola {getDataUser(auth.displayName as string)}!</p>
             </>
-            :
-            <>
-              <div className='flex justify-center items-center gap-2'>
-                <div className='flex rounded-full w-[40px] h-[40px] bg-red-200 justify-center items-center shadow-md'>
-                  <span className='font-dmMono text-white font-semibold'>L</span>
-                </div>
-                <span className=' font-nunito text-slate-600'>
-                  Hola Admin!
-                </span>
-
-              </div>
-            </>
+            : 
+            null
           }
         </div>
         {

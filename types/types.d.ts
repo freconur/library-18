@@ -1,4 +1,14 @@
 
+interface UserData {
+  user?: string,
+  password?:string,
+  id?:string
+}
+interface SaveUserData {
+  displayName?:string,
+  photoURL?:string,
+  email?:string
+}
 interface GeneralStatisticsPerDay {
   date?: number,
   dailySales?: number,
@@ -57,7 +67,8 @@ interface LibraryAllData {
   toastifyNotificationAddProduct: number,
   dataStatistics: GeneralStatisticsPerDay[],
   getTickets:Ticket[],
-  showCancellationOfsaleModal: boolean
+  showCancellationOfsaleModal: boolean,
+  saveDataUser:SaveUserData
 }
 
 interface DateData {

@@ -19,6 +19,8 @@ import {
 import CardEstadisticas from "../../components/card-estadisticas/CardEstadisticas";
 import { getDailySales } from "../../reducer/Product";
 import TableStatidisticsPerMonth from "../../components/tableStatidisticsPerMonth/TableStatidisticsPerMonth";
+import { AuthAction, withUser } from "next-firebase-auth";
+import LayoutDashboard from "../../layout/LayoutDashboard";
 
 ChartJS.register(
   CategoryScale,
@@ -76,6 +78,7 @@ const Estadisticas = () => {
   console.log('dataStatistics',dataStatistics)
   // console.log('dataStatistics',dataStatistics[dataStatistics.length - 1].dailySales)
   return (
+    <LayoutDashboard>
     <div className="w-full relative">
       <h1 className="text-2xl text-slate-700 font-dmMono  my-5">{`Dashboard > Estadisticas`}</h1>
       <CardEstadisticas dataStatistics={dataStatistics} dataSales={dataSales} dailySale={dailySale} dailyTicket={dailyTicket} averageTicket={averageTicket} dataTotalSalesPerMonth={dataTotalSalesPerMonth} totalSalesYear={totalSalesYear} />
@@ -94,7 +97,11 @@ const Estadisticas = () => {
         </div>
       </div>
     </div>
+    </LayoutDashboard>
   )
 }
-
-export default Estadisticas
+export default withUser({
+  // whenAuthed: AuthAction.RENDER
+  // whenUnauthedAfterInit: AuthAction.REDIRECT_TO_LOGIN
+  whenUnauthedAfterInit: AuthAction.REDIRECT_TO_LOGIN
+})(Estadisticas)

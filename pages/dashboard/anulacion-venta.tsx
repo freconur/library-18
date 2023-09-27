@@ -6,6 +6,9 @@ import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs'
 import dayjs from 'dayjs';
 import { numberToNameMonth } from '../../dates/date';
+import { AuthAction, withUser } from 'next-firebase-auth';
+import { BsLayoutSidebar } from 'react-icons/bs';
+import LayoutDashboard from '../../layout/LayoutDashboard';
 const AnulacionVenter = () => {
 
 
@@ -30,6 +33,7 @@ const AnulacionVenter = () => {
     setFindTicket(findTicket)
   }
   return (
+    <LayoutDashboard>
     <div className="w-full">
       {
         showCancellationOfsaleModal && findTicket &&
@@ -58,7 +62,11 @@ const AnulacionVenter = () => {
         }
       </ul>
     </div>
+    </LayoutDashboard>
   )
 }
-
-export default AnulacionVenter
+export default withUser({
+  // whenAuthed: AuthAction.RENDER
+  // whenUnauthedAfterInit: AuthAction.REDIRECT_TO_LOGIN
+  whenUnauthedAfterInit: AuthAction.REDIRECT_TO_LOGIN
+})(AnulacionVenter)

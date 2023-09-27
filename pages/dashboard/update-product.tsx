@@ -4,6 +4,8 @@ import { useGlobalContext } from '../../context/GlobalContext'
 import { RiLoader4Line } from "react-icons/ri";
 import UpdateProductModal from '../../modals/updateProduct/UpdateProductModal';
 import FormUpdate from '../../components/FormUPdate/FormUpdate';
+import { AuthAction, withUser } from 'next-firebase-auth';
+import LayoutDashboard from '../../layout/LayoutDashboard';
 const initialValueItem = {
   description: "",
   stock: "",
@@ -16,7 +18,7 @@ const UpdateProduct = () => {
   const { productByCodeToUpdateContext, stateLoaderFromChargerStock, brands, category, LibraryData } = useGlobalContext()
   const { loaderChargerStock, productToUpdate } = LibraryData
   const focusRef = useRef<HTMLInputElement>(null)
-  const initialValue:CodeProduct = { code: "" }
+  const initialValue: CodeProduct = { code: "" }
   const [codeProduct, setCodeProduct] = useState(initialValue)
   const [brandActive, setBrandActive] = useState<boolean>(true)
   const [categoryActive, setCategoryActive] = useState<boolean>(true)
@@ -62,32 +64,38 @@ const UpdateProduct = () => {
     })
   }
   return (
-    <div className='w-full p-2'>
-      {
-        showUpdateProductModal
-          ?
-          <UpdateProductModal 
-          initialValueItem={initialValueItem} 
-          item={item} 
-          setItem={setItem}
-          setShowUpdateProductModal={setShowUpdateProductModal} 
-          showUpdateProductModal={showUpdateProductModal} 
-          initialValue={initialValue}
-          setCodeProduct={setCodeProduct}
-          />
-          :
-          null
-      }
-      <div className='bg-white rounded-lg drop-shadow-md p-2'>
-        <label className='capitalize text-slate-600 font-dmMono'>ingresa codigo de producto</label>
-        <input onChange={onChangeCodeValue} ref={focusRef} onKeyDown={testEnter} className={styles.inputCode} type="text" name="code" value={codeProduct.code} placeholder='ingresa un codigo' />
+    <LayoutDashboard>
+
+      <div className='w-full p-2'>
+        {
+          showUpdateProductModal
+            ?
+            <UpdateProductModal
+              initialValueItem={initialValueItem}
+              item={item}
+              setItem={setItem}
+              setShowUpdateProductModal={setShowUpdateProductModal}
+              showUpdateProductModal={showUpdateProductModal}
+              initialValue={initialValue}
+              setCodeProduct={setCodeProduct}
+            />
+            :
+            null
+        }
+        <div className='bg-white rounded-lg drop-shadow-md p-2'>
+          <label className='capitalize text-slate-600 font-dmMono'>ingresa codigo de producto</label>
+          <input onChange={onChangeCodeValue} ref={focusRef} onKeyDown={testEnter} className={styles.inputCode} type="text" name="code" value={codeProduct.code} placeholder='ingresa un codigo' />
+        </div>
+        <FormUpdate handleActiveBrands={handleActiveBrands} handleActiveCategory={handleActiveCategory} loaderChargerStock={loaderChargerStock} codeProduct={codeProduct.code} item={item} brandActive={brandActive} brands={LibraryData.brands} category={LibraryData.category} setShowUpdateProductModal={setShowUpdateProductModal} showUpdateProductModal={showUpdateProductModal} onChangeItem={onChangeItem} categoryActive={categoryActive} />
+        <div>
+
+        </div>
       </div>
-      <FormUpdate handleActiveBrands={handleActiveBrands} handleActiveCategory={handleActiveCategory} loaderChargerStock={loaderChargerStock} codeProduct={codeProduct.code} item={item} brandActive={brandActive} brands={LibraryData.brands} category={LibraryData.category} setShowUpdateProductModal={setShowUpdateProductModal} showUpdateProductModal={showUpdateProductModal} onChangeItem={onChangeItem} categoryActive={categoryActive}/>
-      <div>
-        
-      </div>
-    </div>
+    </LayoutDashboard>
   )
 }
-
-export default UpdateProduct
+export default withUser({
+  // whenAuthed: AuthAction.RENDER
+  // whenUnauthedAfterInit: AuthAction.REDIRECT_TO_LOGIN
+  whenUnauthedAfterInit: AuthAction.REDIRECT_TO_LOGIN
+})(UpdateProduct)
