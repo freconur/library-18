@@ -15,7 +15,7 @@ class MyDocument extends Document {
           <div id="portal-modal"></div>
           <div id="pin-modal"></div>
           <NextScript />
-
+      
         </body>
       </Html>
     )

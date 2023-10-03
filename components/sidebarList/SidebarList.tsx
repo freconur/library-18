@@ -3,7 +3,7 @@ import React from 'react'
 import { RiBarChart2Fill, RiMoneyDollarCircleFill, RiDraftFill, RiArchiveDrawerFill, RiArrowLeftSLine } from "react-icons/ri";
 import { MdPointOfSale } from "react-icons/md";
 import { BsFillBoxFill } from "react-icons/bs";
-import { RxUpdate } from "react-icons/rx";
+import { BiArchiveOut } from "react-icons/bi";
 interface Props {
   showSidebar: boolean,
   setShowSidebar: React.Dispatch<React.SetStateAction<boolean>>,
@@ -46,8 +46,8 @@ const SidebarList = ({ sidebarProducts, showSidebar, setShowSidebar }: Props) =>
       <li className="text-gray-300 border-b-[1px] border-slate-300 text-sm flex items-center gap-x-4 cursor-pointer   mt-2 capitalize   hover:bg-slate-200 duration-300 hover:text-gray-800 whitespace-nowrap my-3">
         <Link onClick={() => setShowSidebar(!showSidebar)} href="/dashboard/ventas" className="my-3 w-56 p-2">
           {/* <RiMoneyDollarCircleFill className="text-slate-600 text-xl block float-left" /> */}
-          <MdPointOfSale className="text-slate-600 text-xl block float-left" />
-          <span className={`text-base flex-1 ml-2 text-md text-slate-500`}> ventas</span>
+          <BiArchiveOut className="text-slate-600 text-xl block float-left" />
+          <span className={`text-base flex-1 ml-2 text-md text-slate-500`}>Productos vendidos</span>
           {/* <span className={`text-base flex-1 ml-2   ${!openSidebar && "hidden"}`}>estadisticas</span> */}
         </Link>
       </li>

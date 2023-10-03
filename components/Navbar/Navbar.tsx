@@ -129,10 +129,11 @@ const Navbar = ({ showSidebar, setShowSidebar }: Props) => {
     <>
       <nav className={`sticky top-0 z-[800] w-full h-[60px] px-2 bg-white shadow-md flex justify-between items-center pl-0 pr-1 pb-1 pt-1 `}>
         <div className='flex gap-1  justify-center items-center'>
-          <h1 className='pl-1 xs:pl-1  flex items-center bg-gos-1 text-3xl capitalize text-white font-sidebar h-[60px] font-semibold tracking-wider pr-1 xs:pr-1'>
-            <span className='xs:hidden'>Lib</span>
-            <span className='hidden xs:block'>Libreria</span>
-            <span className='text-sm font-dmMono ml-2 flex items-center justify-center'>18</span></h1>
+          <h1 className='pl-1 xs:pl-1  flex items-center bg-gos-1 text-3xl capitalize text-white font-montserrat h-[60px] font-semibold tracking-wider pr-1 xs:pr-1'>
+            <span className='hidden xs:block font-sidebar text-md'>Libreria</span>
+            <span className='xs:hidden font-sidebar'>Lib</span>
+            <span className='text-sm font-dmMono ml-2 flex items-center justify-center'>18</span>
+            </h1>
           <RiMenuFill onClick={() => setShowSidebar(!showSidebar)} className="text-3xl text-gray-600 font-bold cursor-pointer" />
         </div>
         {
