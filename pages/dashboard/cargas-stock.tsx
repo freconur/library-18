@@ -24,7 +24,7 @@ const CargasStock = () => {
     if(dataUser.id){
       getDataUser(dataUser.id)
     }
-  },[dataUser.id])
+  },[dataUser.id, dataUser.id,dataUser])
   useEffect(() => {
     if (focusRef.current) {
       focusRef.current.focus();

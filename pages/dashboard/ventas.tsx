@@ -16,7 +16,7 @@ const Ventas = () => {
     if(dataUser.id){
       getDataUser(dataUser.id)
     }
-  },[dataUser.id])
+  },[dataUser.id,dataUser])
   console.log('getProductsSales', getProductsSales)
   return (
     <LayoutDashboard>

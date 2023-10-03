@@ -29,7 +29,7 @@ const AnulacionVenter = () => {
   useEffect(() => {
     //debere colocar la funcion para poder traerme todods los tickets disponibles
     getTicketsContext(dateData)
-  }, [startDate])
+  }, [startDate, dataUser.id,dataUser])
 
   const handleClickModal = (ticket: number) => {
     setModalCancellationOfSale(showCancellationOfsaleModal)

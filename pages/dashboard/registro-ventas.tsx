@@ -41,7 +41,7 @@ const RegistroVentas = () => {
     if(dataUser.id){
       getDataUser(dataUser.id)
     }
-  },[dataUser.id])
+  },[dataUser.id,dataUser])
   useEffect(() => {
 
     resetValueToastify()

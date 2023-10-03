@@ -27,7 +27,7 @@ const Stock = () => {
     if(dataUser.id){
       getDataUser(dataUser.id)
     }
-  },[dataUser.id])
+  },[dataUser.id,dataUser])
   useEffect(() => {
 
     marcaSocio()

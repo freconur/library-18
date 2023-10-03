@@ -37,7 +37,7 @@ const Productos = () => {
     if(dataUser.id){
       getDataUser(dataUser.id)
     }
-  },[dataUser.id])
+  },[dataUser.id,dataUser])
   const alertNotificacion = (alert: boolean) => {
     setSuccessfullCopy(alert)
   }

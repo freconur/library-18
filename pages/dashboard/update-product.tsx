@@ -63,7 +63,7 @@ const UpdateProduct = () => {
     if (productToUpdate) {
       setItem(productToUpdate)
     }
-  }, [codeProduct.code, productToUpdate.code])
+  }, [codeProduct.code, productToUpdate.code, dataUser.id,dataUser])
 
   const testEnter = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === 'Enter') {

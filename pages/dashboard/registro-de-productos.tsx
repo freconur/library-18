@@ -28,7 +28,7 @@ const RegistroDeProductos = () => {
     if(dataUser.id){
       getDataUser(dataUser.id)
     }
-  },[dataUser.id])
+  },[dataUser.id,dataUser])
   useEffect(() => {
     if (equalsOne === 1) {
       if (focusRef.current) {

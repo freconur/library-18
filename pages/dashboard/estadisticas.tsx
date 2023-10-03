@@ -39,9 +39,11 @@ const Estadisticas = () => {
 
   useEffect(() => {
     if(dataUser.id){
-      getDataUser(dataUser.id)
-    }
-  },[dataUser.id])
+        setTimeout(() => {
+          dataUser.id && getDataUser(dataUser.id)
+      }, 2000)
+      }
+  },[dataUser.id,dataUser])
   useEffect(() => {
     dailySaleContext()
     dailyTicketContext()
