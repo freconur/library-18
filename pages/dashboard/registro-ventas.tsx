@@ -10,6 +10,7 @@ import SaleModal from '../../modals/sale/SaleModal';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { addProductCartToProductSales } from '../../reducer/Product';
+import TestNavbar from '../../components/Navbar/TestNavbar';
 const RegistroVentas = () => {
   const dataUser = useUser()
   const focusRef = useRef<HTMLInputElement>(null)
@@ -68,7 +69,6 @@ const RegistroVentas = () => {
   }
   return (
     <LayoutDashboard>
-
     <>
       <ToastContainer />
       {
@@ -76,6 +76,7 @@ const RegistroVentas = () => {
         <SaleModal generateSold={generateSold} />
       }
       <div className='relative h-sales m-0 p-1 md:m-3 w-full mb-[110px]'>
+      {/* <TestNavbar dataUser={dataUser}/> */}
         {/* <div className='relavite'> */}
         <div className='flex items-center justify-end mb-3 font-nunito text-xs'>
           <h3 className='text-lg  text-gray-400'>{todayDate()}</h3>

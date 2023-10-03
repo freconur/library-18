@@ -79,7 +79,7 @@ const Navbar = ({ showSidebar, setShowSidebar }: Props) => {
     if (toastifyNotificationAddProduct === 1) {
       successToastify()
     }
-  }, [results, toastifyNotificationAddProduct])
+  }, [results, toastifyNotificationAddProduct, getDataUser])
 
   const handleChangeValue = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { value } = e.target
@@ -169,7 +169,7 @@ const Navbar = ({ showSidebar, setShowSidebar }: Props) => {
               </div>
             </>
             : 
-            null
+            <p>test</p>
           }
         </div>
         {
