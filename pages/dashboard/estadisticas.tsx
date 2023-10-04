@@ -53,7 +53,7 @@ const Estadisticas = () => {
     getDataToStatistics()
 
     getDailySales()
-  }, [dailySale, dailyTicket])
+  }, [dailySale, dailyTicket,dataStatistics.length])
 
   const sales = {
     labels: dataSalesLabel,
