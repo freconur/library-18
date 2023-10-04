@@ -22,6 +22,7 @@ import TableStatidisticsPerMonth from "../../components/tableStatidisticsPerMont
 import { AuthAction, useUser, withUser } from "next-firebase-auth";
 import LayoutDashboard from "../../layout/LayoutDashboard";
 import Loader from "../../components/Loader/Loader";
+import TestNavbar from "../../components/Navbar/TestNavbar";
 
 ChartJS.register(
   CategoryScale,
@@ -87,6 +88,9 @@ const Estadisticas = () => {
   // console.log('dataStatistics',dataStatistics[dataStatistics.length - 1].dailySales)
   return (
     <LayoutDashboard>
+      <>
+      <TestNavbar dataUser={dataUser}/>
+      </>
       {
         loader
           ?

@@ -3,6 +3,7 @@ import LayoutDashboard from '../../layout/LayoutDashboard'
 import { useGlobalContext } from '../../context/GlobalContext'
 import { RiLoader4Line } from "react-icons/ri";
 import { AuthAction, useUser, withUser } from 'next-firebase-auth';
+import TestNavbar from '../../components/Navbar/TestNavbar';
 
 const CargasStock = () => {
   const dataUser = useUser()
@@ -68,6 +69,7 @@ const CargasStock = () => {
   return (
     <LayoutDashboard>
       <div className='w-full m-3'>
+        <TestNavbar dataUser={dataUser}/>
         <h1 className='text-slate-500 text-2xl mb-4 font-dmMono capitalize'>cargas de stock</h1>
         <form className='-wfull'>
           <div className='w-full'>
