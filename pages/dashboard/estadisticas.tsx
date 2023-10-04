@@ -88,9 +88,9 @@ const Estadisticas = () => {
   // console.log('dataStatistics',dataStatistics[dataStatistics.length - 1].dailySales)
   return (
     <LayoutDashboard>
-      <>
+      {/* <>
       <TestNavbar dataUser={dataUser}/>
-      </>
+      </> */}
       {
         loader
           ?

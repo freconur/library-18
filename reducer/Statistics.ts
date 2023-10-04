@@ -66,10 +66,10 @@ export const dataToStatistics = async (dispatch:(action:any)=>void) => {
           dataPerday.growthTicket = Number(growthTicket)
           dataPerday.growthSales = Number(growthSales)
           dataPerday.growthAverageTicket = Number(growthAverageTicket)
-          dispatch({type:"dataStatistics", payload:dataFromStatistics})
-          dispatch({type:"loader", payload:false})
         }
       })
+      dispatch({type:"dataStatistics", payload:dataFromStatistics})
+      dispatch({type:"loader", payload:false})
     }
   }
 
