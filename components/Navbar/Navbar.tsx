@@ -153,7 +153,7 @@ const Navbar = ({ showSidebar, setShowSidebar }: Props) => {
           </div>
         }
         <div onClick={() => setShowOptionsUser(!showOptionsUser)} className='relative  flex justify-center cursor-pointer items-center xsm:w-[180px]'>
-          {getDataUser
+          {/* {getDataUser
             ?
             <>
               {
@@ -170,7 +170,7 @@ const Navbar = ({ showSidebar, setShowSidebar }: Props) => {
             </>
             : 
             <p>test</p>
-          }
+          } */}
         </div>
         {
           conditionalValue.description.length > 0

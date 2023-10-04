@@ -35,16 +35,16 @@ ChartJS.register(
 );
 
 const Estadisticas = () => {
-  const dataUser = useUser()
+  // const dataUser = useUser()
   const { getDataUser, dailySaleContext, LibraryData, dailyTicketContext, incomePerDay, totalSalesPerYearContext, getDataToStatistics, loaderState } = useGlobalContext()
   const { dailySale, dailyTicket, averageTicket, dataSales, dataSalesLabel, dataTotalSalesPerMonth, totalSalesYear, dataStatistics, loader } = LibraryData
-  useEffect(() => {
-    if (dataUser.id) {
-      setTimeout(() => {
-        dataUser.id && getDataUser(dataUser.id)
-      }, 2000)
-    }
-  }, [dataUser.id, dataUser])
+  // useEffect(() => {
+  //   if (dataUser.id) {
+  //     setTimeout(() => {
+  //       dataUser.id && getDataUser(dataUser.id)
+  //     }, 2000)
+  //   }
+  // }, [dataUser.id, dataUser])
   useEffect(() => {
     dailySaleContext()
     dailyTicketContext()
