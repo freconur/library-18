@@ -56,10 +56,11 @@ type GlobalContextProps = {
   cancelTicketContext: (ticket: Ticket) => void,
   loginWithEmailContext: (userDate: UserData) => void,
   signinWithEmailContext: (userDate: UserData) => void,
-  saveDataUser:(saveDataUser:SaveUserData) =>void,
-  getDataUser:(idUser:string) => void,
-  validateUserPinContext: (idUser:string, pin:string) => void,
-  resetPin: () => void
+  saveDataUser: (saveDataUser: SaveUserData) => void,
+  getDataUser: (idUser: string) => void,
+  validateUserPinContext: (idUser: string, pin: string) => void,
+  resetPin: () => void,
+  loaderState: (boolean:boolean) => void,
 }
 
 
@@ -75,17 +76,20 @@ export function GlobalcontextProdiver({ children }: Props) {
   const [showModalUpdateBrands, setShowModalUpdateBrands] = useState<boolean>(false)
   const [showModalDeleteBrands, setShowModalDeleteBrands] = useState<boolean>(false)
 
-  const resetPin =()=> {
-    dispatch({type:"validatePin", payload: false})
+  const loaderState = (boolean: boolean) => {
+    dispatch({ type: "loader", payload: boolean })
   }
-  const validateUserPinContext = (idUser:string, pin:string) => {
+  const resetPin = () => {
+    dispatch({ type: "validatePin", payload: false })
+  }
+  const validateUserPinContext = (idUser: string, pin: string) => {
     validateUserPin(dispatch, idUser, pin)
   }
-  const getDataUser = (idUser:string) => {
-    User(dispatch,idUser)
+  const getDataUser = (idUser: string) => {
+    User(dispatch, idUser)
   }
-  const saveDataUser = (saveDataUser:SaveUserData) => {
-    dispatch({type:"saveDataUser", payload:saveDataUser})
+  const saveDataUser = (saveDataUser: SaveUserData) => {
+    dispatch({ type: "saveDataUser", payload: saveDataUser })
   }
   const loginWithEmailContext = (userDate: UserData) => {
     loginWithEmail(userDate)
@@ -205,6 +209,7 @@ export function GlobalcontextProdiver({ children }: Props) {
 
   return (
     <GlobalContext.Provider value={{
+      loaderState,
       resetPin,
       validateUserPinContext,
       getDataUser,

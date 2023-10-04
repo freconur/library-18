@@ -34,6 +34,7 @@ module.exports = {
     extend: {
       height: {
         'altura': 'calc(100vh - 72px)',
+        'loader': 'calc(100vh - 75px)',
         'sales': '100%'
       },
       margin: {
@@ -41,7 +42,6 @@ module.exports = {
       },
       colors: {
         'principal': '#121f3d',
-        'secundary': 'rgb(12 24 50)',
         'secundary': 'rgb(12 24 50)',
         'modal': 'rgba(0,0,0,.24)',
         'background': '#1b1f44',

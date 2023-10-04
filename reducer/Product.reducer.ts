@@ -37,8 +37,10 @@ type LibraryData =
   | { type: "saveDataUser", payload: SaveUserData }
   | { type: "getDataUser", payload: User }
   | { type: "validatePin", payload: boolean }
+  | { type: "loader", payload: boolean }
 
 export const Library = {
+  loader: true as boolean,
   newProduct: {} as FormProductValues,
   brands: [] as Brands[],
   category: [] as Category[],
@@ -77,6 +79,11 @@ export const Library = {
 
 export const ProductsReducer = (state: LibraryAllData, action: LibraryData) => {
   switch (action.type) {
+    case "loader": {
+      return {
+        ...state, loader:action.payload
+      }
+    }
     case "validatePin": {
       return {
         ...state,

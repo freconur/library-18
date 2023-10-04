@@ -44,6 +44,7 @@ interface StatisticsData {
   tickets?: number,
 }
 interface LibraryAllData {
+  loader: boolean,
   newProduct?: FormProductValues,
   brands?: Brands[],
   category?: Category[],

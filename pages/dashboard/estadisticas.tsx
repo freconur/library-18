@@ -1,4 +1,4 @@
-import { useEffect } from "react"
+import { useEffect, useState } from "react"
 import { useGlobalContext } from "../../context/GlobalContext"
 import { Line } from "react-chartjs-2"
 import { BsCashCoin } from "react-icons/bs";
@@ -21,6 +21,7 @@ import { getDailySales } from "../../reducer/Product";
 import TableStatidisticsPerMonth from "../../components/tableStatidisticsPerMonth/TableStatidisticsPerMonth";
 import { AuthAction, useUser, withUser } from "next-firebase-auth";
 import LayoutDashboard from "../../layout/LayoutDashboard";
+import Loader from "../../components/Loader/Loader";
 
 ChartJS.register(
   CategoryScale,
@@ -34,16 +35,15 @@ ChartJS.register(
 
 const Estadisticas = () => {
   const dataUser = useUser()
-  const { getDataUser,dailySaleContext, LibraryData, dailyTicketContext, incomePerDay, totalSalesPerYearContext, getDataToStatistics } = useGlobalContext()
-  const { dailySale, dailyTicket, averageTicket, dataSales, dataSalesLabel, dataTotalSalesPerMonth, totalSalesYear, dataStatistics } = LibraryData
-
+  const { getDataUser, dailySaleContext, LibraryData, dailyTicketContext, incomePerDay, totalSalesPerYearContext, getDataToStatistics, loaderState } = useGlobalContext()
+  const { dailySale, dailyTicket, averageTicket, dataSales, dataSalesLabel, dataTotalSalesPerMonth, totalSalesYear, dataStatistics, loader } = LibraryData
   useEffect(() => {
-    if(dataUser.id){
-        setTimeout(() => {
-          dataUser.id && getDataUser(dataUser.id)
+    if (dataUser.id) {
+      setTimeout(() => {
+        dataUser.id && getDataUser(dataUser.id)
       }, 2000)
-      }
-  },[dataUser.id,dataUser])
+    }
+  }, [dataUser.id, dataUser])
   useEffect(() => {
     dailySaleContext()
     dailyTicketContext()
@@ -83,28 +83,37 @@ const Estadisticas = () => {
       },
     },
   };
-  console.log('dataStatistics',dataStatistics)
+  console.log('dataStatistics', dataStatistics)
   // console.log('dataStatistics',dataStatistics[dataStatistics.length - 1].dailySales)
   return (
     <LayoutDashboard>
-    <div className="w-full relative">
-      <h1 className="text-2xl text-slate-700 font-dmMono  my-5">{`Dashboard > Estadisticas`}</h1>
-      <CardEstadisticas dataStatistics={dataStatistics} dataSales={dataSales} dailySale={dailySale} dailyTicket={dailyTicket} averageTicket={averageTicket} dataTotalSalesPerMonth={dataTotalSalesPerMonth} totalSalesYear={totalSalesYear} />
-      <div className="my-[50px] w-full cs:h-[300px] lg:h-[350px] xl:h-[400px]">
-        <h2 className="text-slate-600 font-dmMono text-xl font-medium capitalize mb-5">graficos y ratios</h2>
-        {/* <div className="w-[99%]"> */}
-        <div className="grid p-2 grid-cols-1 gap-4 cs:grid-cols-2 w-full rounded-sm mb-[50px]">
-          <div className="w-full bg-white p-2">
-            <Line className="w-full" options={options} data={sales} />
+      {
+        loader
+          ?
+          <div className="grid h-loader w-full place-content-center">
 
+            <Loader />
           </div>
-            {/* <Line className="w-full" options={options} data={sales} /> */}
-          <div className="w-full bg-white">
-            <TableStatidisticsPerMonth dataStatistics={dataStatistics} />
+          :
+          <div className="w-full relative">
+            <h1 className="text-2xl text-slate-700 font-dmMono  my-5">{`Dashboard > Estadisticas`}</h1>
+            <CardEstadisticas dataStatistics={dataStatistics} dataSales={dataSales} dailySale={dailySale} dailyTicket={dailyTicket} averageTicket={averageTicket} dataTotalSalesPerMonth={dataTotalSalesPerMonth} totalSalesYear={totalSalesYear} />
+            <div className="my-[50px] w-full cs:h-[300px] lg:h-[350px] xl:h-[400px]">
+              <h2 className="text-slate-600 font-dmMono text-xl font-medium capitalize mb-5">graficos y ratios</h2>
+              {/* <div className="w-[99%]"> */}
+              <div className="grid p-2 grid-cols-1 gap-4 cs:grid-cols-2 w-full rounded-sm mb-[50px]">
+                <div className="w-full bg-white p-2">
+                  <Line className="w-full" options={options} data={sales} />
+
+                </div>
+                {/* <Line className="w-full" options={options} data={sales} /> */}
+                <div className="w-full bg-white">
+                  <TableStatidisticsPerMonth dataStatistics={dataStatistics} />
+                </div>
+              </div>
+            </div>
           </div>
-        </div>
-      </div>
-    </div>
+      }
     </LayoutDashboard>
   )
 }
