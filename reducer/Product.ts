@@ -197,13 +197,18 @@ export const deleteProductToCart = (dispatch: (action: any) => void, cart: Produ
 export const dailySale = async (dispatch: (action: any) => void) => {
   // const dailySaleRef = doc(db, "/dailysale", "vAWFt15qlNVykhHvNno0")
   // const dailySaleRef = doc(db, `/dailysale/vAWFt15qlNVykhHvNno0/${yearMonth}/`, currentDate() as string)
-  const dailySaleRef = doc(db, `/dailysale/vAWFt15qlNVykhHvNno0/${yearMonth}/${currentDate()}`)
+  const dailySaleRef = doc(db, `/dailysale/vAWFt15qlNVykhHvNno0/${yearMonth}/`, `${currentDate()}`)
 
   const docSnap = await getDoc(dailySaleRef);
 
   if (docSnap.exists()) {
     console.log("Document data:", docSnap.data());
-    dispatch({ type: "dailySale", payload: docSnap.data()?.amount })
+    onSnapshot(dailySaleRef, (doc) => {
+      // const data:number = doc.data()?.amount
+      dispatch({ type: "dailySale", payload: doc.data()?.amount})
+      // dispatch({ type: "dailySale", payload: docSnap.data()?.amount })
+
+    })
 
   } else {
     // docSnap.data() will be undefined in this case
@@ -246,7 +251,7 @@ export const dailyTicket = async (dispatch: (action: any) => void) => {
 export const generateSold = async (dispatch: (action: any) => void, cart: ProductToCart[] | undefined, cero: number) => {
   dispatch({ type: "generateSold", payload: true })
   // let totalAmountOfCart: number = 0
-  await addProductCartToProductSales(cart)
+  
 
   let library18 = true
   let totalAmountOfCartLibrary: number = 0
@@ -279,6 +284,8 @@ export const generateSold = async (dispatch: (action: any) => void, cart: Produc
       await updateDoc(ref, { totalSales: totalAmountOfCartLibrary + totalSaleMonth.data()?.totalSales })
       //estoy actualizando el stock de cada producto del cart
       await updateDoc(refProduct, { stock: increment(-Number(item.amount))})
+      .then(async r=> await addProductCartToProductSales(cart))
+      // await 
       // await updateDoc(refProduct, { stock: Number(item.stock) - Number(item.amount) }) 
     }
 
@@ -372,16 +379,24 @@ export const addProductCartToProductSales = async (cart: ProductToCart[] | undef
   }
 }
 
-export const getProductsSales = (dispatch: (action: any) => void) => {
+export const getProductsSales = async(dispatch: (action: any) => void) => {
   const pathProductsSales = `/products-sales-library18/${currentYear()}/${currentMonth()}/${currentMonth()}/${currentDate()}`
-  const producstSalesRef = query(collection(db, pathProductsSales))
+  const producstSalesRef = collection(db, pathProductsSales)
   const products: ProductToCart[] = []
-  onSnapshot(producstSalesRef, querySnapshot => {
-    querySnapshot.forEach((doc) => {
-      products.push(doc.data())
-    })
-    dispatch({ type: "getProductsSales", payload: products })
+  const getProductSale = await getDocs(producstSalesRef)
+
+  getProductSale.forEach((doc) => {
+    products.push(doc.data())
   })
+  dispatch({ type: "getProductsSales", payload: products })
+
+  // onSnapshot(producstSalesRef, querySnapshot => {
+  //   querySnapshot.forEach((doc) => {
+  //     products.push(doc.data())
+  //   })
+  //   dispatch({ type: "getProductsSales", payload: products })
+  // })
+//lo de arriba es lo que estaba funcional
 
   // onSnapshot(res, (snapshot) => {
   //   const marcaSocio: MarcaSocio[] = []

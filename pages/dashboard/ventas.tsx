@@ -11,7 +11,7 @@ const Ventas = () => {
   const { getProductsSales } = LibraryData
   useEffect(() => {
     getProductsSalesContext()
-  }, [])
+  }, [LibraryData.getProductsSales.length])
   useEffect(() => {
     if(dataUser.id){
       getDataUser(dataUser.id)

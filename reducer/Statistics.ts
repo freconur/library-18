@@ -23,6 +23,14 @@ export const dataToStatistics = async (dispatch:(action:any)=>void) => {
   if (queryStatistics.size === 0) {
     console.log(`no hay datos para el mes de ${MES}`)
   } else {
+    // onSnapshot(statisticsRef,(querySnapshot) => {
+    //   querySnapshot.docs.forEach((doc) => {
+    //     dataFromStatistics.push({ ...doc.data(), date: Number(doc.id) })
+
+    //   })
+
+    // })
+    // console.log('dataFromStatistics',dataFromStatistics)
     queryStatistics.docs.forEach(monthData => {
       dataFromStatistics.push({ ...monthData.data(), date: Number(monthData.id) })
     })

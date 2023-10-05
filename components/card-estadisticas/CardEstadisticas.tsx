@@ -15,22 +15,22 @@ interface Props {
 const CardEstadisticas = ({ dataStatistics, dataSales, dailySale, dailyTicket, averageTicket, dataTotalSalesPerMonth, totalSalesYear }: Props) => {
 
   console.log("test", dataSales.length)
-  const getTest = () => {
-    if (dataSales) {
-      const rta = ((dataSales[dataSales.length - 1] / dataSales[dataSales.length - 2]) - 1) * 100
-      // console.log('dataSales[dataSales.length - 1]', dataSales[dataSales.length - 1])
-      // console.log('dataSales[dataSales.length - 2]', dataSales[dataSales.length - 2])
-      // console.log('rta', rta.toFixed(2))
-    }
-  }
+  // const getTest = () => {
+  //   if (dataSales) {
+  //     const rta = ((dataSales[dataSales.length - 1] / dataSales[dataSales.length - 2]) - 1) * 100
+  //     // console.log('dataSales[dataSales.length - 1]', dataSales[dataSales.length - 1])
+  //     // console.log('dataSales[dataSales.length - 2]', dataSales[dataSales.length - 2])
+  //     // console.log('rta', rta.toFixed(2))
+  //   }
+  // }
   useEffect(() => {
-    getTest()
-  }, [])
+    // getTest()
+  }, [dailySale])
+  console.log('dailySale cards', dailySale)
   return (
     <>
       {
-        dataStatistics &&
-
+        dataStatistics && dailySale &&
         <div className=" bg-white rounded-md p-3 grid xl:grid-cols-4 lg:grid-cols-3 xss:p-2 xs:grid-cols-2 cs:grid-cols-3 px-5 font-comfortaa gap-5 w-full">
           {/* venta diaria */}
           <div className="w-full h-[150px] rounded-sm p-3 drop-shadow-xl bg-pastel2">
@@ -40,7 +40,8 @@ const CardEstadisticas = ({ dataStatistics, dataSales, dailySale, dailyTicket, a
                 <div className="text-slate-500 font-bold text-xl capitalize ">Venta diaria</div>
                 <div className="text-slate-500 flex gap-3 text-2xl font-bold">
                   <div className="flex justify-center items-center">
-                    <p>$ {Number(dataStatistics[dataStatistics.length - 1]?.dailySales)}</p>
+                    <p>$ {dailySale}</p>
+                    {/* <p>$ {Number(dataStatistics[dataStatistics.length - 1]?.dailySales)}</p> */}
                   </div>
                 </div>
 

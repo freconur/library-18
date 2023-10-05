@@ -42,7 +42,7 @@ const Navbar = ({ showSidebar, setShowSidebar }: Props) => {
   const [onInput, setOnInput] = useState(false)
   const [userInfo, setUserInfo] = useState<SaveUserData>()
   const authUser = getAuth(app)
-  const auth = useUser()
+  // const auth = useUser()
 
   const initialValueInput = { description: "" }
   const [conditionalValue, setConditionalValue] = useState(initialValueInput)
@@ -153,7 +153,7 @@ const Navbar = ({ showSidebar, setShowSidebar }: Props) => {
           </div>
         }
         <div onClick={() => setShowOptionsUser(!showOptionsUser)} className='relative  flex justify-center cursor-pointer items-center xsm:w-[180px]'>
-          {/* {getDataUser
+          {getDataUser
             ?
             <>
               {
@@ -170,7 +170,7 @@ const Navbar = ({ showSidebar, setShowSidebar }: Props) => {
             </>
             : 
             <p>test</p>
-          } */}
+          }
         </div>
         {
           conditionalValue.description.length > 0

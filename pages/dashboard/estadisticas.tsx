@@ -53,7 +53,7 @@ const Estadisticas = () => {
     getDataToStatistics()
 
     getDailySales()
-  }, [dailySale, dailyTicket,dataStatistics.length])
+  }, [dailyTicket,dataStatistics.length])
 
   const sales = {
     labels: dataSalesLabel,
@@ -85,7 +85,7 @@ const Estadisticas = () => {
     },
   };
   console.log('dataStatistics', dataStatistics)
-  // console.log('dataStatistics',dataStatistics[dataStatistics.length - 1].dailySales)
+  console.log('dailySale', dailySale)
   return (
     <LayoutDashboard>
       {/* <>
