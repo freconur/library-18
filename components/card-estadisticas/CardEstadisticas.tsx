@@ -30,7 +30,8 @@ const CardEstadisticas = ({ dataStatistics, dataSales, dailySale, dailyTicket, a
   return (
     <>
       {
-        dataStatistics && dailySale &&
+        dataStatistics &&
+        // dataStatistics && dailySale &&
         <div className=" bg-white rounded-md p-3 grid xl:grid-cols-4 lg:grid-cols-3 xss:p-2 xs:grid-cols-2 cs:grid-cols-3 px-5 font-comfortaa gap-5 w-full">
           {/* venta diaria */}
           <div className="w-full h-[150px] rounded-sm p-3 drop-shadow-xl bg-pastel2">
@@ -40,7 +41,7 @@ const CardEstadisticas = ({ dataStatistics, dataSales, dailySale, dailyTicket, a
                 <div className="text-slate-500 font-bold text-xl capitalize ">Venta diaria</div>
                 <div className="text-slate-500 flex gap-3 text-2xl font-bold">
                   <div className="flex justify-center items-center">
-                    <p>$ {dailySale}</p>
+                    <p>$ {dailySale?.toFixed(2)}</p>
                     {/* <p>$ {Number(dataStatistics[dataStatistics.length - 1]?.dailySales)}</p> */}
                   </div>
                 </div>

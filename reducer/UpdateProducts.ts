@@ -29,7 +29,7 @@ export const updateProduct = async (product:ProductToCart) => {
     marcaSocio: product.marcaSocio,
     brand:product.brand,
     category:product.category,
-    stock:product.stock
+    stock:Number(product.stock)
   })
 }
 export const deleteProduct = async(code:string) => {

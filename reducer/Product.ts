@@ -283,9 +283,10 @@ export const generateSold = async (dispatch: (action: any) => void, cart: Produc
       await updateDoc(ref, { totalSales: totalAmountOfCartLibrary + totalSaleMonth.data()?.totalSales })
       await updateDoc(ref, { totalSales: totalAmountOfCartLibrary + totalSaleMonth.data()?.totalSales })
       //estoy actualizando el stock de cada producto del cart
+
       await updateDoc(refProduct, { stock: increment(-Number(item.amount))})
       .then(async r=> await addProductCartToProductSales(cart))
-      // await 
+
       // await updateDoc(refProduct, { stock: Number(item.stock) - Number(item.amount) }) 
     }
 
