@@ -127,11 +127,8 @@ const Estadisticas = () => {
   )
 }
 
-export const getServerSideProps = withUserTokenSSR({
-  whenAuthed: AuthAction.REDIRECT_TO_APP,
-})()
 export default withUser({
   // whenAuthed: AuthAction.RENDER
   // whenUnauthedAfterInit: AuthAction.REDIRECT_TO_LOGIN
-  // whenUnauthedAfterInit: AuthAction.REDIRECT_TO_LOGIN
+  whenUnauthedAfterInit: AuthAction.REDIRECT_TO_LOGIN
 })(Estadisticas)
