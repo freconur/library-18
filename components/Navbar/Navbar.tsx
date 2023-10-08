@@ -175,7 +175,8 @@ const Navbar = ({dataUser}:Props) => {
         {
           conditionalValue.description.length > 0
             ?
-            <div className=' shadow-lg overflow-hidden h-[500px] absolute top-[60px] right-0 md:right-[152px] left-0 md:top-[40px] md:left-[88px] mx-1 my-1 p-2 bg-white rounded-sm'>
+            // <div className=' shadow-lg overflow-hidden h-[500px] absolute top-[60px] right-0 md:right-[152px] left-0 md:top-[40px] md:left-[88px] mx-1 my-1 p-2 bg-white rounded-sm'>
+            <div className=' shadow-lg overflow-hidden h-[500px] fixed top-[60px] right-0 md:right-[152px] left-0 md:top-[40px] md:left-[88px] mx-1 my-1 p-2 bg-white rounded-sm'>
               <div className='flex justify-between items-center'>
                 <h3 className='text-slate-700 capitalize font-dmMono text-lg my-5'>productos relacionados</h3>
                 <div onClick={handleClickOutside} className='text-white cursor-pointer text-lg flex justify-center items-center w-[20px] h-[20px] rounded-full bg-red-400 p-3 font-dmMono shadow-lg'>x</div>

@@ -77,7 +77,7 @@ const RegistroVentas = () => {
         showSaleModal &&
         <SaleModal generateSold={generateSold} />
       }
-      <div className='relative h-sales m-0 p-1 md:m-3 w-full mb-[110px]'>
+      <div className='relative h-sales m-0 p-1  w-full mb-[110px]'>
       {/* <TestNavbar dataUser={dataUser}/> */}
         {/* <div className='relavite'> */}
         <div className='flex items-center justify-end mb-3 font-nunito text-xs'>

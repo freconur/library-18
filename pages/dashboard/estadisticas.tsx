@@ -101,11 +101,12 @@ const Estadisticas = () => {
           </div>
           :
           <>
-          <div className="w-full relative">
+          <div className="w-full p-1 relative">
           {/* <Navbar /> */}
             <h1 className="text-2xl text-slate-700 font-dmMono  my-5">{`Dashboard > Estadisticas`}</h1>
             <CardEstadisticas dataStatistics={dataStatistics} dataSales={dataSales} dailySale={dailySale} dailyTicket={dailyTicket} averageTicket={averageTicket} dataTotalSalesPerMonth={dataTotalSalesPerMonth} totalSalesYear={totalSalesYear} />
-            <div className="my-[50px] w-full cs:h-[300px] lg:h-[350px] xl:h-[400px]">
+            {/* <div className="my-[50px] w-full cs:h-[300px] lg:h-[350px] xl:h-[400px]"> */}
+            <div className="my-[50px] w-full">
               <h2 className="text-slate-600 font-dmMono text-xl font-medium capitalize mb-5">graficos y ratios</h2>
               {/* <div className="w-[99%]"> */}
               <div className="grid p-2 grid-cols-1 gap-4 cs:grid-cols-2 w-full rounded-sm mb-[50px]">
