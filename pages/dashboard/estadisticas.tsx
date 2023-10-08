@@ -1,3 +1,4 @@
+'client'
 import { useEffect, useState } from "react"
 import { useGlobalContext } from "../../context/GlobalContext"
 import { Line } from "react-chartjs-2"
@@ -19,10 +20,11 @@ import {
 import CardEstadisticas from "../../components/card-estadisticas/CardEstadisticas";
 import { getDailySales } from "../../reducer/Product";
 import TableStatidisticsPerMonth from "../../components/tableStatidisticsPerMonth/TableStatidisticsPerMonth";
-import { AuthAction, useUser, withUser } from "next-firebase-auth";
+import { AuthAction, useUser, withUser, withUserTokenSSR } from "next-firebase-auth";
 import LayoutDashboard from "../../layout/LayoutDashboard";
 import Loader from "../../components/Loader/Loader";
 import TestNavbar from "../../components/Navbar/TestNavbar";
+import Navbar from "../../components/Navbar/Navbar";
 
 ChartJS.register(
   CategoryScale,
@@ -35,16 +37,16 @@ ChartJS.register(
 );
 
 const Estadisticas = () => {
-  // const dataUser = useUser()
+  const dataUser = useUser()
   const { getDataUser, dailySaleContext, LibraryData, dailyTicketContext, incomePerDay, totalSalesPerYearContext, getDataToStatistics, loaderState } = useGlobalContext()
   const { dailySale, dailyTicket, averageTicket, dataSales, dataSalesLabel, dataTotalSalesPerMonth, totalSalesYear, dataStatistics, loader } = LibraryData
-  // useEffect(() => {
-  //   if (dataUser.id) {
-  //     setTimeout(() => {
-  //       dataUser.id && getDataUser(dataUser.id)
-  //     }, 2000)
-  //   }
-  // }, [dataUser.id, dataUser])
+  useEffect(() => {
+    if (dataUser.id) {
+      // setTimeout(() => {
+        dataUser.id && getDataUser(dataUser)
+      // }, 2000)
+    }
+  }, [dataUser.id, dataUser])
   useEffect(() => {
     dailySaleContext()
     dailyTicketContext()
@@ -99,7 +101,9 @@ const Estadisticas = () => {
             <Loader />
           </div>
           :
+          <>
           <div className="w-full relative">
+          {/* <Navbar /> */}
             <h1 className="text-2xl text-slate-700 font-dmMono  my-5">{`Dashboard > Estadisticas`}</h1>
             <CardEstadisticas dataStatistics={dataStatistics} dataSales={dataSales} dailySale={dailySale} dailyTicket={dailyTicket} averageTicket={averageTicket} dataTotalSalesPerMonth={dataTotalSalesPerMonth} totalSalesYear={totalSalesYear} />
             <div className="my-[50px] w-full cs:h-[300px] lg:h-[350px] xl:h-[400px]">
@@ -117,12 +121,17 @@ const Estadisticas = () => {
               </div>
             </div>
           </div>
+          </>
       }
     </LayoutDashboard>
   )
 }
+
+export const getServerSideProps = withUserTokenSSR({
+  whenAuthed: AuthAction.REDIRECT_TO_APP,
+})()
 export default withUser({
   // whenAuthed: AuthAction.RENDER
   // whenUnauthedAfterInit: AuthAction.REDIRECT_TO_LOGIN
-  whenUnauthedAfterInit: AuthAction.REDIRECT_TO_LOGIN
+  // whenUnauthedAfterInit: AuthAction.REDIRECT_TO_LOGIN
 })(Estadisticas)

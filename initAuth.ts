@@ -3,6 +3,7 @@ import { init } from 'next-firebase-auth'
 
 const initAuth = () => {
   init({
+    
     authPageURL: '/register-login',
     appPageURL: '/dashboard/registro-ventas',
     loginAPIEndpoint: '/api/login',
@@ -13,6 +14,7 @@ const initAuth = () => {
     onLogoutRequestError: (err) => {
       console.error(err)
     },
+    // firebaseAuthEmulatorHost: 'localhost:3000',
     firebaseAdminInitConfig: {
       credential: {
         projectId: 'library18',
