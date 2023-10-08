@@ -8,6 +8,7 @@ import { useEffect, useState } from "react";
 import { AuthAction, useUser, withUser } from 'next-firebase-auth';
 import LayoutDashboard from '../../layout/LayoutDashboard';
 import { useGlobalContext } from '../../context/GlobalContext';
+import Navbar from '../../components/Navbar/Navbar';
 const APPLICATION_ID = 'A03AC5JW4J'
 const SEARCH_API_KEY = '3c93f2a51d243945a1e56ae63edf4794'
 const ALGOLIA_INDEX = 'products'
@@ -33,17 +34,17 @@ const Productos = () => {
       theme: "colored",
     })
   }
-  useEffect(() => {
-    if(dataUser.id){
-      getDataUser(dataUser.id)
-    }
-  },[dataUser.id,dataUser])
+  // useEffect(() => {
+  //   if(dataUser.id){
+  //     getDataUser(dataUser.id)
+  //   }
+  // },[dataUser.id,dataUser])
   const alertNotificacion = (alert: boolean) => {
     setSuccessfullCopy(alert)
   }
   return (
     <LayoutDashboard>
-
+      <Navbar dataUser={dataUser}/>
       <>
         {
           successfullCopy === true &&

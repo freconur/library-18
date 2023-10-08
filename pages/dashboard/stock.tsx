@@ -4,6 +4,7 @@ import TableStock from '../../components/tableStock/TableStock'
 import { RiCheckLine } from 'react-icons/ri'
 import { AuthAction, useUser, withUser } from 'next-firebase-auth'
 import LayoutDashboard from '../../layout/LayoutDashboard'
+import Navbar from '../../components/Navbar/Navbar'
 
 const params: FilterProdyctBySTock = {
   marcaSocio: "",
@@ -23,11 +24,11 @@ const Stock = () => {
       [e.target.name]: e.target.value
     })
   }
-  useEffect(() => {
-    if(dataUser.id){
-      getDataUser(dataUser.id)
-    }
-  },[dataUser.id,dataUser])
+  // useEffect(() => {
+  //   if(dataUser.id){
+  //     getDataUser(dataUser.id)
+  //   }
+  // },[dataUser.id,dataUser])
   useEffect(() => {
 
     marcaSocio()
@@ -54,7 +55,7 @@ const Stock = () => {
   }
   return (
     <LayoutDashboard>
-
+      <Navbar dataUser={dataUser}/>
       <div className='w-full'>
         <h1 className='text-slate-700 font-dmMono capitalize text-2xl'>filtro de productos por stock</h1>
         <div className='p-1'>

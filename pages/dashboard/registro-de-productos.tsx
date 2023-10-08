@@ -8,6 +8,7 @@ import { onValidate } from '../../utils/validateForm';
 import styles from '../../styles/registtro-ventas.module.css'
 import { RiLoader4Line } from "react-icons/ri";
 import LayoutDashboard from '../../layout/LayoutDashboard';
+import Navbar from '../../components/Navbar/Navbar';
 
 const initialStateValues: FormProductValues = {
   code: "",
@@ -24,11 +25,11 @@ const RegistroDeProductos = () => {
   const {getDataUser, LibraryData, showCategory, showUpdateCategory, marcaSocio, category, brands, showDeleteCategory, showBrands, showUpdateBrands, showDeleteBrands } = useGlobalContext()
   const { loaderRegisterProduct } = LibraryData
   const { form, handleProductValues, handleSubmit, loading, error, equalsOne, setEqualsOne } = useFormRegisterProduct(initialStateValues, onValidate);
-  useEffect(() => {
-    if(dataUser.id){
-      getDataUser(dataUser.id)
-    }
-  },[dataUser.id,dataUser])
+  // useEffect(() => {
+  //   if(dataUser.id){
+  //     getDataUser(dataUser.id)
+  //   }
+  // },[dataUser.id,dataUser])
   useEffect(() => {
     if (equalsOne === 1) {
       if (focusRef.current) {
@@ -58,6 +59,7 @@ const RegistroDeProductos = () => {
     <LayoutDashboard>
 
       <>
+      <Navbar dataUser={dataUser}/>
         <Modal />
         <div className='p-3 w-full'>
           <h1 className='text-2xl text-slate-700 font-dmMono capitalize mb-3'>

@@ -7,6 +7,7 @@ import FormUpdate from '../../components/FormUPdate/FormUpdate';
 import { AuthAction, useUser, withUser } from 'next-firebase-auth';
 import LayoutDashboard from '../../layout/LayoutDashboard';
 import PinModal from '../../modals/updateProduct/PinModal';
+import Navbar from '../../components/Navbar/Navbar';
 const initialValueItem = {
   description: "",
   stock: "",
@@ -50,11 +51,11 @@ const UpdateProduct = () => {
     setCategoryActive(!categoryActive)
     category()
   }
-  useEffect(() => {
-    if(dataUser.id){
-      getDataUser(dataUser.id)
-    }
-  },[dataUser.id])
+  // useEffect(() => {
+  //   if(dataUser.id){
+  //     getDataUser(dataUser.id)
+  //   }
+  // },[dataUser.id])
   useEffect(() => {
     if (codeProduct.code.length === 13) {
       productByCodeToUpdateContext(codeProduct.code)
@@ -76,6 +77,7 @@ const UpdateProduct = () => {
   console.log('item', item)
   return (
     <LayoutDashboard>
+      <Navbar dataUser={dataUser}/>
       <div className='w-full p-2'>
         {
           showUpdateProductModal

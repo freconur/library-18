@@ -38,7 +38,6 @@ export const nameUser = (name:string) => {
     const newName = []
     for(let i = 0; i < name.length; i++) {
       if(name[i] === "@") {
-          console.log('newName',newName)
           return newName.join('')
       }
       newName.push(name[i])

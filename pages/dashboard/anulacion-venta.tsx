@@ -9,6 +9,7 @@ import { numberToNameMonth } from '../../dates/date';
 import { AuthAction, useUser, withUser } from 'next-firebase-auth';
 import { BsLayoutSidebar } from 'react-icons/bs';
 import LayoutDashboard from '../../layout/LayoutDashboard';
+import Navbar from '../../components/Navbar/Navbar';
 const AnulacionVenter = () => {
   const dataUser = useUser()
   const { getTicketsContext, LibraryData, setModalCancellationOfSale, getDataUser } = useGlobalContext()
@@ -21,15 +22,16 @@ const AnulacionVenter = () => {
     month: numberToNameMonth(startDate.month()),
     year: startDate.year(),
   }
-  useEffect(() => {
-    if (dataUser.id) {
-      getDataUser(dataUser.id)
-    }
-  }, [dataUser.id])
+  // useEffect(() => {
+  //   if (dataUser.id) {
+  //     getDataUser(dataUser.id)
+  //   }
+  // }, [dataUser.id])
   useEffect(() => {
     //debere colocar la funcion para poder traerme todods los tickets disponibles
     getTicketsContext(dateData)
-  }, [startDate, dataUser.id,dataUser])
+  // }, [startDate, dataUser.id,dataUser])
+}, [startDate])
 
   const handleClickModal = (ticket: number) => {
     setModalCancellationOfSale(showCancellationOfsaleModal)
@@ -38,6 +40,7 @@ const AnulacionVenter = () => {
   }
   return (
     <LayoutDashboard>
+      <><Navbar dataUser={dataUser}/></>
       <div className="w-full">
         {
           showCancellationOfsaleModal && findTicket &&

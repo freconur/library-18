@@ -4,6 +4,7 @@ import { useGlobalContext } from '../../context/GlobalContext'
 import { RiLoader4Line } from "react-icons/ri";
 import { AuthAction, useUser, withUser } from 'next-firebase-auth';
 import TestNavbar from '../../components/Navbar/TestNavbar';
+import Navbar from '../../components/Navbar/Navbar';
 
 const CargasStock = () => {
   const dataUser = useUser()
@@ -21,11 +22,11 @@ const CargasStock = () => {
       [e.target.name]: e.target.value
     })
   }
-  useEffect(() => {
-    if(dataUser.id){
-      getDataUser(dataUser.id)
-    }
-  },[dataUser.id, dataUser.id,dataUser])
+  // useEffect(() => {
+  //   if(dataUser.id){
+  //     getDataUser(dataUser.id)
+  //   }
+  // },[dataUser.id, dataUser.id,dataUser])
   useEffect(() => {
     if (focusRef.current) {
       focusRef.current.focus();
@@ -68,8 +69,8 @@ const CargasStock = () => {
   }
   return (
     <LayoutDashboard>
+      <Navbar dataUser={dataUser} />
       <div className='w-full m-3'>
-        <TestNavbar dataUser={dataUser}/>
         <h1 className='text-slate-500 text-2xl mb-4 font-dmMono capitalize'>cargas de stock</h1>
         <form className='-wfull'>
           <div className='w-full'>

@@ -38,11 +38,11 @@ const RegistroVentas = () => {
       theme: "colored",
     })
   }
-  useEffect(() => {
-    if(dataUser.id){
-      getDataUser(dataUser.id)
-    }
-  },[dataUser.id,dataUser])
+  // useEffect(() => {
+  //   if(dataUser.id){
+  //     getDataUser(dataUser.id)
+  //   }
+  // },[dataUser.id,dataUser])
   useEffect(() => {
 
     resetValueToastify()

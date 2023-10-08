@@ -124,9 +124,6 @@ const Navbar = ({dataUser}:Props) => {
       'key': 'Tab'
     })
   }
-
-  console.log('userInfo', userInfo)
-  console.log('dataUser', dataUser)
   return (
     <>
       <nav className={`sticky top-0 z-[800] w-full h-[60px] px-2 bg-white shadow-md flex justify-between items-center pl-0 pr-1 pb-1 pt-1 `}>

@@ -4,6 +4,7 @@ import { table } from 'console'
 import { todayDate } from '../../dates/date'
 import { AuthAction, useUser, withUser } from 'next-firebase-auth'
 import LayoutDashboard from '../../layout/LayoutDashboard'
+import Navbar from '../../components/Navbar/Navbar'
 
 const Ventas = () => {
   const dataUser = useUser()
@@ -12,15 +13,14 @@ const Ventas = () => {
   useEffect(() => {
     getProductsSalesContext()
   }, [LibraryData.getProductsSales.length])
-  useEffect(() => {
-    if(dataUser.id){
-      getDataUser(dataUser.id)
-    }
-  },[dataUser.id,dataUser])
-  console.log('getProductsSales', getProductsSales)
+  // useEffect(() => {
+  //   if(dataUser.id){
+  //     getDataUser(dataUser.id)
+  //   }
+  // },[dataUser.id,dataUser])
   return (
     <LayoutDashboard>
-
+<Navbar dataUser={dataUser}/>
       <div className='w-full'>
         <div className='w-full flex justify-end text-slate-500 font-dmMono my-5'>{todayDate()}</div>
         <h1 className='font-dmMono text-slate-600 capitalize text-2xl mb-4'>Mis productos vendidos</h1>
