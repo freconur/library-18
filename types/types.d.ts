@@ -78,7 +78,8 @@ interface LibraryAllData {
   showCancellationOfsaleModal: boolean,
   saveDataUser:SaveUserData,
   getDataUser:User,
-  validatePin:boolean
+  validatePin:boolean,
+  showSidebar: boolean,
 }
 
 interface DateData {

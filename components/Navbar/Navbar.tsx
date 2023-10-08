@@ -10,9 +10,10 @@ import { BsSearchHeart } from 'react-icons/bs';
 import { useGlobalContext } from '../../context/GlobalContext';
 import { ToastContainer, toast } from 'react-toastify';
 import { useUser } from 'next-firebase-auth';
+import { nameUser } from '../../utils/validateForm';
 interface Props {
-  showSidebar: boolean,
-  setShowSidebar: React.Dispatch<React.SetStateAction<boolean>>
+  dataUser:any
+  // setShowSidebar: React.Dispatch<React.SetStateAction<boolean>>
 }
 interface UserInfo {
   id?: string,
@@ -27,7 +28,7 @@ const searchClient = algoliasearch(APPLICATION_ID, SEARCH_API_KEY);
 const index = searchClient.initIndex(ALGOLIA_INDEX)
 
 
-const Navbar = ({ showSidebar, setShowSidebar }: Props) => {
+const Navbar = ({dataUser}:Props) => {
   const [showOptionsUser, setShowOptionsUser] = useState(false)
   const cerrarSesion = getAuth(authApp)
   const handleLogout = () => {
@@ -37,8 +38,8 @@ const Navbar = ({ showSidebar, setShowSidebar }: Props) => {
   const { pathname } = useRouter()
   const closeBoxSearch = useRef<HTMLDivElement>(null)
   const closeBoxSearchInput = useRef<HTMLInputElement>(null)
-  const { addProductRegisterToSell, LibraryData, resetToastifyNotificationAddProduct } = useGlobalContext()
-  const { productToCart, toastifyNotificationAddProduct, getDataUser } = LibraryData
+  const { addProductRegisterToSell, LibraryData, resetToastifyNotificationAddProduct,showSidebarContext } = useGlobalContext()
+  const { productToCart, toastifyNotificationAddProduct, getDataUser, showSidebar } = LibraryData
   const [onInput, setOnInput] = useState(false)
   const [userInfo, setUserInfo] = useState<SaveUserData>()
   const authUser = getAuth(app)
@@ -125,6 +126,7 @@ const Navbar = ({ showSidebar, setShowSidebar }: Props) => {
   }
 
   console.log('userInfo', userInfo)
+  console.log('dataUser', dataUser)
   return (
     <>
       <nav className={`sticky top-0 z-[800] w-full h-[60px] px-2 bg-white shadow-md flex justify-between items-center pl-0 pr-1 pb-1 pt-1 `}>
@@ -134,7 +136,7 @@ const Navbar = ({ showSidebar, setShowSidebar }: Props) => {
             <span className='xs:hidden font-sidebar'>Lib</span>
             <span className='text-sm font-dmMono ml-2 flex items-center justify-center'>18</span>
             </h1>
-          <RiMenuFill onClick={() => setShowSidebar(!showSidebar)} className="text-3xl text-gray-600 font-bold cursor-pointer" />
+          <RiMenuFill onClick={() => showSidebarContext(!showSidebar)} className="text-3xl text-gray-600 font-bold cursor-pointer" />
         </div>
         {
           pathname === "/dashboard/registro-ventas"
@@ -153,14 +155,15 @@ const Navbar = ({ showSidebar, setShowSidebar }: Props) => {
           </div>
         }
         <div onClick={() => setShowOptionsUser(!showOptionsUser)} className='relative  flex justify-center cursor-pointer items-center xsm:w-[180px]'>
-          {getDataUser
+          {dataUser
             ?
             <>
               {
-                getDataUser?.name &&
-              <div className='w-[35px] h-[35px] rounded-full mr-2 flex bg-red-400 justify-center items-center capitalize text-white font-dmMono'>{(getDataUser?.name[0])}</div>
+                dataUser?.email &&
+              // <div className='w-[35px] h-[35px] rounded-full mr-2 flex bg-red-400 justify-center items-center capitalize text-white font-dmMono'>{(getDataUser?.name[0])}</div>
+              <div className='w-[35px] h-[35px] rounded-full mr-2 flex bg-red-400 justify-center items-center capitalize text-white font-dmMono'>{(dataUser?.email[0])}</div>
               }
-              <p  className='capitalize font-nunito text-gray-400'>hola {getDataUser.name}!</p>
+              <p  className='font-nunito capitalize text-gray-400'>hola {nameUser(dataUser?.email)}!</p>
               <div className={`fixed w-[150px] rounded-md bg-white drop-shadow-sm p-1  ${showOptionsUser ? "top-[50px] duration-300" : "-top-[200px] duration-300"}`} >
                 <ul className='text-slate-500 font-nunito capitalize'>
                   <li className='hover:bg-slate-100 p-3 rounded-sm duration-300'>mi perfil</li>

@@ -32,3 +32,16 @@ export const onValidate = (form:FormProductValues) => {
   // }
   return isError ? errors : null
 }
+
+export const nameUser = (name:string) => {
+  if(name){
+    const newName = []
+    for(let i = 0; i < name.length; i++) {
+      if(name[i] === "@") {
+          console.log('newName',newName)
+          return newName.join('')
+      }
+      newName.push(name[i])
+    }
+  }
+}

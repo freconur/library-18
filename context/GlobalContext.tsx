@@ -61,6 +61,7 @@ type GlobalContextProps = {
   validateUserPinContext: (idUser: string, pin: string) => void,
   resetPin: () => void,
   loaderState: (boolean:boolean) => void,
+  showSidebarContext : (state:boolean) => void
 }
 
 
@@ -75,7 +76,11 @@ export function GlobalcontextProdiver({ children }: Props) {
   const [showModalBrands, setShowModalBrands] = useState<boolean>(false)
   const [showModalUpdateBrands, setShowModalUpdateBrands] = useState<boolean>(false)
   const [showModalDeleteBrands, setShowModalDeleteBrands] = useState<boolean>(false)
+  // const [showSidebar, setShowSidebar] = useState<boolean>(false)
 
+  const showSidebarContext = (state:boolean) => {
+    dispatch({type:"showSidebar", payload:state})
+  }
   const loaderState = (boolean: boolean) => {
     dispatch({ type: "loader", payload: boolean })
   }
@@ -209,6 +214,7 @@ export function GlobalcontextProdiver({ children }: Props) {
 
   return (
     <GlobalContext.Provider value={{
+      showSidebarContext,
       loaderState,
       resetPin,
       validateUserPinContext,

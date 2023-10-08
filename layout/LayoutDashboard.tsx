@@ -3,6 +3,7 @@ import Sidebar from '../components/Sidebar/sidebar'
 import Navbar from '../components/Navbar/Navbar'
 import useOnClickOutside from '../hooks/useOnClickOutside'
 import { useRouter } from 'next/router'
+import { useGlobalContext } from '../context/GlobalContext'
 
 
 interface Props {
@@ -12,7 +13,7 @@ const LayoutDashboard = ({ children }: Props) => {
   const closeSidebar = useRef<HTMLDivElement>(null)
   const [showSidebar, setShowSidebar] = useState<boolean>(false)
   const [showSidebarProducts, setShowSidebarProducts] = useState<boolean>(false)
-
+const { showSidebarContext} = useGlobalContext()
   const sidebarProducts = () => {
     setShowSidebarProducts(!showSidebarProducts)
   }
@@ -20,7 +21,7 @@ const LayoutDashboard = ({ children }: Props) => {
     setShowSidebar(!showSidebar)
   }
   const handleClickOutside = () => {
-    setShowSidebar(false)
+    showSidebarContext(false)
   }
   useOnClickOutside(closeSidebar, handleClickOutside)
   const { pathname } = useRouter()
@@ -39,13 +40,12 @@ const LayoutDashboard = ({ children }: Props) => {
             showSidebarProducts={showSidebarProducts} 
             sidebarProducts={sidebarProducts} 
             closeSidebar={closeSidebar} 
-            showSidebar={showSidebar} 
             setShowSidebar={setShowSidebar} 
-            sidebar={sidebar}
             />
             <div className='w-full relative'>
-              <Navbar showSidebar={showSidebar} setShowSidebar={setShowSidebar} />
-              <div className="relative z-[700] overflow-hidden rounded-t-lg mt-2 p-1 md:p-3 flex w-full">
+              {/* <Navbar showSidebar={showSidebar} setShowSidebar={setShowSidebar} /> */}
+              {/* <div className="relative z-[700] overflow-hidden rounded-t-lg mt-2 p-1 md:p-3 flex w-full"> */}
+              <div className="relative z-[700] overflow-hidden rounded-t-lg  w-full">
                 {children}
               </div>
             </div>

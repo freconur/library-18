@@ -86,13 +86,12 @@ const Estadisticas = () => {
       },
     },
   };
-  console.log('dataStatistics', dataStatistics)
-  console.log('dailySale', dailySale)
+  
   return (
     <LayoutDashboard>
-      {/* <>
-      <TestNavbar dataUser={dataUser}/>
-      </> */}
+      <>
+      <Navbar dataUser={dataUser}/>
+      </>
       {
         loader
           ?

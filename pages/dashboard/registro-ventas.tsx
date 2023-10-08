@@ -11,6 +11,7 @@ import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { addProductCartToProductSales } from '../../reducer/Product';
 import TestNavbar from '../../components/Navbar/TestNavbar';
+import Navbar from '../../components/Navbar/Navbar';
 const RegistroVentas = () => {
   const dataUser = useUser()
   const focusRef = useRef<HTMLInputElement>(null)
@@ -69,6 +70,7 @@ const RegistroVentas = () => {
   }
   return (
     <LayoutDashboard>
+      <Navbar  dataUser={dataUser}/>
     <>
       <ToastContainer />
       {

@@ -38,6 +38,7 @@ type LibraryData =
   | { type: "getDataUser", payload: User }
   | { type: "validatePin", payload: boolean }
   | { type: "loader", payload: boolean }
+  | { type: "showSidebar", payload: boolean }
 
 export const Library = {
   loader: true as boolean,
@@ -74,11 +75,18 @@ export const Library = {
   showCancellationOfsaleModal: false as boolean,
   saveDataUser: [] as SaveUserData,
   getDataUser: {} as User,
-  validatePin: false as boolean
+  validatePin: false as boolean,
+  showSidebar: false as boolean,
 }
 
 export const ProductsReducer = (state: LibraryAllData, action: LibraryData) => {
   switch (action.type) {
+    case "showSidebar":{
+      return {
+        ...state,
+        showSidebar:action.payload
+      }
+    }
     case "loader": {
       return {
         ...state, loader:action.payload
