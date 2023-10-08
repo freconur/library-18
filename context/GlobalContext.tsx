@@ -57,7 +57,7 @@ type GlobalContextProps = {
   loginWithEmailContext: (userDate: UserData) => void,
   signinWithEmailContext: (userDate: UserData) => void,
   saveDataUser: (saveDataUser: SaveUserData) => void,
-  getDataUser: (idUser: any) => void,
+  getDataUser: (idUser: string) => void,
   validateUserPinContext: (idUser: string, pin: string) => void,
   resetPin: () => void,
   loaderState: (boolean:boolean) => void,
@@ -85,8 +85,8 @@ export function GlobalcontextProdiver({ children }: Props) {
   const validateUserPinContext = (idUser: string, pin: string) => {
     validateUserPin(dispatch, idUser, pin)
   }
-  const getDataUser = (idUser: any) => {
-    User(dispatch, idUser.id)
+  const getDataUser = (idUser: string) => {
+    User(dispatch, idUser)
   }
   const saveDataUser = (saveDataUser: SaveUserData) => {
     dispatch({ type: "saveDataUser", payload: saveDataUser })

@@ -11,9 +11,9 @@ export const User = async (dispatch: (action: any) => void, idUser: string) => {
   const userRef = doc(db, "users", idUser)
   const userQuery = await getDoc(userRef)
 
-  // if (userQuery.exists()) {
+  if (userQuery.exists()) {
     dispatch({ type: "getDataUser", payload: userQuery.data() })
-  // }
+  }
 }
 export const loginWithGoogle = () => {
   const googleProvider = new GoogleAuthProvider();
