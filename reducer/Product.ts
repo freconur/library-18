@@ -299,7 +299,6 @@ export const generateSold = async (dispatch: (action: any) => void, cart: Produc
       library18: library18
     }
   ).then(async (r) => {
-    console.log('hemos entrado bien')
     dispatch({ type: "resetAmountCart" })
     dispatch({ type: "generateSold", payload: false })
     dispatch({ type: "showSaleModal", payload: false })
@@ -416,13 +415,14 @@ export const updateDailySaleFromStatistics = async (totalAmountCart: number) => 
   const dailyData = await getDoc(dailysaleRef)
   if (dailyData.exists()) {
     if (statisticsSnap.exists()) {
-      const dailySales = Number(statisticsSnap.data().dailySales) + totalAmountCart
+      // const dailySales = Number(statisticsSnap.data().dailySales) + totalAmountCart
       // await updateDoc(updateDailySaleFromStatistics, { dailySales: dailySales })
-      await updateDoc(updateDailySaleFromStatistics, { dailySales: increment(totalAmountCart)})
+      const totalAmount = Number(totalAmountCart.toFixed(2))
+      await updateDoc(updateDailySaleFromStatistics, { dailySales: increment(totalAmount)})
     } else {
-      await setDoc(monthRef, {month:"setiembre"});
+      await setDoc(monthRef, {month:currentMonth()});
       await setDoc(updateDailySaleFromStatistics, {dailySales:0, tickets:0});
-      await updateDoc(updateDailySaleFromStatistics, { dailySales: totalAmountCart })
+      await updateDoc(updateDailySaleFromStatistics, { dailySales: totalAmountCart.toFixed(2) })
     }
   } else {
     console.log('updateDailySaleFromStatistics: no hacemos nada')
@@ -432,8 +432,9 @@ export const updatedailySale = async (totalAmountOfCart: number) => {
   const updatedailySaleRef = doc(db, `/dailysale/vAWFt15qlNVykhHvNno0/${yearMonth}/${currentDate()}`);
   const docSnap = await getDoc(updatedailySaleRef)
   if (docSnap.exists()) {
-    const currentlyDailySale = Number(docSnap.data().amount) + totalAmountOfCart
-    await updateDoc(updatedailySaleRef, { amount: currentlyDailySale })
+    // const currentlyDailySale = Number(docSnap.data().amount) + totalAmountOfCart
+    const currentlyDailySale = Number(totalAmountOfCart.toFixed(2) )
+    await updateDoc(updatedailySaleRef, { amount: increment(currentlyDailySale) })
     await updateDailySaleFromStatistics(totalAmountOfCart)
 
   } else {
@@ -442,8 +443,9 @@ export const updatedailySale = async (totalAmountOfCart: number) => {
     const docSnap = await getDoc(updatedailySaleRef)
     await updateDailySaleFromStatistics(totalAmountOfCart)
     if (docSnap.exists()) {
-      const currentlyDailySale = Number(docSnap.data().amount) + totalAmountOfCart
-      await updateDoc(updatedailySaleRef, { amount: currentlyDailySale })
+      // const currentlyDailySale = Number(docSnap.data().amount) + totalAmountOfCart
+      const currentlyDailySale = Number(totalAmountOfCart.toFixed(2)) 
+      await updateDoc(updatedailySaleRef, { amount: increment(currentlyDailySale) })
     }
   }
 }

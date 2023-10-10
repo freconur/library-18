@@ -26,7 +26,6 @@ export const getTickets = async (dispatch: (action: any) => void, dateData: Date
 
 export const cancelTicket = async (ticket: Ticket) => {
   const dateData = dateConvertObject(ticket.timestamp.toDate())
-  console.log('ticket', ticket)
   const pathTicket = `/db-ventas/xB98zEEqUPU3LXiIf7rQ/${dateData.month}-${dateData.year}/${dateData.month}-${dateData.year}/${dateData.date}`
   const ticketRef = doc(db, pathTicket, ticket.id as string)
   const querySnapTicket = await getDoc(ticketRef)
@@ -66,7 +65,7 @@ export const cancelTicket = async (ticket: Ticket) => {
               })
             })
 
-            const updateStockFromProduct = productData.data()?.stock + item.cancelAmount
+            // const updateStockFromProduct = productData.data()?.stock + item.cancelAmount
             const updateAmountFromProduct = Number(item.amount) - item.cancelAmount
             const totalAmountofCashToCancel = Number(item.price) * item.cancelAmount
             item.amount = updateAmountFromProduct,
@@ -86,15 +85,14 @@ export const cancelTicket = async (ticket: Ticket) => {
               })
             })
             if (queryDailySales.exists() && queryDailySalesStatistics.exists()) {
-              console.log('descontando el cash')
-              const updateCash = queryDailySales.data().amount - totalAmountofCashToCancel
-              console.log('updateCash', updateCash)
-              await updateDoc(currentDailySalesStatistics, { dailySales: updateCash })
-              await updateDoc(currentDailySales, { amount: updateCash })
+              // const updateCash = queryDailySales.data().amount - totalAmountofCashToCancel
+              const updateCash = -Number(totalAmountofCashToCancel.toFixed(2))
+              await updateDoc(currentDailySalesStatistics, { dailySales: increment(updateCash) })
+              await updateDoc(currentDailySales, { amount: increment(updateCash) })
               const getItemFromProductsSales = await getDoc(productsSalesRef)
               if (getItemFromProductsSales.exists()) {
                 if (getItemFromProductsSales.data().totalAmountSale > 1) {
-                  updateDoc(productsSalesRef, { totalAmountSale: increment(-Number(item.cancelAmount)) })
+                  updateDoc(productsSalesRef, { totalAmountSale: increment(-Number(item.cancelAmount.toFixed(2))) })
                 } else if(getItemFromProductsSales.data().totalAmountSale === 1){
                   await deleteDoc(productsSalesRef)
                 }
