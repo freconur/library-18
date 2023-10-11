@@ -285,11 +285,10 @@ export const generateSold = async (dispatch: (action: any) => void, cart: Produc
       //estoy actualizando el stock de cada producto del cart
 
       await updateDoc(refProduct, { stock: increment(-Number(item.amount))})
-      .then(async r=> await addProductCartToProductSales(cart))
+      // .then(async r=> await addProductCartToProductSales(cart))
 
       // await updateDoc(refProduct, { stock: Number(item.stock) - Number(item.amount) }) 
     }
-
   })
 
   await addProductFromCartToTicket(
@@ -309,6 +308,8 @@ export const generateSold = async (dispatch: (action: any) => void, cart: Produc
     await updateDailySaleWalikySublimados(totalAmountOfCartWalikySublimados)
   })
   await addTicketDataToStatistics()
+  await addProductCartToProductSales(cart)
+
 }
 
 const addTicketDataToStatistics = async () => {
@@ -352,30 +353,38 @@ export const addProductCartToProductSales = async (cart: ProductToCart[] | undef
   const pathQuery = collection(db, pathProductsSales)
   const querySnapshot = await getDocs(pathQuery)
   const productsFromCart: ProductToCart[] = []
+  querySnapshot.docs.forEach(doc => { //agrego  todo los datos de la collection al arrat productsFromCart
+    productsFromCart.push({ ...doc.data(), id: doc.id })
+  })
   if (querySnapshot.size === 0) {
     await setDoc(doc(db, pathProductsSales, '1'), { product: "test" })
     cart?.map(async (item) => {
       await setDoc(doc(db, pathProductsSales, `${item.code}`), { ...item, totalAmountSale: increment(Number(item.amount)) })
       await deleteDoc(doc(db, pathProductsSales, "1"));
     })
-  } else if (querySnapshot.size > 0) {
-    querySnapshot.docs.forEach(doc => {
-      productsFromCart.push({ ...doc.data(), id: doc.id })
-    })
-    cart?.map(async (item) => {
-      const findItem = productsFromCart.find(i => i.code === item.code)
-      if (findItem) {
-        const totalAmountSaleItem: number = Number(findItem?.totalAmountSale) + Number(item?.amount)
-        const refItemUpdate = doc(db, pathProductsSales, `${findItem.code}`)
-        await updateDoc(refItemUpdate, {
-          // totalAmountSale: totalAmountSaleItem
-          totalAmountSale: increment(Number(item?.amount))
-        })
-      } else {
-        await setDoc(doc(db, pathProductsSales, `${item.code}`), { ...item, totalAmountSale: increment(Number(item.amount))})
-        // await setDoc(doc(db, pathProductsSales, `${item.code}`), { ...item, totalAmountSale: item.amount })
-      }
-    })
+  } else {
+  // } else if (querySnapshot.size > 0) {//si la collection tiene mas de un producto entrara aqui
+
+    if(productsFromCart.length === querySnapshot.size) { // si productsFromCart tiene el mismo tamanio que qiuerySanpshot.size entra 
+      
+      cart?.map(async (item) => {//recorro el array para comprobar si existe dentro de productsFromCart
+        const findItem = productsFromCart?.find(i => i.code === item.code)
+        console.log('findItem', findItem)
+        if (findItem) {
+          console.log('si existe el producto en la lista de productos vendidos')
+          // const totalAmountSaleItem: number = Number(findItem?.totalAmountSale) + Number(item?.amount)
+          // console.log('Number(item?.amount)',Number(item?.amount))
+          const refItemUpdate = doc(db, pathProductsSales, `${findItem.code}`)
+          await updateDoc(refItemUpdate, {
+            // totalAmountSale: totalAmountSaleItem
+            totalAmountSale: increment(Number(item?.amount))
+          })
+        } else {
+          await setDoc(doc(db, pathProductsSales, `${item.code}`), { ...item, totalAmountSale: Number(item.amount)})
+          // await setDoc(doc(db, pathProductsSales, `${item.code}`), { ...item, totalAmountSale: item.amount })
+        }
+      })
+    }
   }
 }
 
