@@ -7,6 +7,7 @@ import { cancelTicket, getTickets } from "../reducer/ventas";
 import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
 import { authApp } from "../firebase/firebase.config";
 import { User, loginWithEmail, signin } from "../reducer/google";
+import { getUser } from "../reducer/user";
 
 interface Props {
   children: React.ReactNode
@@ -61,7 +62,8 @@ type GlobalContextProps = {
   validateUserPinContext: (idUser: string, pin: string) => void,
   resetPin: () => void,
   loaderState: (boolean:boolean) => void,
-  showSidebarContext : (state:boolean) => void
+  showSidebarContext : (state:boolean) => void,
+  getDataUserContext: (id:string) => void
 }
 
 
@@ -78,6 +80,9 @@ export function GlobalcontextProdiver({ children }: Props) {
   const [showModalDeleteBrands, setShowModalDeleteBrands] = useState<boolean>(false)
   // const [showSidebar, setShowSidebar] = useState<boolean>(false)
 
+  const getDataUserContext = (id:string) => {
+    getUser(dispatch, id as string)
+  }
   const showSidebarContext = (state:boolean) => {
     dispatch({type:"showSidebar", payload:state})
   }
@@ -214,6 +219,7 @@ export function GlobalcontextProdiver({ children }: Props) {
 
   return (
     <GlobalContext.Provider value={{
+      getDataUserContext,
       showSidebarContext,
       loaderState,
       resetPin,

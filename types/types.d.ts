@@ -10,6 +10,10 @@ interface SaveUserData {
   email?:string,
 }
 interface User {
+  id?:string,
+  dni?:string,
+  acc?:string,
+  fechaNacimiento?:Date,
   name?:string,
   lastname?:string,
   pin?:number,
@@ -80,8 +84,8 @@ interface LibraryAllData {
   getDataUser:User,
   validatePin:boolean,
   showSidebar: boolean,
+  getUser: User
 }
-
 interface DateData {
   date: number,
   month:string,
