@@ -39,13 +39,13 @@ const MiPerfil = () => {
                     <div>
                       <label className='text-md font-nunito capitalize text-slate-600'>nombres</label>
                     </div>
-                    <input type="text" className="pl-2 bg-slate-100 text-slate-400 rounded-sm outline-none h-[40px] w-full" value={getUser.name} />
+                    <input type="text" className="capitalize pl-2 bg-slate-100 text-slate-400 rounded-sm outline-none h-[40px] w-full" value={getUser.name} />
                   </div>
                   <div className='w-full'>
                     <div>
                       <label className='text-md font-nunito capitalize text-slate-600'>apellidos</label>
                     </div>
-                    <input type="text" className="pl-2 bg-slate-100 text-slate-400 rounded-sm outline-none h-[40px] w-full" value={getUser.lastname} />
+                    <input type="text" className=" capitalize pl-2 bg-slate-100 text-slate-400 rounded-sm outline-none h-[40px] w-full" value={getUser.lastname} />
                   </div>
                 </div>
                 <div className='flex gap-5 w-full mb-5'>
@@ -53,13 +53,13 @@ const MiPerfil = () => {
                     <div>
                       <label className='text-md font-nunito capitalize text-slate-600'>cuenta</label>
                     </div>
-                    <input type="text" className="pl-2 bg-slate-100 text-slate-400 rounded-sm outline-none h-[40px] w-full" value={getUser.acc} />
+                    <input type="text" className="pl-2 capitalize bg-slate-100 text-slate-400 rounded-sm outline-none h-[40px] w-full" value={getUser.acc} />
                   </div>
                   <div className='w-full'>
                     <div>
                       <label className='text-md font-nunito capitalize text-slate-600'>dni</label>
                     </div>
-                    <input type="text" className="pl-2 bg-slate-100 text-slate-400 rounded-sm outline-none h-[40px] w-full" value={getUser.dni} />
+                    <input type="text" className="pl-2 capitalize bg-slate-100 text-slate-400 rounded-sm outline-none h-[40px] w-full" value={getUser.dni} />
                   </div>
                 </div>
                 <div className='flex gap-5 w-full'>
@@ -67,7 +67,7 @@ const MiPerfil = () => {
                     <div>
                       <label className='text-md font-nunito capitalize text-slate-600'>rol de usuario</label>
                     </div>
-                    <input type="text" className="pl-2 bg-slate-100 text-slate-400 rounded-sm outline-none h-[40px] w-full" value={getUser.rol} />
+                    <input type="text" className="pl-2 capitalize bg-slate-100 text-slate-400 rounded-sm outline-none h-[40px] w-full" value={getUser.rol} />
                   </div>
                   <div className='w-full'>
                     <div>
