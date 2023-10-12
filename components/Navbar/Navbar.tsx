@@ -12,6 +12,7 @@ import { ToastContainer, toast } from 'react-toastify';
 import { useUser } from 'next-firebase-auth';
 import { nameUser } from '../../utils/validateForm';
 import Link from 'next/link';
+import UserOptions from './UserOptions';
 interface Props {
   dataUser:any
   // setShowSidebar: React.Dispatch<React.SetStateAction<boolean>>
@@ -42,14 +43,13 @@ const Navbar = ({dataUser}:Props) => {
   const { addProductRegisterToSell, LibraryData, resetToastifyNotificationAddProduct,showSidebarContext } = useGlobalContext()
   const { productToCart, toastifyNotificationAddProduct, getDataUser, showSidebar } = LibraryData
   const [onInput, setOnInput] = useState(false)
-  const [userInfo, setUserInfo] = useState<SaveUserData>()
-  const authUser = getAuth(app)
-  // const auth = useUser()
-
   const initialValueInput = { description: "" }
   const [conditionalValue, setConditionalValue] = useState(initialValueInput)
   const [results, setResults] = useState<any>(null)
 
+  const closeUserOptionWithClick = () => {
+    setShowOptionsUser(false)
+  }
 
   const addProductFromNavbar = (code: string) => {
     addProductRegisterToSell(code, productToCart)
@@ -162,14 +162,7 @@ const Navbar = ({dataUser}:Props) => {
               <div className='w-[35px] h-[35px] rounded-full mr-2 flex bg-red-400 justify-center items-center capitalize text-white font-dmMono'>{(dataUser?.email[0])}</div>
               }
               <p  className='font-nunito capitalize text-gray-400'>hola {nameUser(dataUser?.email)}!</p>
-              <div className={`fixed w-[150px] rounded-md bg-white drop-shadow-sm p-1  ${showOptionsUser ? "top-[50px] duration-300" : "-top-[200px] duration-300"}`} >
-                <ul className='text-slate-500 font-nunito capitalize w-full'>
-                  <li className='hover:bg-slate-100  rounded-sm duration-300 w-full flex'>
-                    <Link className='w-full p-3' href="mi-perfil">mi perfil</Link>
-                  </li>
-                  <li onClick={handleLogout} className='hover:bg-slate-100 p-3 rounded-sm duration-300'>cerrar sesion</li>
-                </ul>
-              </div>
+              <UserOptions showOptionsUser={showOptionsUser} handleLogout={handleLogout} closeUserOptionWithClick={closeUserOptionWithClick}/>
             </>
             : 
             <p>test</p>
